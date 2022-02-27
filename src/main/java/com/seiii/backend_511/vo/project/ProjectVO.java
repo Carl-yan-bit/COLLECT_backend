@@ -1,15 +1,16 @@
-package com.seiii.backend_511.vo;
+package com.seiii.backend_511.vo.project;
 
 import java.util.Date;
 
-public class Task {
+
+public class ProjectVO {
     private Integer id;
 
-    private Integer projectId;
+    private Integer userId;
 
     private String name;
 
-    private String state;
+    private String type;
 
     private String description;
 
@@ -27,12 +28,12 @@ public class Task {
         this.id = id;
     }
 
-    public Integer getProjectId() {
-        return projectId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -43,12 +44,12 @@ public class Task {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getState() {
-        return state;
+    public String getType() {
+        return type;
     }
 
-    public void setState(String state) {
-        this.state = state == null ? null : state.trim();
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
     public String getDescription() {

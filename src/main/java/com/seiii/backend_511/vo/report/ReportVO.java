@@ -1,8 +1,8 @@
-package com.seiii.backend_511.vo;
+package com.seiii.backend_511.vo.report;
 
 import java.util.Date;
 
-public class Report {
+public class ReportVO {
     private Integer id;
 
     private Integer projectId;

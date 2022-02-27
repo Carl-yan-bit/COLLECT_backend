@@ -1,4 +1,6 @@
-package com.seiii.backend_511.vo;
+package com.seiii.backend_511.po.file;
+
+import com.seiii.backend_511.vo.file.ReportFileVO;
 
 import java.util.Date;
 
@@ -61,5 +63,13 @@ public class ReportFile {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+    public ReportFile(ReportFileVO reportFileVO) {
+        this.id = reportFileVO.getId();
+        this.reportId = reportFileVO.getReportId();
+        this.name = reportFileVO.getName();
+        this.type = reportFileVO.getType();
+        this.resourceDir = reportFileVO.getResourceDir();
+        this.createTime = reportFileVO.getCreateTime();
     }
 }

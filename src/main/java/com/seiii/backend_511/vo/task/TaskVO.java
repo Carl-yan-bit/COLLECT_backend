@@ -1,15 +1,18 @@
-package com.seiii.backend_511.vo;
+package com.seiii.backend_511.vo.task;
+
+import com.seiii.backend_511.po.task.Task;
+import lombok.NonNull;
 
 import java.util.Date;
 
-public class Project {
+public class TaskVO {
     private Integer id;
 
-    private Integer userId;
+    private Integer projectId;
 
     private String name;
 
-    private String type;
+    private String state;
 
     private String description;
 
@@ -27,12 +30,12 @@ public class Project {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getProjectId() {
+        return projectId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
     }
 
     public String getName() {
@@ -43,12 +46,12 @@ public class Project {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getType() {
-        return type;
+    public String getState() {
+        return state;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
     }
 
     public String getDescription() {
@@ -80,6 +83,17 @@ public class Project {
     }
 
     public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public TaskVO(@NonNull Task task) {
+        this.id = task.getId();
+        this.projectId = task.getProjectId();
+        this.name = task.getName();
+        this.state = state;
+        this.description = description;
+        this.testTime = testTime;
+        this.workerAmount = workerAmount;
         this.createTime = createTime;
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seiii.backend_511.mapperservice.ReportFileMapper">
-  <resultMap id="BaseResultMap" type="com.seiii.backend_511.vo.ReportFile">
+  <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.file.ReportFile">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="report_id" jdbcType="INTEGER" property="reportId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -13,7 +13,7 @@
     delete from report_file
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.seiii.backend_511.vo.ReportFile">
+  <insert id="insert" parameterType="com.seiii.backend_511.po.file.ReportFile">
     insert into report_file (id, report_id, name, 
       type, resource_dir, create_time
       )
@@ -21,7 +21,7 @@
       #{type,jdbcType=VARCHAR}, #{resourceDir,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.vo.ReportFile">
+  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.file.ReportFile">
     update report_file
     set report_id = #{reportId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},

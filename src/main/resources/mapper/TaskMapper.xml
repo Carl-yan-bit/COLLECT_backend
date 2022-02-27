@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seiii.backend_511.mapperservice.TaskMapper">
-  <resultMap id="BaseResultMap" type="com.seiii.backend_511.vo.Task">
+  <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.task.Task">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -15,7 +15,7 @@
     delete from task
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.seiii.backend_511.vo.Task">
+  <insert id="insert" parameterType="com.seiii.backend_511.po.task.Task">
     insert into task (id, project_id, name, 
       state, description, test_time, 
       worker_amount, create_time)
@@ -23,7 +23,7 @@
       #{state,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{testTime,jdbcType=TIMESTAMP}, 
       #{workerAmount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.vo.Task">
+  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.task.Task">
     update task
     set project_id = #{projectId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
