@@ -1,8 +1,8 @@
-package com.seiii.backend_511.po;
+package com.seiii.backend_511.vo.file;
 
 import java.util.Date;
 
-public class TaskFile {
+public class TaskFileVO {
     private Integer id;
 
     private Integer taskId;

@@ -1,6 +1,6 @@
 package com.seiii.backend_511.mapperservice;
 
-import com.seiii.backend_511.vo.TaskFile;
+import com.seiii.backend_511.po.file.TaskFile;
 import java.util.List;
 
 public interface TaskFileMapper {

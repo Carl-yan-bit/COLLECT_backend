@@ -1,6 +1,6 @@
 package com.seiii.backend_511.mapperservice;
 
-import com.seiii.backend_511.vo.Report;
+import com.seiii.backend_511.po.report.Report;
 import java.util.List;
 
 public interface ReportMapper {

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.seiii.backend_511.mapperservice.USERMapper">
-  <resultMap id="BaseResultMap" type="com.seiii.backend_511.vo.USER">
+<mapper namespace="com.seiii.backend_511.mapperservice.UserMapper">
+  <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.user.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phoneNumber" jdbcType="VARCHAR" property="phonenumber" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="user_role" jdbcType="VARCHAR" property="userRole" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -12,27 +14,31 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.seiii.backend_511.vo.USER">
-    insert into user (id, name, password, 
-      user_role, create_time)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{userRole,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.seiii.backend_511.po.user.User">
+    insert into user (id, name, email, 
+      phoneNumber, password, user_role, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{phonenumber,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userRole,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.vo.USER">
+  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.user.User">
     update user
     set name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phoneNumber = #{phonenumber,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       user_role = #{userRole,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, password, user_role, create_time
+    select id, name, email, phoneNumber, password, user_role, create_time
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, password, user_role, create_time
+    select id, name, email, phoneNumber, password, user_role, create_time
     from user
   </select>
 </mapper>

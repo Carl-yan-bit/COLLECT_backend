@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seiii.backend_511.mapperservice.ProjectFileMapper">
-  <resultMap id="BaseResultMap" type="com.seiii.backend_511.vo.ProjectFile">
+  <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.file.ProjectFile">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -13,7 +13,7 @@
     delete from project_file
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.seiii.backend_511.vo.ProjectFile">
+  <insert id="insert" parameterType="com.seiii.backend_511.po.file.ProjectFile">
     insert into project_file (id, project_id, name, 
       type, resource_dir, create_time
       )
@@ -21,7 +21,7 @@
       #{type,jdbcType=VARCHAR}, #{resourceDir,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.vo.ProjectFile">
+  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.file.ProjectFile">
     update project_file
     set project_id = #{projectId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},

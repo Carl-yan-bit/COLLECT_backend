@@ -1,11 +1,13 @@
-package com.seiii.backend_511.po;
+package com.seiii.backend_511.po.file;
+
+import com.seiii.backend_511.vo.file.TaskFileVO;
 
 import java.util.Date;
 
-public class ReportFile {
+public class TaskFile {
     private Integer id;
 
-    private Integer reportId;
+    private Integer taskId;
 
     private String name;
 
@@ -23,12 +25,12 @@ public class ReportFile {
         this.id = id;
     }
 
-    public Integer getReportId() {
-        return reportId;
+    public Integer getTaskId() {
+        return taskId;
     }
 
-    public void setReportId(Integer reportId) {
-        this.reportId = reportId;
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
     public String getName() {
@@ -61,5 +63,13 @@ public class ReportFile {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+    public TaskFile(TaskFileVO taskFileVO) {
+        this.id = taskFileVO.getId();
+        this.taskId = taskFileVO.getTaskId();
+        this.name = taskFileVO.getName();
+        this.type = taskFileVO.getType();
+        this.resourceDir = taskFileVO.getResourceDir();
+        this.createTime = taskFileVO.getCreateTime();
     }
 }

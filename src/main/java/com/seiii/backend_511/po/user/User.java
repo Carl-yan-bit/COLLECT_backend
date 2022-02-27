@@ -1,11 +1,17 @@
-package com.seiii.backend_511.vo;
+package com.seiii.backend_511.po.user;
+
+import com.seiii.backend_511.vo.user.UserVO;
 
 import java.util.Date;
 
-public class USER {
+public class User {
     private Integer id;
 
     private String name;
+
+    private String email;
+
+    private String phonenumber;
 
     private String password;
 
@@ -27,6 +33,22 @@ public class USER {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber == null ? null : phonenumber.trim();
     }
 
     public String getPassword() {
@@ -51,5 +73,14 @@ public class USER {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+    public User(UserVO userVO) {
+        this.id = userVO.getId();
+        this.name = userVO.getName();
+        this.email = userVO.getEmail();
+        this.phonenumber = userVO.getPhonenumber();
+        this.password = userVO.getPassword();
+        this.userRole = userVO.getUserRole();
+        this.createTime = userVO.getCreateTime();
     }
 }

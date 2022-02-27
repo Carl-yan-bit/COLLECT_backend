@@ -1,6 +1,6 @@
 package com.seiii.backend_511.mapperservice;
 
-import com.seiii.backend_511.vo.Project;
+import com.seiii.backend_511.po.project.Project;
 import java.util.List;
 
 public interface ProjectMapper {

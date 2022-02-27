@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seiii.backend_511.mapperservice.TaskFileMapper">
-  <resultMap id="BaseResultMap" type="com.seiii.backend_511.vo.TaskFile">
+  <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.file.TaskFile">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="task_id" jdbcType="INTEGER" property="taskId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -13,7 +13,7 @@
     delete from task_file
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.seiii.backend_511.vo.TaskFile">
+  <insert id="insert" parameterType="com.seiii.backend_511.po.file.TaskFile">
     insert into task_file (id, task_id, name, 
       type, resource_dir, create_time
       )
@@ -21,7 +21,7 @@
       #{type,jdbcType=VARCHAR}, #{resourceDir,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.vo.TaskFile">
+  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.file.TaskFile">
     update task_file
     set task_id = #{taskId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},

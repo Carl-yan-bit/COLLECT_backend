@@ -1,11 +1,11 @@
-package com.seiii.backend_511.po;
+package com.seiii.backend_511.vo.file;
 
 import java.util.Date;
 
-public class ProjectFile {
+public class ReportFileVO {
     private Integer id;
 
-    private Integer projectId;
+    private Integer reportId;
 
     private String name;
 
@@ -23,12 +23,12 @@ public class ProjectFile {
         this.id = id;
     }
 
-    public Integer getProjectId() {
-        return projectId;
+    public Integer getReportId() {
+        return reportId;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void setReportId(Integer reportId) {
+        this.reportId = reportId;
     }
 
     public String getName() {
