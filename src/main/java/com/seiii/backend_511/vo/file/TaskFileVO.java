@@ -1,5 +1,8 @@
 package com.seiii.backend_511.vo.file;
 
+import com.seiii.backend_511.po.file.TaskFile;
+import lombok.NonNull;
+
 import java.util.Date;
 
 public class TaskFileVO {
@@ -61,5 +64,14 @@ public class TaskFileVO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public TaskFileVO(@NonNull TaskFile taskFile) {
+        this.id = taskFile.getId();
+        this.taskId = taskFile.getTaskId();
+        this.name = taskFile.getName();
+        this.type = taskFile.getType();
+        this.resourceDir = taskFile.getResourceDir();
+        this.createTime = taskFile.getCreateTime();
     }
 }

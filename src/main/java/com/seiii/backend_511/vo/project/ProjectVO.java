@@ -1,5 +1,8 @@
 package com.seiii.backend_511.vo.project;
 
+import com.seiii.backend_511.po.project.Project;
+import lombok.NonNull;
+
 import java.util.Date;
 
 
@@ -82,5 +85,16 @@ public class ProjectVO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public ProjectVO(@NonNull Project project) {
+        this.id = project.getId();
+        this.userId = project.getUserId();
+        this.name = project.getName();
+        this.type = project.getType();
+        this.description = project.getDescription();
+        this.testTime = project.getTestTime();
+        this.workerAmount = project.getWorkerAmount();
+        this.createTime = project.getCreateTime();
     }
 }

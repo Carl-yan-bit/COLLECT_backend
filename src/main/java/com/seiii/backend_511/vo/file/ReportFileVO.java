@@ -1,5 +1,8 @@
 package com.seiii.backend_511.vo.file;
 
+import com.seiii.backend_511.po.file.ReportFile;
+import lombok.NonNull;
+
 import java.util.Date;
 
 public class ReportFileVO {
@@ -61,5 +64,14 @@ public class ReportFileVO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public ReportFileVO(@NonNull ReportFile reportFile) {
+        this.id = reportFile.getId();
+        this.reportId = reportFile.getReportId();
+        this.name = reportFile.getName();
+        this.type = reportFile.getType();
+        this.resourceDir = reportFile.getResourceDir();
+        this.createTime = reportFile.getCreateTime();
     }
 }

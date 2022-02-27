@@ -92,8 +92,8 @@ public class TaskVO {
         this.name = task.getName();
         this.state = task.getState();
         this.description = task.getDescription();
-        this.testTime = testTime;
-        this.workerAmount = workerAmount;
-        this.createTime = createTime;
+        this.testTime = task.getTestTime();
+        this.workerAmount = task.getWorkerAmount();
+        this.createTime = task.getCreateTime();
     }
 }

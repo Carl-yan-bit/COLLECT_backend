@@ -1,5 +1,6 @@
 package com.seiii.backend_511.vo.file;
 
+import com.seiii.backend_511.po.file.ProjectFile;
 import lombok.NonNull;
 
 import java.util.Date;

@@ -1,5 +1,8 @@
 package com.seiii.backend_511.vo.report;
 
+import com.seiii.backend_511.po.report.Report;
+import lombok.NonNull;
+
 import java.util.Date;
 
 public class ReportVO {
@@ -91,5 +94,17 @@ public class ReportVO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public ReportVO(@NonNull Report report) {
+        this.id = report.getId();
+        this.projectId = report.getProjectId();
+        this.userId = report.getUserId();
+        this.name = report.getName();
+        this.state = report.getState();
+        this.description = report.getDescription();
+        this.testStep = report.getTestStep();
+        this.deviceInfo = report.getDeviceInfo();
+        this.createTime = report.getCreateTime();
     }
 }
