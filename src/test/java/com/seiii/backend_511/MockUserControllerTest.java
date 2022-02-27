@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JsonContent;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
+@ComponentScan()
 public class MockUserControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -36,10 +38,11 @@ public class MockUserControllerTest {
         userVO.setPassword("sys20001130");
         userVO.setEmail("1245144245@qq.com");
         userVO.setPhonenumber("15009175289");
+        userVO.setUserRole("1");
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
         String requestJson = ow.writeValueAsString(userVO);
-        String responseString = mockMvc.perform( MockMvcRequestBuilders.post("/softs").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andDo(print())
+        String responseString = mockMvc.perform( MockMvcRequestBuilders.post("/api/user/register").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andDo(print())
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
     }

@@ -1,7 +1,8 @@
 package com.seiii.backend_511.vo;
 
+import lombok.Data;
 import lombok.NonNull;
-
+@Data
 public class ResultVO<T> {
     private Integer code;
 
