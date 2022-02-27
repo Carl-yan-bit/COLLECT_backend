@@ -1,5 +1,6 @@
 package com.seiii.backend_511.po.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.vo.user.UserVO;
 
 import java.util.Date;
@@ -16,7 +17,7 @@ public class User {
     private String password;
 
     private String userRole;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Integer getId() {

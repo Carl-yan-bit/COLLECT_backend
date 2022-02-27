@@ -1,5 +1,6 @@
 package com.seiii.backend_511.vo.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.po.user.User;
 import lombok.NonNull;
 
@@ -17,7 +18,7 @@ public class UserVO {
     private String password;
 
     private String userRole;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Integer getId() {
@@ -83,5 +84,7 @@ public class UserVO {
         this.password = user.getPassword();
         this.userRole = user.getUserRole();
         this.createTime = user.getCreateTime();
+    }
+    public UserVO() {
     }
 }

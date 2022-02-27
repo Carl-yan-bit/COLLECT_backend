@@ -37,6 +37,16 @@
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, name, email, phoneNumber, password, user_role, create_time
+    from user
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPhoneNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, name, email, phoneNumber, password, user_role, create_time
+    from user
+    where phoneNumber = #{phoneNumber,jdbcType=VARCHAR}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, name, email, phoneNumber, password, user_role, create_time
     from user
