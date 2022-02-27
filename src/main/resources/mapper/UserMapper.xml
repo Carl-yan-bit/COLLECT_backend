@@ -45,7 +45,7 @@
   <select id="selectByPhoneNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
     select id, name, email, phoneNumber, password, user_role, create_time
     from user
-    where phoneNumber = #{phoneNumber,jdbcType=VARCHAR}
+    where phoneNumber = #{phonenumber,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, name, email, phoneNumber, password, user_role, create_time

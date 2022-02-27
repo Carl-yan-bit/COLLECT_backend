@@ -26,5 +26,9 @@ public class UserController {
     public ResultVO<UserVO> login(@RequestBody UserFormVo userFormVo){
         return userService.userLogin(userFormVo.getUser_idx(),userFormVo.getPassword());
     }
+    @PostMapping("/changePassword")
+    public ResultVO<UserVO> changePassword(@RequestBody UserFormVo userFormVo){
+        return userService.userChangePassword(userFormVo.getUser_idx(), userFormVo.getPassword(), userFormVo.getPassword_new());
+    }
 
 }

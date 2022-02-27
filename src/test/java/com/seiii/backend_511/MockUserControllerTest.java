@@ -4,6 +4,7 @@ package com.seiii.backend_511;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.seiii.backend_511.controller.user.UserController;
+import com.seiii.backend_511.vo.user.UserFormVo;
 import com.seiii.backend_511.vo.user.UserVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,5 +46,27 @@ public class MockUserControllerTest {
         String responseString = mockMvc.perform( MockMvcRequestBuilders.post("/api/user/register").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andDo(print())
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
+    }
+    @Test
+    public void testLoginByEmail() throws Exception{
+        UserFormVo userFormVo = new UserFormVo();
+        userFormVo.setUser_idx("1245144245@qq.com");
+        userFormVo.setPassword("sys20001130");
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(userFormVo);
+        String responseString = mockMvc.perform( MockMvcRequestBuilders.post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andDo(print())
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    }
+    @Test
+    public void testLoginByPhoneNumber() throws Exception{
+        UserFormVo userFormVo = new UserFormVo();
+        userFormVo.setUser_idx("15009175289");
+        userFormVo.setPassword("sys20001130");
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(userFormVo);
+        String responseString = mockMvc.perform( MockMvcRequestBuilders.post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andDo(print())
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     }
 }

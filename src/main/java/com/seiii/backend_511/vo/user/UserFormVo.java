@@ -6,4 +6,5 @@ import lombok.Data;
 public class UserFormVo {
     private String user_idx;
     private String password;
+    private String password_new;
 }

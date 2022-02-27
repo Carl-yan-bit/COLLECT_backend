@@ -48,12 +48,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultVO<UserVO> userLogin(String user_idx,String password) {
-        User user;
+        User user = null;
         if(user_idx.contains("@")){
-            user = userMapper.selectByEmail(user_idx);
+            if(userMapper.selectByEmail(user_idx)!=null)
+                user = userMapper.selectByEmail(user_idx);
         }
         else {
-            user = userMapper.selectByPhoneNumber(user_idx);
+            if(userMapper.selectByPhoneNumber(user_idx)!=null)
+                user = userMapper.selectByPhoneNumber(user_idx);
         }
         if(user==null){
             return new ResultVO<>(CONST.REQUEST_FAIL, "尚未注册，请检查输入或先注册!");
@@ -77,11 +79,11 @@ public class UserServiceImpl implements UserService {
             return new ResultVO<>(CONST.REQUEST_FAIL, "尚未注册，请检查输入或先注册!");
         }
         if(!user.getPassword().equals(Encryption.encryptPassword(password_old,user.getName()))){
-            return new ResultVO<>(CONST.REQUEST_FAIL, "账号或密码错误!");
+            return new ResultVO<>(CONST.REQUEST_FAIL, "密码错误!");
         }
         user.setPassword(Encryption.encryptPassword(password_new,user.getName()));
         userMapper.updateByPrimaryKey(user);
-        return new ResultVO<>(CONST.REQUEST_SUCCESS, "登陆成功!",new UserVO(user));
+        return new ResultVO<>(CONST.REQUEST_SUCCESS, "更改成功!",new UserVO(user));
     }
 
     @Override

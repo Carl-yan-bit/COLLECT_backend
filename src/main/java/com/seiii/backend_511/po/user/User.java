@@ -2,9 +2,10 @@ package com.seiii.backend_511.po.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.vo.user.UserVO;
+import lombok.Data;
 
 import java.util.Date;
-
+@Data
 public class User {
     private Integer id;
 
@@ -74,6 +75,9 @@ public class User {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+    public User(){
+
     }
     public User(UserVO userVO) {
         this.id = userVO.getId();
