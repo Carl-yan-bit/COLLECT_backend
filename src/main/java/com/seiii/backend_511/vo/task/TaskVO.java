@@ -90,8 +90,8 @@ public class TaskVO {
         this.id = task.getId();
         this.projectId = task.getProjectId();
         this.name = task.getName();
-        this.state = state;
-        this.description = description;
+        this.state = task.getState();
+        this.description = task.getDescription();
         this.testTime = testTime;
         this.workerAmount = workerAmount;
         this.createTime = createTime;

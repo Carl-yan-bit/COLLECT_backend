@@ -1,8 +1,10 @@
-package com.seiii.backend_511.vo;
+package com.seiii.backend_511.vo.file;
+
+import lombok.NonNull;
 
 import java.util.Date;
 
-public class ProjectFile {
+public class ProjectFileVO {
     private Integer id;
 
     private Integer projectId;
@@ -61,5 +63,14 @@ public class ProjectFile {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public ProjectFileVO(@NonNull ProjectFile projectfile) {
+        this.id = projectfile.getId();
+        this.projectId = projectfile.getProjectId();
+        this.name = projectfile.getName();
+        this.type = projectfile.getType();
+        this.resourceDir = projectfile.getResourceDir();
+        this.createTime = projectfile.getCreateTime();
     }
 }
