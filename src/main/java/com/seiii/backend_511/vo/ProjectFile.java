@@ -2,12 +2,10 @@ package com.seiii.backend_511.vo;
 
 import java.util.Date;
 
-public class File {
+public class ProjectFile {
     private Integer id;
 
     private Integer projectId;
-
-    private Integer reportId;
 
     private String name;
 
@@ -31,14 +29,6 @@ public class File {
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
-    }
-
-    public Integer getReportId() {
-        return reportId;
-    }
-
-    public void setReportId(Integer reportId) {
-        this.reportId = reportId;
     }
 
     public String getName() {

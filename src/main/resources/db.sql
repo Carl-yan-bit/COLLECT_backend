@@ -44,20 +44,58 @@ CREATE TABLE `report` (
     CONSTRAINT `fk_project_report` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-DROP TABLE IF EXISTS `file`;
-CREATE TABLE `file` (
+DROP TABLE IF EXISTS `project_file`;
+CREATE TABLE `project_file` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `project_id` int(11) NOT NULL,
-    `report_id` int(11) NOT NULL,
     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
     `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
     `resource_dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
     `create_time` datetime(0) NOT NULL,
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `fk_project_file`(`project_id`) USING BTREE,
+    CONSTRAINT `fk_project_file` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `task_file`;
+CREATE TABLE `task_file` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `task_id` int(11) NOT NULL,
+    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `resource_dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `create_time` datetime(0) NOT NULL,
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `fk_task_file`(`task_id`) USING BTREE,
+    CONSTRAINT `fk_task_file` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `report_file`;
+CREATE TABLE `report_file` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `report_id` int(11) NOT NULL,
+    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `resource_dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `create_time` datetime(0) NOT NULL,
+    PRIMARY KEY (`id`) USING BTREE,
     INDEX `fk_report_file`(`report_id`) USING BTREE,
-    CONSTRAINT `fk_project_file` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `fk_report_file` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `task`;
+CREATE TABLE `task`(
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `project_id` int(11) NOT NULL,
+    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '进行中',
+    `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `test_time` datetime(0) NULL DEFAULT NULL,
+    `worker_amount` int(11) NULL DEFAULT NULL,
+    `create_time` datetime(0) NOT NULL,
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `fk_project_task`(`project_id`) USING BTREE,
+    CONSTRAINT `fk_project_task` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
