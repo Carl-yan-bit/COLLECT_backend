@@ -1,9 +1,10 @@
 package com.seiii.backend_511.po.project;
 
 import com.seiii.backend_511.vo.project.ProjectVO;
+import lombok.Data;
 
 import java.util.Date;
-
+@Data
 public class Project {
     private Integer id;
 

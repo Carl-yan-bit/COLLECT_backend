@@ -17,8 +17,7 @@ public class ProjectController {
 
     @PostMapping("/create")
     public ResultVO<ProjectVO> createProject(@RequestBody ProjectVO project){
-        //TODO
-        return null;
+        return projectservice.createProject(project);
     }
 
     @GetMapping("/active/{page}")
@@ -28,21 +27,17 @@ public class ProjectController {
     }
 
     @GetMapping("/all/{page}")
-    public PageInfo<ProjectVO> getAllProjects(){
-        //TODO
-        return null;
+    public PageInfo<ProjectVO> getAllProjects(@PathVariable Integer pid){
+        return projectservice.getAllProjects(pid);
     }
 
-    //TODO mapping未设置
     @GetMapping("/find/user/{page}")
     public PageInfo<ProjectVO> getProjectsByUserId(@RequestParam Integer uid,@PathVariable Integer pid){
-        //TODO
-        return null;
+        return projectservice.getProjectsByUserId(uid,pid);
     }
 
     @GetMapping("/find/project")
     public ProjectVO getProjectById(@RequestParam Integer projectId){
-        //TODO
-        return null;
+        return projectservice.getProjectById(projectId);
     }
 }

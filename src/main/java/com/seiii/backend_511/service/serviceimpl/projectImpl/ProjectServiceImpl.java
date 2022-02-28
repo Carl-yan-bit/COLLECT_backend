@@ -1,5 +1,6 @@
 package com.seiii.backend_511.service.serviceimpl.projectImpl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.mapperservice.ProjectMapper;
 import com.seiii.backend_511.po.project.Project;
@@ -8,6 +9,7 @@ import com.seiii.backend_511.service.project.ProjectService;
 import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.service.task.TaskService;
 import com.seiii.backend_511.util.CONST;
+import com.seiii.backend_511.util.PageInfoUtil;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.project.ProjectVO;
 import org.springframework.stereotype.Service;
@@ -42,8 +44,22 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public PageInfo<ProjectVO> getProjectsByUserId(Integer uid,Integer currPage) {
-
-        return null;
+        if(currPage==null || currPage<1) currPage=1;
+        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
+        PageInfo<Project> po = new PageInfo<>(projectMapper.selectByUserId(uid));
+        return PageInfoUtil.convert(po,ProjectVO.class);
     }
 
+    @Override
+    public PageInfo<ProjectVO> getAllProjects(Integer currPage) {
+        if(currPage==null || currPage<1) currPage=1;
+        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
+        PageInfo<Project> po = new PageInfo<>(projectMapper.selectAll());
+        return PageInfoUtil.convert(po,ProjectVO.class);
+    }
+
+    @Override
+    public ProjectVO getProjectById(Integer projectId) {
+        return new ProjectVO(projectMapper.selectByPrimaryKey(projectId));
+    }
 }
