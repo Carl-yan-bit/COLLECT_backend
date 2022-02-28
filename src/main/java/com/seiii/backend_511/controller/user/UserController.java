@@ -5,10 +5,7 @@ import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.user.UserFormVo;
 import com.seiii.backend_511.vo.user.UserVO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -29,6 +26,10 @@ public class UserController {
     @PostMapping("/changePassword")
     public ResultVO<UserVO> changePassword(@RequestBody UserFormVo userFormVo){
         return userService.userChangePassword(userFormVo.getUser_idx(), userFormVo.getPassword(), userFormVo.getPassword_new());
+    }
+    @GetMapping("/find/{uid}")
+    public UserVO getUserByUid(@PathVariable Integer uid){
+        return userService.getUserByUid(uid);
     }
 
 }

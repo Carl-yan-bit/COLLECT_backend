@@ -34,14 +34,14 @@ public class ProjectController {
     }
 
     //TODO mapping未设置
-    @GetMapping("/")
-    public PageInfo<ProjectVO> getProjectsByUserId(){
+    @GetMapping("/find/user/{page}")
+    public PageInfo<ProjectVO> getProjectsByUserId(@RequestParam Integer uid,@PathVariable Integer pid){
         //TODO
         return null;
     }
 
-    @GetMapping("/{projectId}")
-    public ProjectVO getProjectById(@PathVariable Integer projectId){
+    @GetMapping("/find/project")
+    public ProjectVO getProjectById(@RequestParam Integer projectId){
         //TODO
         return null;
     }

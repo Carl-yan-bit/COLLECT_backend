@@ -2,10 +2,11 @@ package com.seiii.backend_511.vo.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.po.user.User;
+import lombok.Data;
 import lombok.NonNull;
 
 import java.util.Date;
-
+@Data
 public class UserVO {
     private Integer id;
 

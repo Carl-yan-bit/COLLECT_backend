@@ -33,7 +33,7 @@ CREATE TABLE `project` (
 DROP TABLE IF EXISTS `report`;
 CREATE TABLE `report` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `project_id` int(11) NOT NULL,
+    `task_id` int(11) NOT NULL,
     `user_id` int(11) NOT NULL,
     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
     `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'unfinished',
@@ -43,9 +43,9 @@ CREATE TABLE `report` (
     `create_time` datetime(0) NOT NULL,
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `fk_user_report`(`user_id`) USING BTREE,
-    INDEX `fk_project_report`(`project_id`) USING BTREE,
+    INDEX `fk_task_report`(`task_id`) USING BTREE,
     CONSTRAINT `fk_user_report` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_project_report` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `fk_task_report` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `project_file`;
