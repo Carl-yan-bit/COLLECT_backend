@@ -1,10 +1,11 @@
 package com.seiii.backend_511.vo.report;
 
 import com.seiii.backend_511.po.report.Report;
+import lombok.Data;
 import lombok.NonNull;
 
 import java.util.Date;
-
+@Data
 public class ReportVO {
     private Integer id;
 
