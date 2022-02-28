@@ -69,4 +69,9 @@ public class MockUserControllerTest {
         String responseString = mockMvc.perform( MockMvcRequestBuilders.post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andDo(print())
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     }
+    @Test
+    public void testGetUserByID() throws Exception{
+        String responseString = mockMvc.perform( MockMvcRequestBuilders.get("/api/user/find/1")).andDo(print())
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    }
 }

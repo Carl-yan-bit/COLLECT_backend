@@ -13,5 +13,6 @@ public interface UserService {
     ResultVO<UserVO> userLogin(String user_idx,String password);
     //用户修改密码
     ResultVO<UserVO> userChangePassword(String user_idx,String password_old,String password_new);
+    UserVO getUserByUid(Integer uid);
     List<User> getAll();
 }

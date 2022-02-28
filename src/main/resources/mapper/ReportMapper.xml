@@ -3,7 +3,7 @@
 <mapper namespace="com.seiii.backend_511.mapperservice.ReportMapper">
   <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.report.Report">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="state" jdbcType="VARCHAR" property="state" />
@@ -17,18 +17,18 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.seiii.backend_511.po.report.Report">
-    insert into report (id, project_id, user_id, 
+    insert into report (id, task_id, user_id, 
       name, state, description, 
       test_step, device_info, create_time
       )
-    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{testStep,jdbcType=VARCHAR}, #{deviceInfo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.report.Report">
     update report
-    set project_id = #{projectId,jdbcType=INTEGER},
+    set task_id = #{taskId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
@@ -39,13 +39,13 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, project_id, user_id, name, state, description, test_step, device_info, 
+    select id, task_id, user_id, name, state, description, test_step, device_info, 
     create_time
     from report
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, project_id, user_id, name, state, description, test_step, device_info, 
+    select id, task_id, user_id, name, state, description, test_step, device_info, 
     create_time
     from report
   </select>

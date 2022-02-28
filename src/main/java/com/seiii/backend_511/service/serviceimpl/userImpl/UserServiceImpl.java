@@ -85,7 +85,10 @@ public class UserServiceImpl implements UserService {
         userMapper.updateByPrimaryKey(user);
         return new ResultVO<>(CONST.REQUEST_SUCCESS, "更改成功!",new UserVO(user));
     }
-
+    @Override
+    public UserVO getUserByUid(Integer uid){
+        return new UserVO(userMapper.selectByPrimaryKey(uid));
+    }
     @Override
     public List<User> getAll() {
         return userMapper.selectAll();
