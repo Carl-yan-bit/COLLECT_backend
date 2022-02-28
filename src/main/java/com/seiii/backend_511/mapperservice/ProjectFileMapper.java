@@ -13,4 +13,6 @@ public interface ProjectFileMapper {
     List<ProjectFile> selectAll();
 
     int updateByPrimaryKey(ProjectFile record);
+
+    List<ProjectFile> selectByProjectId(Integer projectId);
 }

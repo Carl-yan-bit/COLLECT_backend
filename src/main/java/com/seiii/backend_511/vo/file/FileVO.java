@@ -1,6 +1,7 @@
 package com.seiii.backend_511.vo.file;
 
-import com.seiii.backend_511.enums.FileType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.seiii.backend_511.util.CONST;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,7 +12,7 @@ public class FileVO {
 
     private Integer carrierId;
 
-    private FileType carrierType;
+    private String carrierType;
 
     private String name;
 
@@ -19,6 +20,7 @@ public class FileVO {
 
     private String resourceDir;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public FileVO(ProjectFileVO projectFileVO){
@@ -28,7 +30,7 @@ public class FileVO {
         this.type=projectFileVO.getType();
         this.resourceDir=projectFileVO.getResourceDir();
         this.createTime=projectFileVO.getCreateTime();
-        this.carrierType=FileType.PROJECT;
+        this.carrierType= CONST.FILE_TYPE_PROJECT;
     }
 
     public FileVO(ReportFileVO reportFileVO){
@@ -38,7 +40,7 @@ public class FileVO {
         this.type=reportFileVO.getType();
         this.resourceDir=reportFileVO.getResourceDir();
         this.createTime=reportFileVO.getCreateTime();
-        this.carrierType=FileType.REPORT;
+        this.carrierType=CONST.FILE_TYPE_REPORT;
     }
 
     public FileVO(TaskFileVO taskFileVO){
@@ -48,7 +50,7 @@ public class FileVO {
         this.type=taskFileVO.getType();
         this.resourceDir=taskFileVO.getResourceDir();
         this.createTime=taskFileVO.getCreateTime();
-        this.carrierType=FileType.TASK;
+        this.carrierType=CONST.FILE_TYPE_TASK;
     }
 
 

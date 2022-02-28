@@ -1,5 +1,6 @@
 package com.seiii.backend_511.po.file;
 
+import com.seiii.backend_511.vo.file.FileVO;
 import com.seiii.backend_511.vo.file.TaskFileVO;
 
 import java.util.Date;
@@ -71,5 +72,14 @@ public class TaskFile {
         this.type = taskFileVO.getType();
         this.resourceDir = taskFileVO.getResourceDir();
         this.createTime = taskFileVO.getCreateTime();
+    }
+
+    public TaskFile(FileVO FileVO) {
+        this.id = FileVO.getId();
+        this.taskId = FileVO.getCarrierId();
+        this.name = FileVO.getName();
+        this.type = FileVO.getType();
+        this.resourceDir = FileVO.getResourceDir();
+        this.createTime = FileVO.getCreateTime();
     }
 }

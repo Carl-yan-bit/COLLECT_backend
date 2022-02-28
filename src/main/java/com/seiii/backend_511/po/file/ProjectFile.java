@@ -1,5 +1,6 @@
 package com.seiii.backend_511.po.file;
 
+import com.seiii.backend_511.vo.file.FileVO;
 import com.seiii.backend_511.vo.file.ProjectFileVO;
 
 import java.util.Date;
@@ -71,5 +72,14 @@ public class ProjectFile {
         this.type = projectFileVO.getType();
         this.resourceDir = projectFileVO.getResourceDir();
         this.createTime = projectFileVO.getCreateTime();
+    }
+
+    public ProjectFile(FileVO FileVO) {
+        this.id = FileVO.getId();
+        this.projectId = FileVO.getCarrierId();
+        this.name = FileVO.getName();
+        this.type = FileVO.getType();
+        this.resourceDir = FileVO.getResourceDir();
+        this.createTime = FileVO.getCreateTime();
     }
 }

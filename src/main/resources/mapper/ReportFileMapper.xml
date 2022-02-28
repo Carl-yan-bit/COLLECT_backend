@@ -39,4 +39,9 @@
     select id, report_id, name, type, resource_dir, create_time
     from report_file
   </select>
+  <select id="selectByReportId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, report_id, name, type, resource_dir, create_time
+    from report_file
+    where  report_id=#{reportId,jdbcType=INTEGER}
+  </select>
 </mapper>

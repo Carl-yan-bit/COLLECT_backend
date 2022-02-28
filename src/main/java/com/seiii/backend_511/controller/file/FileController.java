@@ -20,19 +20,19 @@ public class FileController {
     @Resource
     private FileService fileService;
     @PostMapping("/upload")
-    public ResultVO<FileVO> uploadFile(@RequestParam String type,@RequestParam("file") MultipartFile file) {
-        return fileService.uploadFile(type,file);
+    public ResultVO<FileVO> uploadFile(@RequestParam FileVO fileVO,@RequestParam("file") MultipartFile file) {
+        return fileService.uploadFile(fileVO,file);
     }
 
 
     @GetMapping("/download")
-    public ResultVO<FileVO> download(@RequestParam String name, HttpServletResponse response) {
-        return fileService.downloadFile(name, response);
+    public ResultVO<FileVO> download(@RequestParam FileVO fileVO, HttpServletResponse response) {
+        return fileService.downloadFile(fileVO, response);
     }
 
     @GetMapping("/{carrierType}/{carrierId}/{page}")
     public PageInfo<FileVO> getFilesByCarrierId(@PathVariable String carrierType,@PathVariable Integer carrierId,@PathVariable Integer page){
-        return fileService.getFilesByCarrierId(carrierType,carrierId,page, CONST.FILE_PAGE_sIZE);
+        return fileService.getFilesByCarrierId(carrierType,carrierId,page, CONST.FILE_PAGE_SIZE);
     }
 
 }

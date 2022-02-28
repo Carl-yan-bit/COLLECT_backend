@@ -1,5 +1,6 @@
 package com.seiii.backend_511.po.file;
 
+import com.seiii.backend_511.vo.file.FileVO;
 import com.seiii.backend_511.vo.file.ReportFileVO;
 
 import java.util.Date;
@@ -71,5 +72,14 @@ public class ReportFile {
         this.type = reportFileVO.getType();
         this.resourceDir = reportFileVO.getResourceDir();
         this.createTime = reportFileVO.getCreateTime();
+    }
+
+    public ReportFile(FileVO FileVO) {
+        this.id = FileVO.getId();
+        this.reportId = FileVO.getCarrierId();
+        this.name = FileVO.getName();
+        this.type = FileVO.getType();
+        this.resourceDir = FileVO.getResourceDir();
+        this.createTime = FileVO.getCreateTime();
     }
 }

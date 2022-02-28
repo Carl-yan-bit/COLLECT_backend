@@ -39,4 +39,9 @@
     select id, task_id, name, type, resource_dir, create_time
     from task_file
   </select>
+  <select id="selectByTaskId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, task_id, name, type, resource_dir, create_time
+    from task_file
+    where  task_id=#{taskId,jdbcType=INTEGER}
+  </select>
 </mapper>

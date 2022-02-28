@@ -9,10 +9,10 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -30,15 +30,14 @@ public class FileHelper {
             throw new IOException("服务器端错误，用于存放上传文件的文件夹不存在或创建失败！");
         }
         // 原文件名
-        String originalName = file.getOriginalFilename();
-        String type = "unknown";
-        String size = String.format("%.2f", (file.getSize() * 1.0 / 1024 / 1024)) + " MB";
+        String name = file.getOriginalFilename();
+        String dir=directoryPath+name;
         // 根据目标地址构造文件输出流
-        FileOutputStream fileOutputStream = new FileOutputStream(directoryPath + originalName);
+        FileOutputStream fileOutputStream = new FileOutputStream(dir);
         // 将文件复制到映射的地址
         FileCopyUtils.copy(file.getInputStream(),fileOutputStream);
 
-        return new ResultVO(CONST.REQUEST_SUCCESS,"文件保存成功");
+        return new ResultVO(CONST.REQUEST_SUCCESS,"文件保存成功",dir);
     }
 
     /**
@@ -68,6 +67,45 @@ public class FileHelper {
             }
         }
         return false;
+    }
+
+    public static ResultVO download(String path,String name, HttpServletResponse response){
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        response.setContentType("application/x-msdownload");
+        try {
+            Resource resource = FileHelper.loadFileAsResource(path, name);
+            if(resource == null)
+                return new ResultVO(CONST.REQUEST_FAIL,"找不到文件");
+            inputStream = resource.getInputStream();
+            //1.设置文件ContentType类型
+            response.setContentType("application/octet-stream;charset=UTF-8");
+            outputStream = response.getOutputStream();
+            //3.设置 header  Content-Disposition
+            response.setHeader("Content-Disposition", "attachment; filename=" + name);
+            int b = 0;
+            byte[] buffer = new byte[2048];
+            while (b != -1) {
+                b = inputStream.read(buffer);
+                if (b != -1) {
+                    outputStream.write(buffer, 0, b);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResultVO(CONST.REQUEST_FAIL,"下载出错");
+        } finally {
+            try {
+                if(inputStream != null)
+                    inputStream.close();
+                if (outputStream != null)
+                    outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ResultVO(CONST.REQUEST_FAIL,"输入输出流关闭出错");
+            }
+        }
+        return new ResultVO(CONST.REQUEST_SUCCESS,"下载成功");
     }
 
     /**

@@ -11,9 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 
 public interface FileService {
-    ResultVO<FileVO> uploadFile(String type,MultipartFile file);
+    ResultVO<FileVO> uploadFile(FileVO fileVO,MultipartFile file);
 
-    ResultVO<FileVO> downloadFile(String originName, HttpServletResponse response);
+    ResultVO<FileVO> downloadFile(FileVO fileVO, HttpServletResponse response);
 
     PageInfo<FileVO> getFilesByCarrierId(String carrierType,Integer carrierId,Integer page,Integer pageSize);
 

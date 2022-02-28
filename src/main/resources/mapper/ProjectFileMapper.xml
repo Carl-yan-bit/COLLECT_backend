@@ -39,4 +39,9 @@
     select id, project_id, name, type, resource_dir, create_time
     from project_file
   </select>
+  <select id="selectByProjectId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, project_id, name, type, resource_dir, create_time
+    from project_file
+    where  project_id=#{projectId,jdbcType=INTEGER}
+  </select>
 </mapper>
