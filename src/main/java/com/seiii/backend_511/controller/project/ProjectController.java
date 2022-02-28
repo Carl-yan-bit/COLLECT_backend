@@ -26,12 +26,12 @@ public class ProjectController {
         return null;
     }
 
-    @GetMapping("/all/{page}")
+    @GetMapping("/all/{pid}")
     public PageInfo<ProjectVO> getAllProjects(@PathVariable Integer pid){
         return projectservice.getAllProjects(pid);
     }
 
-    @GetMapping("/find/user/{page}")
+    @GetMapping("/find/user/{pid}")
     public PageInfo<ProjectVO> getProjectsByUserId(@RequestParam Integer uid,@PathVariable Integer pid){
         return projectservice.getProjectsByUserId(uid,pid);
     }
