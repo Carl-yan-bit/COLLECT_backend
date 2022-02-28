@@ -1,10 +1,11 @@
 package com.seiii.backend_511.vo.task;
 
 import com.seiii.backend_511.po.task.Task;
+import lombok.Data;
 import lombok.NonNull;
 
 import java.util.Date;
-
+@Data
 public class TaskVO {
     private Integer id;
 

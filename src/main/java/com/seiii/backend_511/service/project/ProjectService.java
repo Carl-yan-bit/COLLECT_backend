@@ -3,10 +3,20 @@ package com.seiii.backend_511.service.project;
 import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.project.ProjectVO;
+import com.seiii.backend_511.vo.project.UserProjectVO;
 import org.springframework.stereotype.Service;
+
+
 
 @Service
 public interface ProjectService {
-    public ResultVO<ProjectVO> createProject(ProjectVO projectVO);
-    public PageInfo<ProjectVO> getProjectsByUserId(Integer uid,Integer currPage);
+    ResultVO<ProjectVO> createProject(ProjectVO projectVO);
+    PageInfo<ProjectVO> getProjectsByUserId(Integer uid,Integer currPage);
+    ProjectVO getProjectById(Integer projectId);
+    PageInfo<ProjectVO> getAllProjects(Integer pid);
+    PageInfo<ProjectVO> getActiveProjects(Integer pid);
+    ResultVO<ProjectVO> joinProject(UserProjectVO userProjectVO);
+    ResultVO<ProjectVO> quitProject(UserProjectVO userProjectVO);
+    ResultVO<ProjectVO> updateProject(ProjectVO project);
+    ResultVO<ProjectVO> deleteProject(Integer pid);
 }

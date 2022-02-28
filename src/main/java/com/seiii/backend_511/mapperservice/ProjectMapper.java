@@ -13,4 +13,5 @@ public interface ProjectMapper {
     List<Project> selectAll();
 
     int updateByPrimaryKey(Project record);
+    List<Project> selectByUserId(Integer uid);
 }

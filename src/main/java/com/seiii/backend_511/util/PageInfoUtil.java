@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class PageInfoUtil {
     /**
      * 将PageInfo对象泛型中的PO对象转化为VO对象后返回
@@ -17,8 +19,8 @@ public class PageInfoUtil {
         for (P p : pageInfoPO.getList()) {
             V v = null;
             try {
-                v = vClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
+                v = vClass.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
             BeanUtils.copyProperties(p, v);

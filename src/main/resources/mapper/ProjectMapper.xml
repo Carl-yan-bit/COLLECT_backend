@@ -43,4 +43,9 @@
     select id, user_id, name, type, description, test_time, worker_amount, create_time
     from project
   </select>
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, name, type, description, test_time, worker_amount, create_time
+    from project
+    where user_id = #{uid,jdbcType=INTEGER}
+  </select>
 </mapper>

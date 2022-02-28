@@ -2,9 +2,10 @@ package com.seiii.backend_511.po.file;
 
 import com.seiii.backend_511.vo.file.FileVO;
 import com.seiii.backend_511.vo.file.ProjectFileVO;
+import lombok.Data;
 
 import java.util.Date;
-
+@Data
 public class ProjectFile {
     private Integer id;
 

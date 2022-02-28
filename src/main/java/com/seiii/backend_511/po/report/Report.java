@@ -1,9 +1,10 @@
 package com.seiii.backend_511.po.report;
 
 import com.seiii.backend_511.vo.report.ReportVO;
+import lombok.Data;
 
 import java.util.Date;
-
+@Data
 public class Report {
     private Integer id;
 
