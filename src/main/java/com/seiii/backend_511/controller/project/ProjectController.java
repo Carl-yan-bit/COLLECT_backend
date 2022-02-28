@@ -23,7 +23,7 @@ public class ProjectController {
 
     @GetMapping("/active/{page}")
     public PageInfo<ProjectVO> getActiveProjects(){
-        //TODO
+        //TODO 获取仍需要工人的项目
         return null;
     }
 
