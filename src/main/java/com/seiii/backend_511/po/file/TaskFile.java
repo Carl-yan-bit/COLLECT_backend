@@ -1,5 +1,6 @@
 package com.seiii.backend_511.po.file;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.vo.file.FileVO;
 import com.seiii.backend_511.vo.file.TaskFileVO;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class TaskFile {
 
     private String resourceDir;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Integer getId() {
@@ -82,5 +84,9 @@ public class TaskFile {
         this.type = FileVO.getType();
         this.resourceDir = FileVO.getResourceDir();
         this.createTime = FileVO.getCreateTime();
+    }
+
+    public TaskFile(){
+
     }
 }

@@ -40,7 +40,7 @@ public class FileServiceImpl implements FileService {
                     saveResult=FileSaver.PROJECT.getSaveStrategy().save(file);
                     if(saveResult!=null){
                         if(saveResult.getData()!=null){
-                            ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),fileVO);
+                            ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),file,fileVO);
                             ProjectFile projectFile=new ProjectFile(fileVO);
                             projectFileMapper.insert(projectFile);
                             return result;
@@ -51,7 +51,7 @@ public class FileServiceImpl implements FileService {
                     saveResult=FileSaver.REPORT.getSaveStrategy().save(file);
                     if(saveResult!=null){
                         if(saveResult.getData()!=null){
-                            ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),fileVO);
+                            ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),file,fileVO);
                             ReportFile reportFile=new ReportFile(fileVO);
                             reportFileMapper.insert(reportFile);
                             return result;
@@ -62,7 +62,7 @@ public class FileServiceImpl implements FileService {
                     saveResult=FileSaver.TASK.getSaveStrategy().save(file);
                     if(saveResult!=null){
                         if(saveResult.getData()!=null){
-                            ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),fileVO);
+                            ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),file,fileVO);
                             TaskFile taskFile=new TaskFile(fileVO);
                             taskFileMapper.insert(taskFile);
                             return result;                        }
@@ -85,15 +85,15 @@ public class FileServiceImpl implements FileService {
             switch (fileVO.getCarrierType()){
                 case CONST.FILE_TYPE_PROJECT:
                     ProjectFile projectFile=projectFileMapper.selectByPrimaryKey(fileVO.getId());
-                    downloadResult=FileSaver.PROJECT.getSaveStrategy().download(fileVO.getName(),response);
+                    downloadResult=FileSaver.PROJECT.getSaveStrategy().download(fileVO.getName()+"."+fileVO.getType(),response);
                     break;
                 case CONST.FILE_TYPE_REPORT:
                     ReportFile reportFile=reportFileMapper.selectByPrimaryKey(fileVO.getId());
-                    downloadResult=FileSaver.REPORT.getSaveStrategy().download(fileVO.getName(),response);
+                    downloadResult=FileSaver.REPORT.getSaveStrategy().download(fileVO.getName()+"."+fileVO.getType(),response);
                     break;
                 case CONST.FILE_TYPE_TASK:
                     TaskFile taskFile=taskFileMapper.selectByPrimaryKey(fileVO.getId());
-                    downloadResult=FileSaver.TASK.getSaveStrategy().download(fileVO.getName(),response);
+                    downloadResult=FileSaver.TASK.getSaveStrategy().download(fileVO.getName()+"."+fileVO.getType(),response);
                     break;
             }
         }
@@ -122,9 +122,12 @@ public class FileServiceImpl implements FileService {
         return result;
     }
 
-    public ResultVO<FileVO> setUploadResponse(String dir,FileVO fileVO){
+    public ResultVO<FileVO> setUploadResponse(String dir,MultipartFile file,FileVO fileVO){
+        String originalName = file.getOriginalFilename();
         fileVO.setResourceDir(dir);
         fileVO.setCreateTime(new Date());
+        fileVO.setName(originalName.substring(0,originalName.lastIndexOf(".")));
+        fileVO.setType(originalName.substring(originalName.lastIndexOf(".")+1));
         return new ResultVO<>(CONST.REQUEST_SUCCESS,"文件上传成功",fileVO);
     }
 

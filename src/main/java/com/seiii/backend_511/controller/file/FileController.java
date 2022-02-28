@@ -20,13 +20,13 @@ public class FileController {
     @Resource
     private FileService fileService;
     @PostMapping("/upload")
-    public ResultVO<FileVO> uploadFile(@RequestParam FileVO fileVO,@RequestParam("file") MultipartFile file) {
+    public ResultVO<FileVO> uploadFile(FileVO fileVO,@RequestParam("file") MultipartFile file) {
         return fileService.uploadFile(fileVO,file);
     }
 
 
     @GetMapping("/download")
-    public ResultVO<FileVO> download(@RequestParam FileVO fileVO, HttpServletResponse response) {
+    public ResultVO<FileVO> download(@RequestBody FileVO fileVO, HttpServletResponse response) {
         return fileService.downloadFile(fileVO, response);
     }
 

@@ -53,5 +53,12 @@ public class FileVO {
         this.carrierType=CONST.FILE_TYPE_TASK;
     }
 
+    public FileVO(Integer carrierId,String carrierType){
+        this.carrierId=carrierId;
+        this.carrierType=carrierType;
+    }
 
+    public FileVO(){
+
+    }
 }
