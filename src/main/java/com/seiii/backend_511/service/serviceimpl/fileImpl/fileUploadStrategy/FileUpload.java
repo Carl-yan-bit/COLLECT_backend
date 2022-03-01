@@ -12,6 +12,6 @@ public interface FileUpload {
 
     ResultVO<String> save(FileVO fileVO,MultipartFile file) throws IOException;
 
-    ResultVO download(FileVO fileVO, HttpServletResponse response);
+    void download(FileVO fileVO, HttpServletResponse response);
 
 }

@@ -23,8 +23,7 @@ public class ProjectFileUploadImpl implements FileUpload {
     }
 
     @Override
-    public ResultVO download(FileVO fileVO, HttpServletResponse response) {
-        ResultVO result= FileHelper.download(fileVO.getResourceDir(),fileVO.getName()+"."+fileVO.getType(),response);
-        return result;
+    public void download(FileVO fileVO, HttpServletResponse response) {
+        FileHelper.download(fileVO.getResourceDir(),fileVO.getName()+"."+fileVO.getType(),response);
     }
 }

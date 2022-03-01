@@ -12,6 +12,7 @@ import com.seiii.backend_511.po.file.TaskFile;
 import com.seiii.backend_511.po.project.Project;
 import com.seiii.backend_511.service.file.FileService;
 import com.seiii.backend_511.util.CONST;
+import com.seiii.backend_511.util.FileHelper;
 import com.seiii.backend_511.util.PageInfoUtil;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.file.FileVO;
@@ -99,29 +100,52 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public ResultVO<FileVO> downloadFile(FileVO fileVO, HttpServletResponse response) {
-        ResultVO downloadResult=null;
+    public void downloadFile(FileVO fileVO, HttpServletResponse response) {
         if(fileVO.getCarrierType()!=null){
             FileVO mapperResult=null;
             switch (fileVO.getCarrierType()){
                 case CONST.FILE_TYPE_PROJECT:
                     ProjectFile projectFile=projectFileMapper.selectByPrimaryKey(fileVO.getId());
                     mapperResult=new FileVO(new ProjectFileVO(projectFile));
-                    downloadResult=FileSaver.PROJECT.getSaveStrategy().download(mapperResult,response);
+                    FileSaver.PROJECT.getSaveStrategy().download(mapperResult,response);
                     break;
                 case CONST.FILE_TYPE_REPORT:
                     ReportFile reportFile=reportFileMapper.selectByPrimaryKey(fileVO.getId());
                     mapperResult=new FileVO(new ReportFileVO(reportFile));
-                    downloadResult=FileSaver.REPORT.getSaveStrategy().download(mapperResult,response);
+                    FileSaver.REPORT.getSaveStrategy().download(mapperResult,response);
                     break;
                 case CONST.FILE_TYPE_TASK:
                     TaskFile taskFile=taskFileMapper.selectByPrimaryKey(fileVO.getId());
                     mapperResult=new FileVO(new TaskFileVO(taskFile));
-                    downloadResult=FileSaver.TASK.getSaveStrategy().download(mapperResult,response);
+                    FileSaver.TASK.getSaveStrategy().download(mapperResult,response);
                     break;
             }
         }
-        return downloadResult;
+    }
+
+    public ResultVO deleteFile(FileVO fileVO){
+        ResultVO deleteResult=null;
+        FileVO mapperResult=null;
+        switch (fileVO.getCarrierType()){
+            case CONST.FILE_TYPE_PROJECT:
+                ProjectFile projectFile=projectFileMapper.selectByPrimaryKey(fileVO.getId());
+                deleteResult= FileHelper.delete(projectFile.getResourceDir());
+                projectFileMapper.deleteByPrimaryKey(fileVO.getId());
+                break;
+            case CONST.FILE_TYPE_REPORT:
+                ReportFile reportFile=reportFileMapper.selectByPrimaryKey(fileVO.getId());
+                deleteResult= FileHelper.delete(reportFile.getResourceDir());
+                reportFileMapper.deleteByPrimaryKey(fileVO.getId());
+                break;
+            case CONST.FILE_TYPE_TASK:
+                TaskFile taskFile=taskFileMapper.selectByPrimaryKey(fileVO.getId());
+                deleteResult= FileHelper.delete(taskFile.getResourceDir());
+                taskFileMapper.deleteByPrimaryKey(fileVO.getId());
+                break;
+            default:
+                return new ResultVO<>(CONST.REQUEST_FAIL,"文件所属类型错误");
+        }
+        return deleteResult;
     }
 
     @Override
