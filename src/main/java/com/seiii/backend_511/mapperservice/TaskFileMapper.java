@@ -16,4 +16,6 @@ public interface TaskFileMapper {
     int updateByPrimaryKey(TaskFile record);
 
     List<TaskFile> selectByTaskId(Integer taskId);
+
+    TaskFile selectByDir(String dir);
 }

@@ -44,4 +44,9 @@
     from project_file
     where  project_id=#{projectId,jdbcType=INTEGER}
   </select>
+  <select id="selectByDir" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, project_id, name, type, resource_dir, create_time
+    from project_file
+    where  resource_dir=#{dir,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -15,4 +15,6 @@ public interface ProjectFileMapper {
     int updateByPrimaryKey(ProjectFile record);
 
     List<ProjectFile> selectByProjectId(Integer projectId);
+
+    ProjectFile selectByDir(String dir);
 }

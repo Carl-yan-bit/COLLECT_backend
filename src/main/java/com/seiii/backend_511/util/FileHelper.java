@@ -31,7 +31,7 @@ public class FileHelper {
         }
         // 原文件名
         String name = file.getOriginalFilename();
-        String dir=directoryPath+File.separator+name;
+        String dir=directoryPath+"/"+name;
         // 根据目标地址构造文件输出流
         FileOutputStream fileOutputStream = new FileOutputStream(dir);
         // 将文件复制到映射的地址
@@ -43,12 +43,11 @@ public class FileHelper {
     /**
      * 加载文件为资源
      * @param directoryPath 目录路径（以 / 结尾）
-     * @param fileName 文件名
      * @return 输入流资源
      */
-    public static Resource loadFileAsResource(String directoryPath, String fileName) {
+    public static Resource loadFileAsResource(String directoryPath) {
         try {
-            Path filePath = Paths.get(directoryPath+fileName);
+            Path filePath = Paths.get(directoryPath);
             Resource resource = new UrlResource(filePath.toUri());
             if(resource.exists())
                 return resource;
@@ -74,7 +73,7 @@ public class FileHelper {
         OutputStream outputStream = null;
         response.setContentType("application/x-msdownload");
         try {
-            Resource resource = FileHelper.loadFileAsResource(path, name);
+            Resource resource = FileHelper.loadFileAsResource(path);
             if(resource == null)
                 return new ResultVO(CONST.REQUEST_FAIL,"找不到文件");
             inputStream = resource.getInputStream();

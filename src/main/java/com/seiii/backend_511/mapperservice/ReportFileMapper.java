@@ -16,4 +16,6 @@ public interface ReportFileMapper {
     int updateByPrimaryKey(ReportFile record);
 
     List<ReportFile> selectByReportId(Integer reportId);
+
+    ReportFile selectByDir(String dir);
 }

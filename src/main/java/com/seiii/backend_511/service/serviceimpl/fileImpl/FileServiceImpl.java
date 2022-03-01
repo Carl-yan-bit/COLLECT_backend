@@ -15,7 +15,11 @@ import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.PageInfoUtil;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.file.FileVO;
+import com.seiii.backend_511.vo.file.ProjectFileVO;
+import com.seiii.backend_511.vo.file.ReportFileVO;
+import com.seiii.backend_511.vo.file.TaskFileVO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -39,21 +43,31 @@ public class FileServiceImpl implements FileService {
                 case CONST.FILE_TYPE_PROJECT:
                     saveResult=FileSaver.PROJECT.getSaveStrategy().save(fileVO,file);
                     if(saveResult!=null){
-                        if(saveResult.getData()!=null){
-                            ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),file,fileVO);
-                            ProjectFile projectFile=new ProjectFile(fileVO);
-                            projectFileMapper.insert(projectFile);
-                            return result;
-                        }
+                        String dir=saveResult.getData();
+                            if(StringUtils.hasText(dir)){
+                                ResultVO<FileVO> result=setUploadResponse(dir,file,fileVO);
+                                if(projectFileMapper.selectByDir(dir)!=null){
+                                    result.setMsg("文件更新成功");
+                                }else {
+                                    ProjectFile projectFile=new ProjectFile(fileVO);
+                                    projectFileMapper.insert(projectFile);
+                                }
+                                return result;
+                            }
                     }
                     break;
                 case CONST.FILE_TYPE_REPORT:
                     saveResult=FileSaver.REPORT.getSaveStrategy().save(fileVO,file);
                     if(saveResult!=null){
-                        if(saveResult.getData()!=null){
-                            ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),file,fileVO);
-                            ReportFile reportFile=new ReportFile(fileVO);
-                            reportFileMapper.insert(reportFile);
+                        String dir=saveResult.getData();
+                        if(StringUtils.hasText(dir)){
+                            ResultVO<FileVO> result=setUploadResponse(dir,file,fileVO);
+                            if(reportFileMapper.selectByDir(dir)!=null){
+                                result.setMsg("文件更新成功");
+                            }else {
+                                ReportFile reportFile=new ReportFile(fileVO);
+                                reportFileMapper.insert(reportFile);
+                            }
                             return result;
                         }
                     }
@@ -61,11 +75,17 @@ public class FileServiceImpl implements FileService {
                 case CONST.FILE_TYPE_TASK:
                     saveResult=FileSaver.TASK.getSaveStrategy().save(fileVO,file);
                     if(saveResult!=null){
-                        if(saveResult.getData()!=null){
-                            ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),file,fileVO);
-                            TaskFile taskFile=new TaskFile(fileVO);
-                            taskFileMapper.insert(taskFile);
-                            return result;                        }
+                        String dir=saveResult.getData();
+                        if(StringUtils.hasText(dir)){
+                            ResultVO<FileVO> result=setUploadResponse(dir,file,fileVO);
+                            if(taskFileMapper.selectByDir(dir)!=null){
+                                result.setMsg("文件更新成功");
+                            }else {
+                                TaskFile taskFile=new TaskFile(fileVO);
+                                taskFileMapper.insert(taskFile);
+                            }
+                            return result;
+                        }
                     }
                     break;
                 default:
@@ -82,18 +102,22 @@ public class FileServiceImpl implements FileService {
     public ResultVO<FileVO> downloadFile(FileVO fileVO, HttpServletResponse response) {
         ResultVO downloadResult=null;
         if(fileVO.getCarrierType()!=null){
+            FileVO mapperResult=null;
             switch (fileVO.getCarrierType()){
                 case CONST.FILE_TYPE_PROJECT:
                     ProjectFile projectFile=projectFileMapper.selectByPrimaryKey(fileVO.getId());
-                    downloadResult=FileSaver.PROJECT.getSaveStrategy().download(fileVO,response);
+                    mapperResult=new FileVO(new ProjectFileVO(projectFile));
+                    downloadResult=FileSaver.PROJECT.getSaveStrategy().download(mapperResult,response);
                     break;
                 case CONST.FILE_TYPE_REPORT:
                     ReportFile reportFile=reportFileMapper.selectByPrimaryKey(fileVO.getId());
-                    downloadResult=FileSaver.REPORT.getSaveStrategy().download(fileVO,response);
+                    mapperResult=new FileVO(new ReportFileVO(reportFile));
+                    downloadResult=FileSaver.REPORT.getSaveStrategy().download(mapperResult,response);
                     break;
                 case CONST.FILE_TYPE_TASK:
                     TaskFile taskFile=taskFileMapper.selectByPrimaryKey(fileVO.getId());
-                    downloadResult=FileSaver.TASK.getSaveStrategy().download(fileVO,response);
+                    mapperResult=new FileVO(new TaskFileVO(taskFile));
+                    downloadResult=FileSaver.TASK.getSaveStrategy().download(mapperResult,response);
                     break;
             }
         }

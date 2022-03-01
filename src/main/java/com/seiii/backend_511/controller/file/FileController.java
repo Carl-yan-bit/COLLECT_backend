@@ -30,6 +30,8 @@ public class FileController {
         return fileService.downloadFile(fileVO, response);
     }
 
+
+
     @GetMapping("/{carrierType}/{carrierId}/{page}")
     public PageInfo<FileVO> getFilesByCarrierId(@PathVariable String carrierType,@PathVariable Integer carrierId,@PathVariable Integer page){
         return fileService.getFilesByCarrierId(carrierType,carrierId,page, CONST.FILE_PAGE_SIZE);
