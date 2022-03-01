@@ -1,5 +1,6 @@
 package com.seiii.backend_511.vo.task;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.po.task.Task;
 import lombok.Data;
 import lombok.NonNull;
@@ -16,11 +17,11 @@ public class TaskVO {
     private String state;
 
     private String description;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date testTime;
 
     private Integer workerAmount;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Integer getId() {
@@ -86,7 +87,7 @@ public class TaskVO {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
+    public TaskVO(){}
     public TaskVO(@NonNull Task task) {
         this.id = task.getId();
         this.projectId = task.getProjectId();

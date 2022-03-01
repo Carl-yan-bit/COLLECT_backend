@@ -102,4 +102,28 @@ CREATE TABLE `task`(
     CONSTRAINT `fk_project_task` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
+DROP TABLE IF EXISTS `user_project`;
+CREATE TABLE `user_project`(
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `project_id` int(11) NOT NULL,
+    `user_id` int(11) NOT NULL,
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `fk_project_user`(`project_id`) USING BTREE,
+    INDEX `fk_project_user1`(`user_id`) USING BTREE,
+    CONSTRAINT `fk_project_user` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_project_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `user_task`;
+CREATE TABLE `user_task`(
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `task_id` int(11) NOT NULL,
+    `user_id` int(11) NOT NULL,
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `fk_task_user`(`task_id`) USING BTREE,
+    INDEX `fk_task_user1`(`user_id`) USING BTREE,
+    CONSTRAINT `fk_task_user` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_task_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
 SET FOREIGN_KEY_CHECKS = 1;

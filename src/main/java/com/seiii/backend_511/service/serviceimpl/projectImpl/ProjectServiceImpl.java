@@ -6,15 +6,18 @@ import com.seiii.backend_511.mapperservice.ProjectMapper;
 import com.seiii.backend_511.mapperservice.UserProjectMapper;
 import com.seiii.backend_511.po.project.Project;
 import com.seiii.backend_511.po.project.UserProject;
+import com.seiii.backend_511.po.task.Task;
 import com.seiii.backend_511.service.file.FileService;
 import com.seiii.backend_511.service.project.ProjectService;
 import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.service.task.TaskService;
+import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.PageInfoUtil;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.project.ProjectVO;
 import com.seiii.backend_511.vo.project.UserProjectVO;
+import com.seiii.backend_511.vo.task.TaskVO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -29,6 +32,8 @@ public class ProjectServiceImpl implements ProjectService {
     private FileService fileService;
     @Resource
     private TaskService taskService;
+    @Resource
+    private UserService userService;
     @Resource
     private ReportService reportService;
     @Resource
@@ -71,7 +76,12 @@ public class ProjectServiceImpl implements ProjectService {
             Project project = projectMapper.selectByPrimaryKey(pid);
             projectMapper.deleteByPrimaryKey(pid);
             for(UserProject userProject:userProjectMapper.selectByProjects(pid)){
+                //删除项目下所有的用户
                 userProjectMapper.deleteByPrimaryKey(userProject.getId());
+            }
+            //删除项目下所有任务
+            if(!taskService.deleteAllTasksByProject(pid)){
+                return new ResultVO<>(CONST.REQUEST_FAIL,"子任务删除失败");
             }
             return new ResultVO<>(CONST.REQUEST_SUCCESS,"删除成功",new ProjectVO(project));
         }
@@ -117,6 +127,9 @@ public class ProjectServiceImpl implements ProjectService {
     public ResultVO<ProjectVO> joinProject(UserProjectVO userProjectVO) {
         Integer uid = userProjectVO.getUserId();
         Integer projectId = userProjectVO.getProjectId();
+        if(userService.getUserByUid(uid)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
+        }
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             if(userProject.getProjectId().equals(projectId)){
                 return new ResultVO<>(CONST.REQUEST_FAIL,"已经在项目中");
@@ -143,6 +156,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectVO getProjectById(Integer projectId) {
+        if(projectMapper.selectByPrimaryKey(projectId)==null){
+            return null;
+        }
         return new ProjectVO(projectMapper.selectByPrimaryKey(projectId));
     }
 }

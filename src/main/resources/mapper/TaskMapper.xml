@@ -43,4 +43,9 @@
     select id, project_id, name, state, description, test_time, worker_amount, create_time
     from task
   </select>
+  <select id="selectByProject" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, project_id, name, state, description, test_time, worker_amount, create_time
+    from task
+    where project_id = #{pid,jdbcType=INTEGER}
+  </select>
 </mapper>
