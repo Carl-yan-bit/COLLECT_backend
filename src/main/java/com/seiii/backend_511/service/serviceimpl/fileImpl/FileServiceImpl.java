@@ -37,7 +37,7 @@ public class FileServiceImpl implements FileService {
         try {
             switch (fileVO.getCarrierType()){
                 case CONST.FILE_TYPE_PROJECT:
-                    saveResult=FileSaver.PROJECT.getSaveStrategy().save(file);
+                    saveResult=FileSaver.PROJECT.getSaveStrategy().save(fileVO,file);
                     if(saveResult!=null){
                         if(saveResult.getData()!=null){
                             ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),file,fileVO);
@@ -48,7 +48,7 @@ public class FileServiceImpl implements FileService {
                     }
                     break;
                 case CONST.FILE_TYPE_REPORT:
-                    saveResult=FileSaver.REPORT.getSaveStrategy().save(file);
+                    saveResult=FileSaver.REPORT.getSaveStrategy().save(fileVO,file);
                     if(saveResult!=null){
                         if(saveResult.getData()!=null){
                             ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),file,fileVO);
@@ -59,7 +59,7 @@ public class FileServiceImpl implements FileService {
                     }
                     break;
                 case CONST.FILE_TYPE_TASK:
-                    saveResult=FileSaver.TASK.getSaveStrategy().save(file);
+                    saveResult=FileSaver.TASK.getSaveStrategy().save(fileVO,file);
                     if(saveResult!=null){
                         if(saveResult.getData()!=null){
                             ResultVO<FileVO> result=setUploadResponse(saveResult.getData(),file,fileVO);
@@ -85,15 +85,15 @@ public class FileServiceImpl implements FileService {
             switch (fileVO.getCarrierType()){
                 case CONST.FILE_TYPE_PROJECT:
                     ProjectFile projectFile=projectFileMapper.selectByPrimaryKey(fileVO.getId());
-                    downloadResult=FileSaver.PROJECT.getSaveStrategy().download(fileVO.getName()+"."+fileVO.getType(),response);
+                    downloadResult=FileSaver.PROJECT.getSaveStrategy().download(fileVO,response);
                     break;
                 case CONST.FILE_TYPE_REPORT:
                     ReportFile reportFile=reportFileMapper.selectByPrimaryKey(fileVO.getId());
-                    downloadResult=FileSaver.REPORT.getSaveStrategy().download(fileVO.getName()+"."+fileVO.getType(),response);
+                    downloadResult=FileSaver.REPORT.getSaveStrategy().download(fileVO,response);
                     break;
                 case CONST.FILE_TYPE_TASK:
                     TaskFile taskFile=taskFileMapper.selectByPrimaryKey(fileVO.getId());
-                    downloadResult=FileSaver.TASK.getSaveStrategy().download(fileVO.getName()+"."+fileVO.getType(),response);
+                    downloadResult=FileSaver.TASK.getSaveStrategy().download(fileVO,response);
                     break;
             }
         }

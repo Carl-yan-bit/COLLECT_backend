@@ -31,7 +31,7 @@ public class FileHelper {
         }
         // 原文件名
         String name = file.getOriginalFilename();
-        String dir=directoryPath+name;
+        String dir=directoryPath+File.separator+name;
         // 根据目标地址构造文件输出流
         FileOutputStream fileOutputStream = new FileOutputStream(dir);
         // 将文件复制到映射的地址

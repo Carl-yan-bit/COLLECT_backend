@@ -3,6 +3,7 @@ package com.seiii.backend_511.service.serviceimpl.fileImpl.fileUploadStrategy;
 
 import com.seiii.backend_511.util.FileHelper;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.file.FileVO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,14 +17,14 @@ public class ReportFileUploadImpl implements FileUpload {
     @Value("${web.report-file-upload-path}")
     private String path;
     @Override
-    public ResultVO<String> save(MultipartFile file) throws IOException {
-        ResultVO result= FileHelper.save(path,file);
+    public ResultVO<String> save(FileVO fileVO,MultipartFile file) throws IOException {
+        ResultVO result= FileHelper.save(path+fileVO.getCarrierType()+fileVO.getCarrierId(),file);
         return result;
     }
 
     @Override
-    public ResultVO download(String name, HttpServletResponse response) {
-        ResultVO result= FileHelper.download(path,name,response);
+    public ResultVO download(FileVO fileVO, HttpServletResponse response) {
+        ResultVO result= FileHelper.download(fileVO.getResourceDir(),fileVO.getName()+"."+fileVO.getType(),response);
         return result;
     }
 }
