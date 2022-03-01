@@ -49,4 +49,16 @@
     create_time
     from report
   </select>
+  <select id="selectByTask" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, task_id, user_id, name, state, description, test_step, device_info,
+           create_time
+    from report
+    where task_id = #{taskID,jdbcType=INTEGER}
+  </select>
+  <select id="selectByTaskAndUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, task_id, user_id, name, state, description, test_step, device_info,
+           create_time
+    from report
+    where task_id = #{taskID,jdbcType=INTEGER} and user_id = #{UID,jdbcType=INTEGER}
+  </select>
 </mapper>

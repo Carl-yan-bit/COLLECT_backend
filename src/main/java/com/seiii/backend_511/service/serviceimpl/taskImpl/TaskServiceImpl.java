@@ -104,7 +104,8 @@ public class TaskServiceImpl implements TaskService {
         if(currPage==null||currPage<1) currPage = 1;
         PageHelper.startPage(currPage,CONST.PAGE_SIZE);
         List<TaskVO> ans = new ArrayList<>();
-        for(Task task:taskMapper.selectByProject(uid)){
+        for(UserTask taskID:userTaskMapper.selectByUid(uid)){
+            Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
             if(task.getState().equals(CONST.STATE_CLOSED)){
                 ans.add(new TaskVO(task));
             }
@@ -122,12 +123,23 @@ public class TaskServiceImpl implements TaskService {
         if(currPage==null||currPage<1) currPage = 1;
         PageHelper.startPage(currPage,CONST.PAGE_SIZE);
         List<TaskVO> ans = new ArrayList<>();
-        for(Task task:taskMapper.selectByProject(uid)){
+        for(UserTask taskID:userTaskMapper.selectByUid(uid)){
+            Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
             if(task.getState().equals(CONST.STATE_OPEN)){
                 ans.add(new TaskVO(task));
             }
         }
         return new PageInfo<>(ans);
+    }
+
+    @Override
+    public List<TaskVO> getTasksByUser(Integer uid) {
+        List<TaskVO> ans = new ArrayList<>();
+        for(UserTask taskID:userTaskMapper.selectByUid(uid)){
+            Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
+            ans.add(new TaskVO(task));
+        }
+        return ans;
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.Date;
 public class ReportVO {
     private Integer id;
 
-    private Integer projectId;
+    private Integer taskId;
 
     private Integer userId;
 
@@ -33,12 +33,12 @@ public class ReportVO {
         this.id = id;
     }
 
-    public Integer getProjectId() {
-        return projectId;
+    public Integer gettaskId() {
+        return taskId;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void settaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
     public Integer getUserId() {
@@ -96,10 +96,10 @@ public class ReportVO {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
+    public ReportVO(){}
     public ReportVO(@NonNull Report report) {
         this.id = report.getId();
-        this.projectId = report.getProjectId();
+        this.taskId = report.gettaskId();
         this.userId = report.getUserId();
         this.name = report.getName();
         this.state = report.getState();

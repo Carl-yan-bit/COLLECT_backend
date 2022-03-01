@@ -13,6 +13,7 @@ public interface TaskService {
     PageInfo<TaskVO> getHistoryTasks(Integer uid,Integer pid);
     PageInfo<TaskVO> getNowTasks(Integer uid,Integer pid);
     List<TaskVO> getALlTasksByProject(Integer project_id);
+    List<TaskVO> getTasksByUser(Integer uid);
     boolean deleteAllTasksByProject(Integer project_id);
     TaskVO getTaskByID(Integer ID);
     ResultVO<TaskVO> createTask(TaskVO taskVO);
