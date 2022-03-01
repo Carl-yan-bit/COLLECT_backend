@@ -11,4 +11,5 @@ import javax.annotation.Resource;
 public class ReportController {
     @Resource
     private ReportService reportService;
+
 }

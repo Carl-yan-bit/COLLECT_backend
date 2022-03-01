@@ -113,6 +113,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public TaskVO getTaskByID(Integer ID) {
+        return taskMapper.selectByPrimaryKey(ID)==null?null:new TaskVO(taskMapper.selectByPrimaryKey(ID));
+    }
+
+    @Override
     public PageInfo<TaskVO> getNowTasks(Integer uid, Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
         PageHelper.startPage(currPage,CONST.PAGE_SIZE);
