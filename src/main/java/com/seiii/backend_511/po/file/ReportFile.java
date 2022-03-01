@@ -1,9 +1,13 @@
 package com.seiii.backend_511.po.file;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.seiii.backend_511.po.report.Report;
+import com.seiii.backend_511.vo.file.FileVO;
 import com.seiii.backend_511.vo.file.ReportFileVO;
+import lombok.Data;
 
 import java.util.Date;
-
+@Data
 public class ReportFile {
     private Integer id;
 
@@ -15,6 +19,7 @@ public class ReportFile {
 
     private String resourceDir;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Integer getId() {
@@ -71,5 +76,18 @@ public class ReportFile {
         this.type = reportFileVO.getType();
         this.resourceDir = reportFileVO.getResourceDir();
         this.createTime = reportFileVO.getCreateTime();
+    }
+
+    public ReportFile(FileVO FileVO) {
+        this.id = FileVO.getId();
+        this.reportId = FileVO.getCarrierId();
+        this.name = FileVO.getName();
+        this.type = FileVO.getType();
+        this.resourceDir = FileVO.getResourceDir();
+        this.createTime = FileVO.getCreateTime();
+    }
+
+    public ReportFile(){
+
     }
 }

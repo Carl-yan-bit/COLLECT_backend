@@ -1,10 +1,12 @@
 package com.seiii.backend_511.vo.file;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.po.file.TaskFile;
+import lombok.Data;
 import lombok.NonNull;
 
 import java.util.Date;
-
+@Data
 public class TaskFileVO {
     private Integer id;
 
@@ -16,6 +18,7 @@ public class TaskFileVO {
 
     private String resourceDir;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Integer getId() {

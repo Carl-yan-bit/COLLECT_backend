@@ -1,9 +1,12 @@
 package com.seiii.backend_511.po.file;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.seiii.backend_511.vo.file.FileVO;
 import com.seiii.backend_511.vo.file.ProjectFileVO;
+import lombok.Data;
 
 import java.util.Date;
-
+@Data
 public class ProjectFile {
     private Integer id;
 
@@ -15,6 +18,7 @@ public class ProjectFile {
 
     private String resourceDir;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Integer getId() {
@@ -71,5 +75,18 @@ public class ProjectFile {
         this.type = projectFileVO.getType();
         this.resourceDir = projectFileVO.getResourceDir();
         this.createTime = projectFileVO.getCreateTime();
+    }
+
+    public ProjectFile(FileVO FileVO) {
+        this.id = FileVO.getId();
+        this.projectId = FileVO.getCarrierId();
+        this.name = FileVO.getName();
+        this.type = FileVO.getType();
+        this.resourceDir = FileVO.getResourceDir();
+        this.createTime = FileVO.getCreateTime();
+    }
+
+    public ProjectFile(){
+
     }
 }

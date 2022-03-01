@@ -2,9 +2,11 @@ package com.seiii.backend_511.controller.project;
 
 import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.po.project.Project;
+import com.seiii.backend_511.po.project.UserProject;
 import com.seiii.backend_511.service.project.ProjectService;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.project.ProjectVO;
+import com.seiii.backend_511.vo.project.UserProjectVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -17,32 +19,42 @@ public class ProjectController {
 
     @PostMapping("/create")
     public ResultVO<ProjectVO> createProject(@RequestBody ProjectVO project){
-        //TODO
-        return null;
+        return projectservice.createProject(project);
+    }
+    @PostMapping("/update")
+    public ResultVO<ProjectVO> updateProject(@RequestBody ProjectVO project){
+        return projectservice.updateProject(project);
+    }
+    @GetMapping("/delete")
+    public ResultVO<ProjectVO> deleteProject(@RequestParam Integer pid){
+        return projectservice.deleteProject(pid);
     }
 
-    @GetMapping("/active/{page}")
-    public PageInfo<ProjectVO> getActiveProjects(){
-        //TODO 获取仍需要工人的项目
-        return null;
+    @GetMapping("/active/{pid}")
+    public PageInfo<ProjectVO> getActiveProjects(@PathVariable Integer pid){
+        return projectservice.getActiveProjects(pid);
     }
 
-    @GetMapping("/all/{page}")
-    public PageInfo<ProjectVO> getAllProjects(){
-        //TODO
-        return null;
+    @GetMapping("/all/{pid}")
+    public PageInfo<ProjectVO> getAllProjects(@PathVariable Integer pid){
+        return projectservice.getAllProjects(pid);
     }
 
-    //TODO mapping未设置
-    @GetMapping("/find/user/{page}")
+    @GetMapping("/find/user/{pid}")
     public PageInfo<ProjectVO> getProjectsByUserId(@RequestParam Integer uid,@PathVariable Integer pid){
-        //TODO
-        return null;
+        return projectservice.getProjectsByUserId(uid,pid);
     }
 
     @GetMapping("/find/project")
     public ProjectVO getProjectById(@RequestParam Integer projectId){
-        //TODO
-        return null;
+        return projectservice.getProjectById(projectId);
+    }
+    @PostMapping("/join")
+    public ResultVO<ProjectVO> joinProject(@RequestBody UserProjectVO userProjectVO){
+        return projectservice.joinProject(userProjectVO);
+    }
+    @PostMapping("/quit")
+    public ResultVO<ProjectVO> quitProject(@RequestBody UserProjectVO userProjectVO){
+        return projectservice.quitProject(userProjectVO);
     }
 }

@@ -87,7 +87,11 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public UserVO getUserByUid(Integer uid){
-        return new UserVO(userMapper.selectByPrimaryKey(uid));
+        User user = userMapper.selectByPrimaryKey(uid);
+        if(user==null){
+            return null;
+        }
+        return new UserVO(user);
     }
     @Override
     public List<User> getAll() {
