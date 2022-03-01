@@ -28,8 +28,8 @@ public class UserController {
         return userService.userChangePassword(userFormVo.getUser_idx(), userFormVo.getPassword(), userFormVo.getPassword_new());
     }
     @GetMapping("/find/{uid}")
-    public UserVO getUserByUid(@PathVariable Integer uid){
-        return userService.getUserByUid(uid);
+    public ResultVO<UserVO> getUserByUid(@PathVariable Integer uid){
+        return userService.getUserByUidWithCode(uid);
     }
 
 }

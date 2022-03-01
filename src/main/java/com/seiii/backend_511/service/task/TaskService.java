@@ -14,6 +14,7 @@ public interface TaskService {
     PageInfo<TaskVO> getNowTasks(Integer uid,Integer pid);
     List<TaskVO> getALlTasksByProject(Integer project_id);
     boolean deleteAllTasksByProject(Integer project_id);
+    TaskVO getTaskByID(Integer ID);
     ResultVO<TaskVO> createTask(TaskVO taskVO);
     ResultVO<TaskVO> updateTask(TaskVO taskVO);
     ResultVO<TaskVO> joinTask(UserTaskVO userTaskVO);
