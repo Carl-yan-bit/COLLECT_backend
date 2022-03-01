@@ -11,6 +11,6 @@ public interface TaskMapper {
     Task selectByPrimaryKey(Integer id);
 
     List<Task> selectAll();
-
+    List<Task> selectByProject(Integer pid);
     int updateByPrimaryKey(Task record);
 }
