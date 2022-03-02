@@ -102,6 +102,18 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public PageInfo<ProjectVO> getJoinedProjects(Integer uid, Integer currPage) {
+        if(currPage==null || currPage<1) currPage=1;
+        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
+        List<ProjectVO> projectVOS = new ArrayList<>();
+        for(UserProject userProject:userProjectMapper.selectByUser(uid)){
+            projectVOS.add(new ProjectVO(projectMapper.selectByPrimaryKey(userProject.getProjectId())));
+        }
+        return new PageInfo<>(projectVOS);
+
+    }
+
+    @Override
     public PageInfo<ProjectVO> getActiveProjects(Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
         PageHelper.startPage(currPage, CONST.PAGE_SIZE);
@@ -116,13 +128,21 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public ResultVO<Integer> getProjectNumbers(Integer pid) {
+        if(projectMapper.selectByPrimaryKey(pid)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个项目");
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",userProjectMapper.selectByProjects(pid).size());
+    }
+
+    @Override
     public ResultVO<ProjectVO> quitProject(UserProjectVO userProjectVO) {
         Integer uid = userProjectVO.getUserId();
         Integer projectId = userProjectVO.getProjectId();
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             if(userProject.getProjectId().equals(projectId)){
                 userProjectMapper.deleteByPrimaryKey(userProject.getId());
-                return new ResultVO<>(CONST.REQUEST_FAIL,"退出成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
             }
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"您就不在任务里吧(流汗黄豆)");
