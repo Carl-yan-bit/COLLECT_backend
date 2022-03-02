@@ -49,8 +49,8 @@ public class ProjectServiceTest {
     }
     @Test
     public void testGetProjectsByUserId(){
-        PageInfo<ProjectVO> ans = projectService.getProjectsByUserId(2,1);
-        Assert.assertEquals(2,ans.getSize());
+        PageInfo<ProjectVO> ans = projectService.getProjectsByUserId(2,2);
+        Assert.assertEquals(5,ans.getSize());
     }
     @Test
     public void testJoinedProjects(){
@@ -63,11 +63,12 @@ public class ProjectServiceTest {
     }
     @Test
     public void testGetALLProjects(){
-        Assert.assertEquals(2,projectService.getAllProjects(1).getSize());
+        Assert.assertEquals(5,projectService.getAllProjects(2).getSize());
     }
     @Test
     public void testGetActiveProjects(){
-        Assert.assertEquals(1,projectService.getActiveProjects(1).getSize());
+        PageInfo<ProjectVO> p = projectService.getActiveProjects(2);
+        Assert.assertEquals(4,p.getSize());
     }
     @Test
     public void testJoinProjects(){
@@ -141,7 +142,7 @@ public class ProjectServiceTest {
     }
     @Test
     public void testDeleteProject(){
-        ResultVO<ProjectVO> ans = projectService.deleteProject(3);
+        ResultVO<ProjectVO> ans = projectService.deleteProject(300);
         Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
         ans = projectService.deleteProject(1);
         Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());

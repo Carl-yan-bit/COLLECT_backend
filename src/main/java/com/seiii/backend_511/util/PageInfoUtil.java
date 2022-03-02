@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public class PageInfoUtil {
     /**
@@ -26,6 +27,14 @@ public class PageInfoUtil {
             BeanUtils.copyProperties(p, v);
             page.add(v);
         }
+        return new PageInfo<>(page);
+    }
+    public static <T> PageInfo<T> ListToPageInfo(List<T> list,int currPage){
+        Page<T> page = new Page<>(currPage,CONST.PAGE_SIZE);
+        page.setTotal(list.size());
+        int start = (currPage-1)*CONST.PAGE_SIZE;
+        int end = Math.min(start+CONST.PAGE_SIZE, list.size());
+        page.addAll(list.subList(start,end));
         return new PageInfo<>(page);
     }
 }
