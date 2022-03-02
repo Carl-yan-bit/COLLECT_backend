@@ -35,7 +35,7 @@ CREATE TABLE `project` (
     CONSTRAINT `fk_user_project` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `project` VALUES (1,2,"test_project1","open","testproject1",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (1,2,"test_project1","open","testproject1",'2022-03-28 10:00:00',0,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (2,2,"test_project2","open","testproject2",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
 
 
@@ -140,7 +140,8 @@ CREATE TABLE `user_project`(
     CONSTRAINT `fk_project_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `user_project` VALUES (1,1,3);
+INSERT INTO `user_project` VALUES (1,2,3);
+INSERT INTO `user_project` VALUES (2,2,2);
 
 DROP TABLE IF EXISTS `user_task`;
 CREATE TABLE `user_task`(

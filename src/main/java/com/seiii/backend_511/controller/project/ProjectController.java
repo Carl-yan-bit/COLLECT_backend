@@ -44,6 +44,10 @@ public class ProjectController {
     public PageInfo<ProjectVO> getProjectsByUserId(@RequestParam Integer uid,@PathVariable Integer pid){
         return projectservice.getProjectsByUserId(uid,pid);
     }
+    @GetMapping("/find/joined/{pid}")
+    public PageInfo<ProjectVO> getJoinedProjects(@RequestParam Integer uid,@PathVariable Integer pid){
+        return projectservice.getJoinedProjects(uid,pid);
+    }
 
     @GetMapping("/find/project")
     public ProjectVO getProjectById(@RequestParam Integer projectId){

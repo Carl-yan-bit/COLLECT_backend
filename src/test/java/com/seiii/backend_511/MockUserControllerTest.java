@@ -14,11 +14,13 @@ import org.springframework.boot.test.json.JsonContent;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletContext;
 
@@ -28,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
 @ComponentScan()
+@Transactional
+@Rollback
 public class MockUserControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -60,7 +64,7 @@ public class MockUserControllerTest {
     @Test
     public void testLoginByPhoneNumber() throws Exception{
         UserFormVo userFormVo = new UserFormVo();
-        userFormVo.setUser_idx("15009175289");
+        userFormVo.setUser_idx("15009175288");
         userFormVo.setPassword("sys20001130");
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
