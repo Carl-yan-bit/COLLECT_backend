@@ -106,16 +106,25 @@ public class FileServiceImpl implements FileService {
             switch (fileVO.getCarrierType()){
                 case CONST.FILE_TYPE_PROJECT:
                     ProjectFile projectFile=projectFileMapper.selectByPrimaryKey(fileVO.getId());
+                    if(projectFile==null){
+                        break;
+                    }
                     mapperResult=new FileVO(new ProjectFileVO(projectFile));
                     FileSaver.PROJECT.getSaveStrategy().download(mapperResult,response);
                     break;
                 case CONST.FILE_TYPE_REPORT:
                     ReportFile reportFile=reportFileMapper.selectByPrimaryKey(fileVO.getId());
+                    if(reportFile==null){
+                        break;
+                    }
                     mapperResult=new FileVO(new ReportFileVO(reportFile));
                     FileSaver.REPORT.getSaveStrategy().download(mapperResult,response);
                     break;
                 case CONST.FILE_TYPE_TASK:
                     TaskFile taskFile=taskFileMapper.selectByPrimaryKey(fileVO.getId());
+                    if(taskFile==null){
+                        break;
+                    }
                     mapperResult=new FileVO(new TaskFileVO(taskFile));
                     FileSaver.TASK.getSaveStrategy().download(mapperResult,response);
                     break;
@@ -125,20 +134,29 @@ public class FileServiceImpl implements FileService {
 
     public ResultVO deleteFile(FileVO fileVO){
         ResultVO deleteResult=null;
-        FileVO mapperResult=null;
         switch (fileVO.getCarrierType()){
             case CONST.FILE_TYPE_PROJECT:
                 ProjectFile projectFile=projectFileMapper.selectByPrimaryKey(fileVO.getId());
+                if(projectFile==null){
+                    return new ResultVO<>(CONST.REQUEST_FAIL,"文件ID错误");
+                }
                 deleteResult= FileHelper.delete(projectFile.getResourceDir());
                 projectFileMapper.deleteByPrimaryKey(fileVO.getId());
                 break;
             case CONST.FILE_TYPE_REPORT:
                 ReportFile reportFile=reportFileMapper.selectByPrimaryKey(fileVO.getId());
+                if(reportFile==null){
+                    return new ResultVO<>(CONST.REQUEST_FAIL,"文件ID错误");
+
+                }
                 deleteResult= FileHelper.delete(reportFile.getResourceDir());
                 reportFileMapper.deleteByPrimaryKey(fileVO.getId());
                 break;
             case CONST.FILE_TYPE_TASK:
                 TaskFile taskFile=taskFileMapper.selectByPrimaryKey(fileVO.getId());
+                if(taskFile==null){
+                    return new ResultVO<>(CONST.REQUEST_FAIL,"文件ID错误");
+                }
                 deleteResult= FileHelper.delete(taskFile.getResourceDir());
                 taskFileMapper.deleteByPrimaryKey(fileVO.getId());
                 break;
@@ -156,14 +174,23 @@ public class FileServiceImpl implements FileService {
         switch (carrierType){
             case CONST.FILE_TYPE_PROJECT:
                 PageInfo<ProjectFile> projectFilePageInfo=new PageInfo<>(projectFileMapper.selectByProjectId(carrierId));
+                if(projectFilePageInfo==null){
+                    break;
+                }
                 result= PageInfoUtil.convert(projectFilePageInfo,FileVO.class);
                 break;
             case CONST.FILE_TYPE_REPORT:
                 PageInfo<ReportFile> reportFilePageInfo=new PageInfo<>(reportFileMapper.selectByReportId(carrierId));
+                if(reportFilePageInfo==null){
+                    return null;
+                }
                 result=PageInfoUtil.convert(reportFilePageInfo,FileVO.class);
                 break;
             case CONST.FILE_TYPE_TASK:
                 PageInfo<TaskFile> taskFilePageInfo=new PageInfo<>(taskFileMapper.selectByTaskId(carrierId));
+                if(taskFilePageInfo==null){
+                    return null;
+                }
                 result=PageInfoUtil.convert(taskFilePageInfo,FileVO.class);
                 break;
         }

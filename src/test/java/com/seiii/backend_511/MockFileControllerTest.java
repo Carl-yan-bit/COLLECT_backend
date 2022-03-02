@@ -60,7 +60,7 @@ public class MockFileControllerTest {
     @Test
     public void testDownload() throws Exception{
         FileVO fileVO=new FileVO();
-        fileVO.setId(2);
+        fileVO.setId(1);
         fileVO.setCarrierId(1);
         fileVO.setCarrierType("project");
         ObjectMapper mapper = new ObjectMapper();
