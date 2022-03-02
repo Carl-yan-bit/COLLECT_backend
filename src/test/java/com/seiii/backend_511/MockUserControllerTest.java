@@ -34,11 +34,10 @@ public class MockUserControllerTest {
     @Test
     public void testRegister() throws Exception{
         UserVO userVO = new UserVO();
-        userVO.setId(1);
         userVO.setName("rubisco");
         userVO.setPassword("sys20001130");
         userVO.setEmail("1245144245@qq.com");
-        userVO.setPhonenumber("15009175289");
+        userVO.setPhonenumber("15009175288");
         userVO.setUserRole("1");
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();

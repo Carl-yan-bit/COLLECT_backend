@@ -57,25 +57,28 @@ public class FileHelper {
         return null;
     }
 
-    public static boolean delete(String directoryPath, String fileName){
-        if(StringUtils.hasText(fileName)){
-            File file = new File(directoryPath + fileName);
+    public static ResultVO delete(String directoryPath){
+        if(StringUtils.hasText(directoryPath)){
+            File file = new File(directoryPath);
             if(file.exists()) {
                 // 当且仅当文件被成功删除后返回true
-                return file.delete();
+                if(file.delete()){
+                    return new ResultVO(CONST.REQUEST_SUCCESS,"成功删除");
+                }
             }
         }
-        return false;
+        return new ResultVO(CONST.REQUEST_FAIL,"删除失败");
+
     }
 
-    public static ResultVO download(String path,String name, HttpServletResponse response){
+    public static void download(String path,String name, HttpServletResponse response){
         InputStream inputStream = null;
         OutputStream outputStream = null;
         response.setContentType("application/x-msdownload");
         try {
             Resource resource = FileHelper.loadFileAsResource(path);
             if(resource == null)
-                return new ResultVO(CONST.REQUEST_FAIL,"找不到文件");
+                throw new IOException();
             inputStream = resource.getInputStream();
             //1.设置文件ContentType类型
             response.setContentType("application/octet-stream;charset=UTF-8");
@@ -92,7 +95,6 @@ public class FileHelper {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResultVO(CONST.REQUEST_FAIL,"下载出错");
         } finally {
             try {
                 if(inputStream != null)
@@ -101,10 +103,8 @@ public class FileHelper {
                     outputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                return new ResultVO(CONST.REQUEST_FAIL,"输入输出流关闭出错");
             }
         }
-        return new ResultVO(CONST.REQUEST_SUCCESS,"下载成功");
     }
 
     /**

@@ -26,11 +26,14 @@ public class FileController {
 
 
     @GetMapping("/download")
-    public ResultVO<FileVO> download(@RequestBody FileVO fileVO, HttpServletResponse response) {
-        return fileService.downloadFile(fileVO, response);
+    public void download(@RequestBody FileVO fileVO, HttpServletResponse response) {
+        fileService.downloadFile(fileVO, response);
     }
 
-
+    @PostMapping("/delete")
+    public ResultVO deleteFile(@RequestBody FileVO fileVO){
+        return fileService.deleteFile(fileVO);
+    }
 
     @GetMapping("/{carrierType}/{carrierId}/{page}")
     public PageInfo<FileVO> getFilesByCarrierId(@PathVariable String carrierType,@PathVariable Integer carrierId,@PathVariable Integer page){

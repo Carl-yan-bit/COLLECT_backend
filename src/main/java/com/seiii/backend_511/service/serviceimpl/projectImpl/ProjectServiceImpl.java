@@ -42,7 +42,9 @@ public class ProjectServiceImpl implements ProjectService {
     private UserProjectMapper userProjectMapper;
     @Override
     public ResultVO<ProjectVO> createProject(ProjectVO projectVO) {
-        //TODO: 尚未实现文件上传，考虑在此处调用FileService中的Upload
+        if(userService.getUserByUid(projectVO.getUserId())==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"项目定义不完全!");
+        }
         if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getType())&&StringUtils.hasText(projectVO.getTestTime().toString())){
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
@@ -56,6 +58,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ResultVO<ProjectVO> updateProject(ProjectVO projectVO) {
+        if(userService.getUserByUid(projectVO.getUserId())==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"项目定义不完全!");
+        }
         if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getType())&&StringUtils.hasText(projectVO.getTestTime().toString())){
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());

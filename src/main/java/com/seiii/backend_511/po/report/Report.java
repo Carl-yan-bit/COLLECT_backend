@@ -1,5 +1,6 @@
 package com.seiii.backend_511.po.report;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.vo.report.ReportVO;
 import lombok.Data;
 
@@ -8,7 +9,7 @@ import java.util.Date;
 public class Report {
     private Integer id;
 
-    private Integer projectId;
+    private Integer taskId;
 
     private Integer userId;
 
@@ -21,7 +22,7 @@ public class Report {
     private String testStep;
 
     private String deviceInfo;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Integer getId() {
@@ -32,12 +33,12 @@ public class Report {
         this.id = id;
     }
 
-    public Integer getProjectId() {
-        return projectId;
+    public Integer gettaskId() {
+        return taskId;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void settaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
     public Integer getUserId() {
@@ -95,9 +96,10 @@ public class Report {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+    public Report(){}
     public Report(ReportVO reportVO) {
         this.id = reportVO.getId();
-        this.projectId = reportVO.getProjectId();
+        this.taskId = reportVO.gettaskId();
         this.userId = reportVO.getUserId();
         this.name = reportVO.getName();
         this.state = reportVO.getState();

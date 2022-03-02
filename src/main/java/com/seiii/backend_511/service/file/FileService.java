@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 public interface FileService {
     ResultVO<FileVO> uploadFile(FileVO fileVO,MultipartFile file);
 
-    ResultVO<FileVO> downloadFile(FileVO fileVO, HttpServletResponse response);
+    void downloadFile(FileVO fileVO, HttpServletResponse response);
+
+    ResultVO deleteFile(FileVO fileVO);
 
     PageInfo<FileVO> getFilesByCarrierId(String carrierType,Integer carrierId,Integer page,Integer pageSize);
 
