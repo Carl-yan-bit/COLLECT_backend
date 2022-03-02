@@ -93,6 +93,16 @@ public class UserServiceImpl implements UserService {
         }
         return new UserVO(user);
     }
+
+    @Override
+    public ResultVO<UserVO> getUserByUidWithCode(Integer uid) {
+        UserVO userVO = getUserByUid(uid);
+        if(userVO==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"查询失败");
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"查询成功",userVO);
+    }
+
     @Override
     public List<User> getAll() {
         return userMapper.selectAll();
