@@ -96,27 +96,25 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public PageInfo<ProjectVO> getProjectsByUserId(Integer uid,Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
-        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
         PageInfo<Project> po = new PageInfo<>(projectMapper.selectByUserId(uid));
+        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
         return PageInfoUtil.convert(po,ProjectVO.class);
     }
 
     @Override
     public PageInfo<ProjectVO> getJoinedProjects(Integer uid, Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
-        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
         List<ProjectVO> projectVOS = new ArrayList<>();
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             projectVOS.add(new ProjectVO(projectMapper.selectByPrimaryKey(userProject.getProjectId())));
         }
+        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
         return new PageInfo<>(projectVOS);
-
     }
 
     @Override
     public PageInfo<ProjectVO> getActiveProjects(Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
-        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
         List<Project> all= projectMapper.selectAll();
         List<ProjectVO> ans = new ArrayList<>();
         for(Project p:all){
@@ -124,6 +122,7 @@ public class ProjectServiceImpl implements ProjectService {
                 ans.add(new ProjectVO(p));
             }
         }
+        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
         return new PageInfo<>(ans);
     }
 
@@ -174,9 +173,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public PageInfo<ProjectVO> getAllProjects(Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
+        List<ProjectVO> projectVO = new ArrayList<>();
+        for(Project project:projectMapper.selectAll()){
+            ProjectVO p = new ProjectVO(project);
+            p.setMemberNum(userProjectMapper.selectByProjects(p.getId()).size());
+            projectVO.add(p);
+        }
         PageHelper.startPage(currPage, CONST.PAGE_SIZE);
-        PageInfo<Project> po = new PageInfo<>(projectMapper.selectAll());
-        return PageInfoUtil.convert(po,ProjectVO.class);
+        return new PageInfo<>(projectVO);
     }
 
     @Override
