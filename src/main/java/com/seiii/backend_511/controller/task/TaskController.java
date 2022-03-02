@@ -26,9 +26,17 @@ public class TaskController {
     public PageInfo<TaskVO> getHistoryTasks(@RequestParam Integer uid,@PathVariable Integer pid){
         return taskService.getHistoryTasks(uid,pid);
     }
+    @GetMapping("/find/user/todo/{pid}")
+    public PageInfo<TaskVO> getToDoTasks(@RequestParam Integer uid,@PathVariable Integer pid){
+        return taskService.getTodoTasks(uid,pid);
+    }
     @GetMapping("/find/user/now/{pid}")
     public PageInfo<TaskVO> getNowTasks(@RequestParam Integer uid,@PathVariable Integer pid){
         return taskService.getNowTasks(uid,pid);
+    }
+    @GetMapping("/get/member/num")
+    public ResultVO<Integer> getMemberNum(@RequestParam Integer taskId){
+        return taskService.getMemberNum(taskId);
     }
     @PostMapping("/create")
     public ResultVO<TaskVO> create(@RequestBody TaskVO taskVO){

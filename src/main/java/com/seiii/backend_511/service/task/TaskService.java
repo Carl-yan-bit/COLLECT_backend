@@ -11,6 +11,7 @@ public interface TaskService {
     PageInfo<TaskVO> getTaskByProject(Integer project_id,Integer pid);
     PageInfo<TaskVO> getActiveTaskByProject(Integer project_id,Integer pid);
     PageInfo<TaskVO> getHistoryTasks(Integer uid,Integer pid);
+    PageInfo<TaskVO> getTodoTasks(Integer uid,Integer pid);
     PageInfo<TaskVO> getNowTasks(Integer uid,Integer pid);
     List<TaskVO> getALlTasksByProject(Integer project_id);
     List<TaskVO> getTasksByUser(Integer uid);
@@ -21,4 +22,5 @@ public interface TaskService {
     ResultVO<TaskVO> joinTask(UserTaskVO userTaskVO);
     ResultVO<TaskVO> quitTask(UserTaskVO userTaskVO);
     ResultVO<TaskVO> deleteTask(Integer taskID);
+    ResultVO<Integer> getMemberNum(Integer taskId);
 }

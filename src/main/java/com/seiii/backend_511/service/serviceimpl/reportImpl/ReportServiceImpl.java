@@ -81,8 +81,8 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public PageInfo<ReportVO> getReportsByTask(Integer task_id,Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
-        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
         List<Report> reportList = reportMapper.selectByTask(task_id);
+        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
         return PageInfoUtil.convert(new PageInfo<>(reportList),ReportVO.class);
     }
 

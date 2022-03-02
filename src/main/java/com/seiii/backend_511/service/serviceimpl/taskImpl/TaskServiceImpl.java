@@ -8,6 +8,7 @@ import com.seiii.backend_511.mapperservice.UserTaskMapper;
 import com.seiii.backend_511.po.task.Task;
 import com.seiii.backend_511.po.task.UserTask;
 import com.seiii.backend_511.service.project.ProjectService;
+import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.service.task.TaskService;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
@@ -32,7 +33,8 @@ public class TaskServiceImpl implements TaskService {
     UserService userService;
     @Resource
     UserTaskMapper userTaskMapper;
-
+    @Resource
+    ReportService reportService;
     @Override
     public ResultVO<TaskVO> createTask(TaskVO taskVO) {
         Task task = new Task(taskVO);
@@ -54,6 +56,9 @@ public class TaskServiceImpl implements TaskService {
     public ResultVO<TaskVO> updateTask(TaskVO taskVO) {
         Task task = new Task(taskVO);
         if(StringUtils.hasText(task.getName())&&StringUtils.hasText(task.getDescription())&&StringUtils.hasText(task.getState())&&StringUtils.hasText(task.getTestTime().toString())&&StringUtils.hasText(task.getWorkerAmount().toString())){
+            if(projectService.getProjectById(taskVO.getProjectId())==null){
+                return new ResultVO<>(CONST.REQUEST_FAIL,"任务所属项目不存在");
+            }
             if(task.getWorkerAmount()>projectService.getProjectById(taskVO.getProjectId()).getWorkerAmount()){
                 return new ResultVO<>(CONST.REQUEST_FAIL,"任务人数不应该超过项目最大人数");
             }
@@ -88,20 +93,29 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public PageInfo<TaskVO> getActiveTaskByProject(Integer project_id, Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
-        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
+
         List<TaskVO> ans = new ArrayList<>();
         for(Task task:taskMapper.selectByProject(project_id)){
             if(userTaskMapper.selectByTask(task.getId()).size()<task.getWorkerAmount()&&task.getState().equals(CONST.STATE_OPEN)){
                 ans.add(new TaskVO(task));
             }
         }
+        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
         return new PageInfo<>(ans);
+    }
+
+    @Override
+    public ResultVO<Integer> getMemberNum(Integer taskId) {
+        if(taskMapper.selectByPrimaryKey(taskId)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"不存在这个需求");
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",userTaskMapper.selectByTask(taskId).size());
     }
 
     @Override
     public PageInfo<TaskVO> getHistoryTasks(Integer uid, Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
-        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
+
         List<TaskVO> ans = new ArrayList<>();
         for(UserTask taskID:userTaskMapper.selectByUid(uid)){
             Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
@@ -109,6 +123,23 @@ public class TaskServiceImpl implements TaskService {
                 ans.add(new TaskVO(task));
             }
         }
+        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
+        return new PageInfo<>(ans);
+    }
+
+    @Override
+    public PageInfo<TaskVO> getTodoTasks(Integer uid, Integer currPage) {
+        if(currPage==null||currPage<1) currPage = 1;
+
+        List<TaskVO> ans = new ArrayList<>();
+        for(UserTask taskID:userTaskMapper.selectByUid(uid)){
+            Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
+            if(task.getState().equals(CONST.STATE_OPEN)&&reportService.getReportByTaskAndUID(taskID.getTaskId(),uid).getCode().equals(CONST.REQUEST_FAIL)){
+                //任务开放，且用户没有提交报告
+                ans.add(new TaskVO(task));
+            }
+        }
+        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
         return new PageInfo<>(ans);
     }
 
@@ -120,7 +151,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public PageInfo<TaskVO> getNowTasks(Integer uid, Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
-        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
+
         List<TaskVO> ans = new ArrayList<>();
         for(UserTask taskID:userTaskMapper.selectByUid(uid)){
             Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
@@ -128,6 +159,7 @@ public class TaskServiceImpl implements TaskService {
                 ans.add(new TaskVO(task));
             }
         }
+        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
         return new PageInfo<>(ans);
     }
 

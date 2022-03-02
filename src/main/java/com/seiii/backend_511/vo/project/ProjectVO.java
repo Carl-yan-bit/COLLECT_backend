@@ -17,7 +17,7 @@ public class ProjectVO {
     private String name;
 
     private String type;
-
+    private Integer memberNum;
     private String description;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date testTime;
