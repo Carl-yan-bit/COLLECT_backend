@@ -12,6 +12,7 @@ import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.service.task.TaskService;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
+import com.seiii.backend_511.util.PageInfoUtil;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.task.TaskVO;
 import com.seiii.backend_511.vo.task.UserTaskVO;
@@ -86,22 +87,19 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public PageInfo<TaskVO> getTaskByProject(Integer project_id,Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
-        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
-        return new PageInfo<>(getALlTasksByProject(project_id));
+        return PageInfoUtil.ListToPageInfo(getALlTasksByProject(project_id),currPage);
     }
 
     @Override
     public PageInfo<TaskVO> getActiveTaskByProject(Integer project_id, Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
-
         List<TaskVO> ans = new ArrayList<>();
         for(Task task:taskMapper.selectByProject(project_id)){
             if(userTaskMapper.selectByTask(task.getId()).size()<task.getWorkerAmount()&&task.getState().equals(CONST.STATE_OPEN)){
                 ans.add(new TaskVO(task));
             }
         }
-        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
-        return new PageInfo<>(ans);
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
     }
 
     @Override
@@ -123,8 +121,7 @@ public class TaskServiceImpl implements TaskService {
                 ans.add(new TaskVO(task));
             }
         }
-        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
-        return new PageInfo<>(ans);
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
     }
 
     @Override
@@ -139,8 +136,7 @@ public class TaskServiceImpl implements TaskService {
                 ans.add(new TaskVO(task));
             }
         }
-        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
-        return new PageInfo<>(ans);
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
     }
 
     @Override
@@ -159,8 +155,7 @@ public class TaskServiceImpl implements TaskService {
                 ans.add(new TaskVO(task));
             }
         }
-        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
-        return new PageInfo<>(ans);
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
     }
 
     @Override

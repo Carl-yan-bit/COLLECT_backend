@@ -23,6 +23,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -96,8 +97,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public PageInfo<ProjectVO> getProjectsByUserId(Integer uid,Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
-        PageInfo<Project> po = new PageInfo<>(projectMapper.selectByUserId(uid));
         PageHelper.startPage(currPage, CONST.PAGE_SIZE);
+        PageInfo<Project> po = new PageInfo<>(projectMapper.selectByUserId(uid));
         return PageInfoUtil.convert(po,ProjectVO.class);
     }
 
@@ -108,8 +109,7 @@ public class ProjectServiceImpl implements ProjectService {
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             projectVOS.add(new ProjectVO(projectMapper.selectByPrimaryKey(userProject.getProjectId())));
         }
-        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
-        return new PageInfo<>(projectVOS);
+        return PageInfoUtil.ListToPageInfo(projectVOS,currPage);
     }
 
     @Override
@@ -122,8 +122,7 @@ public class ProjectServiceImpl implements ProjectService {
                 ans.add(new ProjectVO(p));
             }
         }
-        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
-        return new PageInfo<>(ans);
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
     }
 
     @Override
@@ -179,8 +178,7 @@ public class ProjectServiceImpl implements ProjectService {
             p.setMemberNum(userProjectMapper.selectByProjects(p.getId()).size());
             projectVO.add(p);
         }
-        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
-        return new PageInfo<>(projectVO);
+        return PageInfoUtil.ListToPageInfo(projectVO,currPage);
     }
 
     @Override
