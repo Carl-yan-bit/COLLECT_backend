@@ -128,6 +128,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public ResultVO<Integer> getProjectNumbers(Integer pid) {
+        if(projectMapper.selectByPrimaryKey(pid)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个项目");
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",userProjectMapper.selectByProjects(pid).size());
+    }
+
+    @Override
     public ResultVO<ProjectVO> quitProject(UserProjectVO userProjectVO) {
         Integer uid = userProjectVO.getUserId();
         Integer projectId = userProjectVO.getProjectId();

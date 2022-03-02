@@ -146,4 +146,8 @@ public class ProjectServiceTest {
         ans = projectService.deleteProject(1);
         Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());
     }
+    @Test
+    public void testGetProjectMembers(){
+        Assert.assertEquals(2,projectService.getProjectNumbers(2).getData().intValue());
+    }
 }
