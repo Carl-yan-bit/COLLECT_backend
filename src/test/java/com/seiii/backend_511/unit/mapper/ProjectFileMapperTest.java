@@ -29,7 +29,7 @@ public class ProjectFileMapperTest {
 
     @Test
     public void testDeleteByPrimaryKey(){
-        Assert.assertEquals(0,projectFileMapper.deleteByPrimaryKey(1));
+        Assert.assertEquals(1,projectFileMapper.deleteByPrimaryKey(1));
     }
 
     @Test
@@ -67,12 +67,21 @@ public class ProjectFileMapperTest {
         projectFile.setType("txt");
         projectFile.setResourceDir("file/project/project2/project2.txt");
 
-        Assert.assertEquals(projectFile,projectFileMapper.selectByPrimaryKey(1));
+        Assert.assertEquals(projectFile,projectFileMapper.selectByPrimaryKey(2));
     }
 
     @Test
     public void testSelectAll() throws ParseException {
         List<ProjectFile> projectFiles=new LinkedList<>();
+
+        ProjectFile projectFile1=new ProjectFile();
+        projectFile1.setId(1);
+        projectFile1.setName("project1");
+        projectFile1.setCreateTime(simpleDateFormat.parse("2022-02-28 10:00:00"));
+        projectFile1.setProjectId(1);
+        projectFile1.setType("txt");
+        projectFile1.setResourceDir("file/project/project1/project1.txt");
+        projectFiles.add(projectFile1);
 
         ProjectFile projectFile2=new ProjectFile();
         projectFile2.setId(2);
@@ -91,14 +100,14 @@ public class ProjectFileMapperTest {
         List<ProjectFile> projectFiles=new LinkedList<>();
         ProjectFile projectFile=new ProjectFile();
         projectFile.setId(2);
-        projectFile.setName("project1");
+        projectFile.setName("project2");
         projectFile.setCreateTime(simpleDateFormat.parse("2022-02-28 10:00:00"));
         projectFile.setProjectId(2);
         projectFile.setType("txt");
         projectFile.setResourceDir("file/project/project2/project2.txt");
         projectFiles.add(projectFile);
 
-        Assert.assertEquals(projectFiles,projectFileMapper.selectByProjectId(1));
+        Assert.assertEquals(projectFiles,projectFileMapper.selectByProjectId(2));
     }
 
     @Test
