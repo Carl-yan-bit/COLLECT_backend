@@ -12,5 +12,5 @@ public class CONST {
     public static final String STATE_CLOSED = "closed";
     public static final String STATE_OPEN = "open";
     public static final int FILE_PAGE_SIZE=5;
-    public static final int PAGE_SIZE = 10;
+    public static final int PAGE_SIZE = 6;
 }

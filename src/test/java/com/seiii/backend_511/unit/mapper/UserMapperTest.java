@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,5 +38,33 @@ public class UserMapperTest {
     @Test
     public void testDelete() throws Exception{
         Assert.assertEquals(1,userMapper.deleteByPrimaryKey(1));
+    }
+    @Test
+    public void testSelectByPrimaryKey() throws Exception{
+        Assert.assertEquals("123456789",userMapper.selectByPrimaryKey(3).getPhonenumber());
+    }
+    @Test
+    public void testSelectAll() throws Exception{
+        Assert.assertEquals(3,userMapper.selectAll().size());
+    }
+    @Test
+    public void testUpdateByPrimaryKey() throws Exception{
+        User user = new User();
+        user.setId(2);
+        user.setName("孙钰昇");
+        user.setPassword(Encryption.encryptPassword("123456",user.getName()));
+        user.setUserRole(CONST.USER_ROLE_ROOT);
+        user.setCreateTime(new Date());
+        user.setEmail("19125012s8@smail.nju.edu.cn");
+        user.setPhonenumber("15009165289");
+        Assert.assertEquals(1,userMapper.updateByPrimaryKey(user));
+    }
+    @Test
+    public void testSelectByEmail() throws Exception{
+        Assert.assertEquals(Integer.valueOf(3),userMapper.selectByEmail("test3@test.com").getId());
+    }
+    @Test
+    public void testSelectByPhoneNumber() throws Exception{
+        Assert.assertEquals(Integer.valueOf(3),userMapper.selectByPhoneNumber("123456789").getId());
     }
 }
