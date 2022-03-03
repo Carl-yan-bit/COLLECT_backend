@@ -59,17 +59,8 @@ public class MockFileControllerTest {
     }
     @Test
     public void testDownload() throws Exception{
-        FileVO fileVO=new FileVO();
-        fileVO.setId(1);
-        fileVO.setCarrierId(1);
-        fileVO.setCarrierType("project");
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson = ow.writeValueAsString(fileVO);
         String responseString=mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/file/download")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson))
+                .get("/api/file/download/project/2"))
                 .andExpect(status().isOk())
                 .andDo(new ResultHandler() {
                     @Override

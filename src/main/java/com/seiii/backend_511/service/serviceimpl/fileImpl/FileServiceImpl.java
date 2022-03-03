@@ -100,12 +100,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void downloadFile(FileVO fileVO, HttpServletResponse response) {
-        if(fileVO.getCarrierType()!=null){
+    public void downloadFile(String carrierrType,Integer fileId, HttpServletResponse response) {
+        if(carrierrType!=null){
             FileVO mapperResult=null;
-            switch (fileVO.getCarrierType()){
+            switch (carrierrType){
                 case CONST.FILE_TYPE_PROJECT:
-                    ProjectFile projectFile=projectFileMapper.selectByPrimaryKey(fileVO.getId());
+                    ProjectFile projectFile=projectFileMapper.selectByPrimaryKey(fileId);
                     if(projectFile==null){
                         break;
                     }
@@ -113,7 +113,7 @@ public class FileServiceImpl implements FileService {
                     FileSaver.PROJECT.getSaveStrategy().download(mapperResult,response);
                     break;
                 case CONST.FILE_TYPE_REPORT:
-                    ReportFile reportFile=reportFileMapper.selectByPrimaryKey(fileVO.getId());
+                    ReportFile reportFile=reportFileMapper.selectByPrimaryKey(fileId);
                     if(reportFile==null){
                         break;
                     }
@@ -121,7 +121,7 @@ public class FileServiceImpl implements FileService {
                     FileSaver.REPORT.getSaveStrategy().download(mapperResult,response);
                     break;
                 case CONST.FILE_TYPE_TASK:
-                    TaskFile taskFile=taskFileMapper.selectByPrimaryKey(fileVO.getId());
+                    TaskFile taskFile=taskFileMapper.selectByPrimaryKey(fileId);
                     if(taskFile==null){
                         break;
                     }
