@@ -1,6 +1,9 @@
 package com.seiii.backend_511.vo.file;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.seiii.backend_511.po.file.ProjectFile;
+import com.seiii.backend_511.po.file.ReportFile;
+import com.seiii.backend_511.po.file.TaskFile;
 import com.seiii.backend_511.util.CONST;
 import lombok.Data;
 
@@ -33,6 +36,16 @@ public class FileVO {
         this.carrierType= CONST.FILE_TYPE_PROJECT;
     }
 
+    public FileVO(ProjectFile projectFile){
+        this.id=projectFile.getId();
+        this.carrierId=projectFile.getProjectId();
+        this.name=projectFile.getName();
+        this.type=projectFile.getType();
+        this.resourceDir=projectFile.getResourceDir();
+        this.createTime=projectFile.getCreateTime();
+        this.carrierType= CONST.FILE_TYPE_PROJECT;
+    }
+
     public FileVO(ReportFileVO reportFileVO){
         this.id=reportFileVO.getId();
         this.carrierId=reportFileVO.getReportId();
@@ -43,6 +56,16 @@ public class FileVO {
         this.carrierType=CONST.FILE_TYPE_REPORT;
     }
 
+    public FileVO(ReportFile reportFile){
+        this.id=reportFile.getId();
+        this.carrierId=reportFile.getReportId();
+        this.name=reportFile.getName();
+        this.type=reportFile.getType();
+        this.resourceDir=reportFile.getResourceDir();
+        this.createTime=reportFile.getCreateTime();
+        this.carrierType=CONST.FILE_TYPE_REPORT;
+    }
+
     public FileVO(TaskFileVO taskFileVO){
         this.id=taskFileVO.getId();
         this.carrierId=taskFileVO.getTaskId();
@@ -50,6 +73,16 @@ public class FileVO {
         this.type=taskFileVO.getType();
         this.resourceDir=taskFileVO.getResourceDir();
         this.createTime=taskFileVO.getCreateTime();
+        this.carrierType=CONST.FILE_TYPE_TASK;
+    }
+
+    public FileVO(TaskFile taskFile){
+        this.id=taskFile.getId();
+        this.carrierId=taskFile.getTaskId();
+        this.name=taskFile.getName();
+        this.type=taskFile.getType();
+        this.resourceDir=taskFile.getResourceDir();
+        this.createTime=taskFile.getCreateTime();
         this.carrierType=CONST.FILE_TYPE_TASK;
     }
 
