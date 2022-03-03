@@ -49,8 +49,9 @@ public class ProjectServiceImpl implements ProjectService {
         if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getType())&&StringUtils.hasText(projectVO.getTestTime().toString())){
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
-            projectMapper.insert(project);
-            return new ResultVO<>(CONST.REQUEST_SUCCESS,"创建成功",new ProjectVO(project));
+            if(projectMapper.insert(project)==1)
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"创建成功",new ProjectVO(project));
+            return new ResultVO<>(CONST.REQUEST_FAIL,"创建失败");
         }
         else {
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目定义不完全!");
@@ -66,8 +67,9 @@ public class ProjectServiceImpl implements ProjectService {
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
             if(projectMapper.selectByPrimaryKey(project.getId())!=null){
-                projectMapper.updateByPrimaryKey(project);
-                return new ResultVO<>(CONST.REQUEST_SUCCESS,"更新成功",new ProjectVO(project));
+                if(projectMapper.updateByPrimaryKey(project)==1)
+                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"更新成功",new ProjectVO(project));
+                return new ResultVO<>(CONST.REQUEST_FAIL,"创建失败");
             }
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个项目，不要试图更改了");
         }
@@ -139,8 +141,9 @@ public class ProjectServiceImpl implements ProjectService {
         Integer projectId = userProjectVO.getProjectId();
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             if(userProject.getProjectId().equals(projectId)){
-                userProjectMapper.deleteByPrimaryKey(userProject.getId());
-                return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+                if(userProjectMapper.deleteByPrimaryKey(userProject.getId())==1)
+                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+                return new ResultVO<>(CONST.REQUEST_FAIL,"退出失败");
             }
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"您就不在任务里吧(流汗黄豆)");
@@ -165,8 +168,9 @@ public class ProjectServiceImpl implements ProjectService {
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目人数已满!");
         }
         UserProject up = new UserProject(userProjectVO);
-        userProjectMapper.insert(up);
-        return new ResultVO<>(CONST.REQUEST_SUCCESS,"加入成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+        if(userProjectMapper.insert(up)==1)
+            return new ResultVO<>(CONST.REQUEST_SUCCESS,"加入成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+        return new ResultVO<>(CONST.REQUEST_FAIL,"加入失败");
     }
 
     @Override

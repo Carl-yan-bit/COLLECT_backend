@@ -54,7 +54,7 @@ public class TaskController {
     public ResultVO<TaskVO> joinTask(@RequestBody UserTaskVO userTaskVO){
         return taskService.joinTask(userTaskVO);
     }
-    @PostMapping("quit")
+    @PostMapping("/quit")
     public ResultVO<TaskVO> quitTask(@RequestBody UserTaskVO userTaskVO){
         return taskService.quitTask(userTaskVO);
     }

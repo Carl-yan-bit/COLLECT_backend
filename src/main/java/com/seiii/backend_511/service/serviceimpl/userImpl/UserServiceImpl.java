@@ -33,9 +33,10 @@ public class UserServiceImpl implements UserService {
                 userVO.setPassword(Encryption.encryptPassword(password,name));
                 //创建一个持久对象
                 User user = new User(userVO);
-                userMapper.insert(user);
                 System.out.println(new UserVO(user));
-                return new ResultVO<>(CONST.REQUEST_SUCCESS, "账号注册成功！", new UserVO(user));
+                if(userMapper.insert(user)==1)
+                    return new ResultVO<>(CONST.REQUEST_SUCCESS, "账号注册成功！", new UserVO(user));
+                return new ResultVO<>(CONST.REQUEST_FAIL, "注册失败");
             }
             else {
                 return new ResultVO<>(CONST.REQUEST_FAIL, "用户名或密码不得为空!");
@@ -82,8 +83,9 @@ public class UserServiceImpl implements UserService {
             return new ResultVO<>(CONST.REQUEST_FAIL, "密码错误!");
         }
         user.setPassword(Encryption.encryptPassword(password_new,user.getName()));
-        userMapper.updateByPrimaryKey(user);
-        return new ResultVO<>(CONST.REQUEST_SUCCESS, "更改成功!",new UserVO(user));
+        if(userMapper.updateByPrimaryKey(user)==1)
+            return new ResultVO<>(CONST.REQUEST_SUCCESS, "更改成功!",new UserVO(user));
+        return new ResultVO<>(CONST.REQUEST_FAIL, "密码更改失败");
     }
     @Override
     public UserVO getUserByUid(Integer uid){

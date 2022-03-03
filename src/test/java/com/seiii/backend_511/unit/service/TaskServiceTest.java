@@ -52,6 +52,7 @@ public class TaskServiceTest {
         //不存在的项目
         taskVO.setProjectId(2);
         ans = taskService.createTask(taskVO);
+        System.out.println(taskVO);
         Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());
     }
     @Test
