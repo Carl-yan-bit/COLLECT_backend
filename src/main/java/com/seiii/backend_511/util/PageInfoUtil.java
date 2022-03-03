@@ -37,4 +37,12 @@ public class PageInfoUtil {
         page.addAll(list.subList(start,end));
         return new PageInfo<>(page);
     }
+    public static <T> PageInfo<T> ListToPageInfo(List<T> list,int currPage,int pageSize){
+        Page<T> page = new Page<>(currPage,pageSize);
+        page.setTotal(list.size());
+        int start = (currPage-1)*pageSize;
+        int end = Math.min(start+pageSize, list.size());
+        page.addAll(list.subList(start,end));
+        return new PageInfo<>(page);
+    }
 }

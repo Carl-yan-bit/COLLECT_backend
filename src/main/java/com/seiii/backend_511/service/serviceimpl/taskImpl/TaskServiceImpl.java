@@ -95,7 +95,7 @@ public class TaskServiceImpl implements TaskService {
             task.setNowMembers(userTaskMapper.selectByTask(task.getId()).size());
             ans.add(task);
         }
-        return PageInfoUtil.ListToPageInfo(ans,currPage);
+        return PageInfoUtil.ListToPageInfo(ans,currPage,50);
     }
 
     @Override
