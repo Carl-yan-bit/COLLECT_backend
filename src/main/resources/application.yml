@@ -30,10 +30,10 @@ spring:
 
 # 自定义标签 ${web.file-upload-path} 用于存储向服务器上传的文件
 web:
-  file-upload-path: /file/
-  project-file-upload-path: /file/project/
-  report-file-upload-path: /file/report/
-  task-file-upload-path: /file/task/
+  file-upload-path: file/
+  project-file-upload-path: file/project/
+  report-file-upload-path: file/report/
+  task-file-upload-path: file/task/
 #web:
 #  file-upload-path: D:/courselearning/upload/
 mybatis:
