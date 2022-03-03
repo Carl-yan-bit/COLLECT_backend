@@ -54,6 +54,7 @@ public class ProjectController {
     }
     @GetMapping("/find/project")
     public ProjectVO getProjectById(@RequestParam Integer projectId){
+        //System.out.println(projectservice.getProjectById(projectId));
         return projectservice.getProjectById(projectId);
     }
     @PostMapping("/join")
