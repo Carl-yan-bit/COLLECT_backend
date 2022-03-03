@@ -99,9 +99,17 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public PageInfo<ProjectVO> getProjectsByUserId(Integer uid,Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
-        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
-        PageInfo<Project> po = new PageInfo<>(projectMapper.selectByUserId(uid));
-        return PageInfoUtil.convert(po,ProjectVO.class);
+        List<ProjectVO> ans = new ArrayList<>();
+        for(Project p:projectMapper.selectByUserId(uid)){
+            ProjectVO vo = new ProjectVO(p);
+            ResultVO<Integer> res = getProjectNumbers(vo.getId());
+            if(res.getCode().equals(CONST.REQUEST_SUCCESS)){
+                vo.setMemberNum(res.getData());
+            }
+            ans.add(vo);
+        }
+
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
     }
 
     @Override
