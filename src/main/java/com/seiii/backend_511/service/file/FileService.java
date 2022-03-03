@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public interface FileService {
     ResultVO<FileVO> uploadFile(FileVO fileVO,MultipartFile file);
 
-    void downloadFile(FileVO fileVO, HttpServletResponse response);
+    void downloadFile(String carrierType,Integer fileId, HttpServletResponse response);
 
     ResultVO deleteFile(FileVO fileVO);
 

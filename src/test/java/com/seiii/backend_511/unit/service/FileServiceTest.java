@@ -83,8 +83,7 @@ public class FileServiceTest {
     @Test
     public void testDownloadFile() throws IOException {
         FileVO fileVO=new FileVO();
-        //fileVO.setId(1);
-        fileVO.setCarrierId(1);
+        fileVO.setId(2);
         fileVO.setCarrierType("project");
         MockHttpServletResponse response=new MockHttpServletResponse();
         File file  = new File("src/test/java/com/seiii/backend_511/DownloadServiceTest.txt");
@@ -92,7 +91,7 @@ public class FileServiceTest {
         FileOutputStream fout = new FileOutputStream(file);
         ByteArrayInputStream bin = new ByteArrayInputStream(response.getContentAsByteArray());
         StreamUtils.copy(bin,fout);
-        fileService.downloadFile(fileVO,response);
+        fileService.downloadFile(fileVO.getCarrierType(),fileVO.getId(),response);
         fout.close();
         Assert.assertEquals(true,file.exists());
     }

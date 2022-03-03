@@ -25,9 +25,9 @@ public class FileController {
     }
 
 
-    @GetMapping("/download")
-    public void download(@RequestBody FileVO fileVO, HttpServletResponse response) {
-        fileService.downloadFile(fileVO, response);
+    @GetMapping("/download/{carrierType}/{fileId}")
+    public void download(@PathVariable String carrierType,@PathVariable Integer fileId, HttpServletResponse response) {
+        fileService.downloadFile(carrierType,fileId, response);
     }
 
     @PostMapping("/delete")
