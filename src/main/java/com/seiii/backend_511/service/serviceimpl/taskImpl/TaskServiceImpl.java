@@ -104,7 +104,7 @@ public class TaskServiceImpl implements TaskService {
         List<TaskVO> ans = new ArrayList<>();
         for(Task task:taskMapper.selectByProject(project_id)){
             if(userTaskMapper.selectByTask(task.getId()).size()<task.getWorkerAmount()&&task.getState().equals(CONST.STATE_OPEN)){
-                ans.add(new TaskVO(task));
+                ans.add(setMemberNum(task));
             }
         }
         return PageInfoUtil.ListToPageInfo(ans,currPage);
@@ -126,7 +126,7 @@ public class TaskServiceImpl implements TaskService {
         for(UserTask taskID:userTaskMapper.selectByUid(uid)){
             Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
             if(task.getState().equals(CONST.STATE_CLOSED)){
-                ans.add(new TaskVO(task));
+                ans.add(setMemberNum(task));
             }
         }
         return PageInfoUtil.ListToPageInfo(ans,currPage);
@@ -141,7 +141,7 @@ public class TaskServiceImpl implements TaskService {
             Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
             if(task.getState().equals(CONST.STATE_OPEN)&&reportService.getReportByTaskAndUID(taskID.getTaskId(),uid).getCode().equals(CONST.REQUEST_FAIL)){
                 //任务开放，且用户没有提交报告
-                ans.add(new TaskVO(task));
+                ans.add(setMemberNum(task));
             }
         }
         return PageInfoUtil.ListToPageInfo(ans,currPage);
@@ -149,7 +149,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskVO getTaskByID(Integer ID) {
-        return taskMapper.selectByPrimaryKey(ID)==null?null:new TaskVO(taskMapper.selectByPrimaryKey(ID));
+        return taskMapper.selectByPrimaryKey(ID)==null?null:setMemberNum(taskMapper.selectByPrimaryKey(ID));
     }
 
     @Override
@@ -160,7 +160,7 @@ public class TaskServiceImpl implements TaskService {
         for(UserTask taskID:userTaskMapper.selectByUid(uid)){
             Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
             if(task.getState().equals(CONST.STATE_OPEN)){
-                ans.add(new TaskVO(task));
+                ans.add(setMemberNum(task));
             }
         }
         return PageInfoUtil.ListToPageInfo(ans,currPage);
@@ -171,7 +171,7 @@ public class TaskServiceImpl implements TaskService {
         List<TaskVO> ans = new ArrayList<>();
         for(UserTask taskID:userTaskMapper.selectByUid(uid)){
             Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
-            ans.add(new TaskVO(task));
+            ans.add(setMemberNum(task));
         }
         return ans;
     }
@@ -225,9 +225,24 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskVO> getALlTasksByProject(Integer project_id) {
         List<TaskVO> ans = new ArrayList<>();
         for(Task task:taskMapper.selectByProject(project_id)){
-            ans.add(new TaskVO(task));
+            ans.add(setMemberNum(task));
         }
         return ans;
+    }
+
+    @Override
+    public ResultVO<TaskVO> getTaskByTaskId(Integer ID) {
+        if(getTaskByID(ID)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个需求");
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",getTaskByID(ID));
+    }
+    private TaskVO setMemberNum(Task po){
+        TaskVO taskVO = new TaskVO(po);
+        if(getMemberNum(po.getId()).getCode()==CONST.REQUEST_SUCCESS){
+            taskVO.setNowMembers(getMemberNum(po.getId()).getData());
+        }
+        return taskVO;
     }
 
     @Override
