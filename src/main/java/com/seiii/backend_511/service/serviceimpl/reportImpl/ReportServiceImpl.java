@@ -51,8 +51,9 @@ public class ReportServiceImpl implements ReportService {
             Report report = new Report(reportVO);
             report.setCreateTime(new Date());
             report.setState("finished");
-            reportMapper.insert(report);
-            return new ResultVO<>(CONST.REQUEST_SUCCESS,"已完成!您辛苦了",new ReportVO(report));
+            if(reportMapper.insert(report)==1)
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"已完成!您辛苦了",new ReportVO(report));
+            return new ResultVO<>(CONST.REQUEST_FAIL,"提交失败");
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"报告还没填写完");
     }
@@ -72,8 +73,12 @@ public class ReportServiceImpl implements ReportService {
             Report report = new Report(reportVO);
             report.setCreateTime(new Date());
             report.setState("finished");
-            reportMapper.updateByPrimaryKey(report);
-            return new ResultVO<>(CONST.REQUEST_SUCCESS,"已完成!您辛苦了",new ReportVO(report));
+            if(report.getId()==null){
+                report.setId(reportMapper.selectByTaskAndUser(reportVO.gettaskId(),reportVO.getUserId()).getId());
+            }
+            if(reportMapper.updateByPrimaryKey(report)==1)
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"已完成!您辛苦了",new ReportVO(report));
+            return new ResultVO<>(CONST.REQUEST_FAIL,"提交失败");
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"报告还没填写完");
     }

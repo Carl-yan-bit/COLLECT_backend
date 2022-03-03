@@ -18,6 +18,11 @@ public class TaskController {
     public PageInfo<TaskVO> getTaskByProject(@RequestParam Integer project_id, @PathVariable Integer pid){
         return taskService.getTaskByProject(project_id,pid);
     }
+    @GetMapping("/find")
+    public ResultVO<TaskVO> getTaskById(@RequestParam Integer id){
+        return taskService.getTaskByTaskId(id);
+    }
+
     @GetMapping("/find/active/{pid}")
     public PageInfo<TaskVO> getActiveTasksByProject(@RequestParam Integer project_id,@PathVariable Integer pid){
         return taskService.getActiveTaskByProject(project_id,pid);
@@ -54,7 +59,7 @@ public class TaskController {
     public ResultVO<TaskVO> joinTask(@RequestBody UserTaskVO userTaskVO){
         return taskService.joinTask(userTaskVO);
     }
-    @PostMapping("quit")
+    @PostMapping("/quit")
     public ResultVO<TaskVO> quitTask(@RequestBody UserTaskVO userTaskVO){
         return taskService.quitTask(userTaskVO);
     }

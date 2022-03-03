@@ -47,8 +47,9 @@ public class TaskServiceImpl implements TaskService {
                 return new ResultVO<>(CONST.REQUEST_FAIL,"任务人数不应该超过项目最大人数");
             }
             task.setCreateTime(new Date());
-            taskMapper.insert(task);
-            return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务创建成功",new TaskVO(task));
+            if(taskMapper.insert(task)==1)
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务创建成功",new TaskVO(task));
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务创建失败");
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"任务信息填写不全");
     }
@@ -68,8 +69,9 @@ public class TaskServiceImpl implements TaskService {
                 return new ResultVO<>(CONST.REQUEST_FAIL,"任务不存在");
             }
             task.setCreateTime(oldTask.getCreateTime());
-            taskMapper.updateByPrimaryKey(task);
-            return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务更新成功",new TaskVO(task));
+            if(taskMapper.updateByPrimaryKey(task)==1)
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务更新成功",new TaskVO(task));
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务更新失败");
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"任务信息填写不全");
     }
@@ -78,8 +80,9 @@ public class TaskServiceImpl implements TaskService {
     public ResultVO<TaskVO> deleteTask(Integer taskID) {
         if(taskMapper.selectByPrimaryKey(taskID)!=null){
             TaskVO taskVO = new TaskVO(taskMapper.selectByPrimaryKey(taskID));
-            taskMapper.deleteByPrimaryKey(taskID);
-            return new ResultVO<>(CONST.REQUEST_SUCCESS,"删除成功",taskVO);
+            if(taskMapper.deleteByPrimaryKey(taskID)==1)
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"删除成功",taskVO);
+            return new ResultVO<>(CONST.REQUEST_FAIL,"删除失败");
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个项目");
     }
@@ -87,7 +90,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public PageInfo<TaskVO> getTaskByProject(Integer project_id,Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
-        return PageInfoUtil.ListToPageInfo(getALlTasksByProject(project_id),currPage);
+        List<TaskVO> ans = new ArrayList<>();
+        for(TaskVO task:getALlTasksByProject(project_id)){
+            task.setNowMembers(userTaskMapper.selectByTask(task.getId()).size());
+            ans.add(task);
+        }
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
     }
 
     @Override
@@ -96,7 +104,7 @@ public class TaskServiceImpl implements TaskService {
         List<TaskVO> ans = new ArrayList<>();
         for(Task task:taskMapper.selectByProject(project_id)){
             if(userTaskMapper.selectByTask(task.getId()).size()<task.getWorkerAmount()&&task.getState().equals(CONST.STATE_OPEN)){
-                ans.add(new TaskVO(task));
+                ans.add(setMemberNum(task));
             }
         }
         return PageInfoUtil.ListToPageInfo(ans,currPage);
@@ -118,7 +126,7 @@ public class TaskServiceImpl implements TaskService {
         for(UserTask taskID:userTaskMapper.selectByUid(uid)){
             Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
             if(task.getState().equals(CONST.STATE_CLOSED)){
-                ans.add(new TaskVO(task));
+                ans.add(setMemberNum(task));
             }
         }
         return PageInfoUtil.ListToPageInfo(ans,currPage);
@@ -133,7 +141,7 @@ public class TaskServiceImpl implements TaskService {
             Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
             if(task.getState().equals(CONST.STATE_OPEN)&&reportService.getReportByTaskAndUID(taskID.getTaskId(),uid).getCode().equals(CONST.REQUEST_FAIL)){
                 //任务开放，且用户没有提交报告
-                ans.add(new TaskVO(task));
+                ans.add(setMemberNum(task));
             }
         }
         return PageInfoUtil.ListToPageInfo(ans,currPage);
@@ -141,7 +149,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskVO getTaskByID(Integer ID) {
-        return taskMapper.selectByPrimaryKey(ID)==null?null:new TaskVO(taskMapper.selectByPrimaryKey(ID));
+        return taskMapper.selectByPrimaryKey(ID)==null?null:setMemberNum(taskMapper.selectByPrimaryKey(ID));
     }
 
     @Override
@@ -152,7 +160,7 @@ public class TaskServiceImpl implements TaskService {
         for(UserTask taskID:userTaskMapper.selectByUid(uid)){
             Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
             if(task.getState().equals(CONST.STATE_OPEN)){
-                ans.add(new TaskVO(task));
+                ans.add(setMemberNum(task));
             }
         }
         return PageInfoUtil.ListToPageInfo(ans,currPage);
@@ -163,7 +171,7 @@ public class TaskServiceImpl implements TaskService {
         List<TaskVO> ans = new ArrayList<>();
         for(UserTask taskID:userTaskMapper.selectByUid(uid)){
             Task task = taskMapper.selectByPrimaryKey(taskID.getTaskId());
-            ans.add(new TaskVO(task));
+            ans.add(setMemberNum(task));
         }
         return ans;
     }
@@ -187,8 +195,9 @@ public class TaskServiceImpl implements TaskService {
             return new ResultVO<>(CONST.REQUEST_FAIL,"任务人数已满");
         }
         UserTask userTask = new UserTask(userTaskVO);
-        userTaskMapper.insert(userTask);
-        return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务加入成功",new TaskVO(taskMapper.selectByPrimaryKey(taskId)));
+        if(userTaskMapper.insert(userTask)==1)
+            return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务加入成功",new TaskVO(taskMapper.selectByPrimaryKey(taskId)));
+        return new ResultVO<>(CONST.REQUEST_FAIL,"任务加入失败");
     }
 
     @Override
@@ -203,8 +212,9 @@ public class TaskServiceImpl implements TaskService {
         }
         for (UserTask userTask:userTaskMapper.selectByUid(uid)){
             if(userTask.getTaskId().equals(taskId)){
-                userTaskMapper.deleteByPrimaryKey(userTask.getId());
-                return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",new TaskVO(taskMapper.selectByPrimaryKey(taskId)));
+                if(userTaskMapper.deleteByPrimaryKey(userTask.getId())==1)
+                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",new TaskVO(taskMapper.selectByPrimaryKey(taskId)));
+                return new ResultVO<>(CONST.REQUEST_FAIL,"退出失败");
             }
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"不在任务中");
@@ -215,9 +225,24 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskVO> getALlTasksByProject(Integer project_id) {
         List<TaskVO> ans = new ArrayList<>();
         for(Task task:taskMapper.selectByProject(project_id)){
-            ans.add(new TaskVO(task));
+            ans.add(setMemberNum(task));
         }
         return ans;
+    }
+
+    @Override
+    public ResultVO<TaskVO> getTaskByTaskId(Integer ID) {
+        if(getTaskByID(ID)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个需求");
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",getTaskByID(ID));
+    }
+    private TaskVO setMemberNum(Task po){
+        TaskVO taskVO = new TaskVO(po);
+        if(getMemberNum(po.getId()).getCode()==CONST.REQUEST_SUCCESS){
+            taskVO.setNowMembers(getMemberNum(po.getId()).getData());
+        }
+        return taskVO;
     }
 
     @Override

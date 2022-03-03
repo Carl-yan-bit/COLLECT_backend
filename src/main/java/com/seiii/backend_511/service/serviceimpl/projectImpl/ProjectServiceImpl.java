@@ -49,8 +49,9 @@ public class ProjectServiceImpl implements ProjectService {
         if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getType())&&StringUtils.hasText(projectVO.getTestTime().toString())){
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
-            projectMapper.insert(project);
-            return new ResultVO<>(CONST.REQUEST_SUCCESS,"创建成功",new ProjectVO(project));
+            if(projectMapper.insert(project)==1)
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"创建成功",new ProjectVO(project));
+            return new ResultVO<>(CONST.REQUEST_FAIL,"创建失败");
         }
         else {
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目定义不完全!");
@@ -66,8 +67,9 @@ public class ProjectServiceImpl implements ProjectService {
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
             if(projectMapper.selectByPrimaryKey(project.getId())!=null){
-                projectMapper.updateByPrimaryKey(project);
-                return new ResultVO<>(CONST.REQUEST_SUCCESS,"更新成功",new ProjectVO(project));
+                if(projectMapper.updateByPrimaryKey(project)==1)
+                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"更新成功",new ProjectVO(project));
+                return new ResultVO<>(CONST.REQUEST_FAIL,"创建失败");
             }
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个项目，不要试图更改了");
         }
@@ -97,9 +99,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public PageInfo<ProjectVO> getProjectsByUserId(Integer uid,Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
-        PageHelper.startPage(currPage, CONST.PAGE_SIZE);
-        PageInfo<Project> po = new PageInfo<>(projectMapper.selectByUserId(uid));
-        return PageInfoUtil.convert(po,ProjectVO.class);
+        List<ProjectVO> ans = new ArrayList<>();
+        for(Project p:projectMapper.selectByUserId(uid)){
+            ans.add(setMemberNum(p));
+        }
+
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
     }
 
     @Override
@@ -107,7 +112,7 @@ public class ProjectServiceImpl implements ProjectService {
         if(currPage==null || currPage<1) currPage=1;
         List<ProjectVO> projectVOS = new ArrayList<>();
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
-            projectVOS.add(new ProjectVO(projectMapper.selectByPrimaryKey(userProject.getProjectId())));
+            projectVOS.add(setMemberNum(projectMapper.selectByPrimaryKey(userProject.getProjectId())));
         }
         return PageInfoUtil.ListToPageInfo(projectVOS,currPage);
     }
@@ -119,7 +124,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<ProjectVO> ans = new ArrayList<>();
         for(Project p:all){
             if(userProjectMapper.selectByProjects(p.getId()).size()<p.getWorkerAmount()){
-                ans.add(new ProjectVO(p));
+                ans.add(setMemberNum(p));
             }
         }
         return PageInfoUtil.ListToPageInfo(ans,currPage);
@@ -139,13 +144,21 @@ public class ProjectServiceImpl implements ProjectService {
         Integer projectId = userProjectVO.getProjectId();
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             if(userProject.getProjectId().equals(projectId)){
-                userProjectMapper.deleteByPrimaryKey(userProject.getId());
-                return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+                if(userProjectMapper.deleteByPrimaryKey(userProject.getId())==1)
+                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+                return new ResultVO<>(CONST.REQUEST_FAIL,"退出失败");
             }
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"您就不在任务里吧(流汗黄豆)");
     }
-
+    private ProjectVO setMemberNum(Project po){
+        if(getProjectNumbers(po.getId()).getCode().equals(CONST.REQUEST_FAIL)){
+            return new ProjectVO(po);
+        }
+        ProjectVO vo = new ProjectVO(po);
+        vo.setMemberNum(getProjectNumbers(po.getId()).getData());
+        return vo;
+    }
     @Override
     public ResultVO<ProjectVO> joinProject(UserProjectVO userProjectVO) {
         Integer uid = userProjectVO.getUserId();
@@ -165,8 +178,9 @@ public class ProjectServiceImpl implements ProjectService {
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目人数已满!");
         }
         UserProject up = new UserProject(userProjectVO);
-        userProjectMapper.insert(up);
-        return new ResultVO<>(CONST.REQUEST_SUCCESS,"加入成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+        if(userProjectMapper.insert(up)==1)
+            return new ResultVO<>(CONST.REQUEST_SUCCESS,"加入成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+        return new ResultVO<>(CONST.REQUEST_FAIL,"加入失败");
     }
 
     @Override
@@ -186,6 +200,6 @@ public class ProjectServiceImpl implements ProjectService {
         if(projectMapper.selectByPrimaryKey(projectId)==null){
             return null;
         }
-        return new ProjectVO(projectMapper.selectByPrimaryKey(projectId));
+        return setMemberNum(projectMapper.selectByPrimaryKey(projectId));
     }
 }

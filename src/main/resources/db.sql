@@ -137,9 +137,17 @@ CREATE TABLE `task`(
     CONSTRAINT `fk_project_task` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `task` VALUES (1,1,"task1_project1","open","test_task1",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (2,1,"task2_project1","open","test_task2",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
-
+INSERT INTO `task` VALUES (1,1,"task1_project1","open","test_task1",'2022-03-28 10:00:00',0,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (2,1,"task2_project1","closed","test_task2",'2022-03-28 10:00:00',0,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (3,2,"task1_project2","closed","test_task2",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (4,2,"task2_project2","closed","test_task2",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (5,2,"task3_project2","open","test_task2",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (6,2,"task4_project2","open","test_task2",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (7,3,"task1_project3","open","test_task2",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (8,4,"task1_project4","open","test_task2",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (9,5,"task1_project5","closed","test_task2",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (10,6,"task1_project6","open","test_task2",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (11,7,"task1_project7","open","test_task2",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
 
 DROP TABLE IF EXISTS `user_project`;
 CREATE TABLE `user_project`(
@@ -170,5 +178,6 @@ CREATE TABLE `user_task`(
 
 INSERT INTO `user_task` VALUES (1,1,3);
 INSERT INTO `user_task` VALUES (2,2,3);
+INSERT INTO `user_task` VALUES (3,1,2);
 
 SET FOREIGN_KEY_CHECKS = 1;

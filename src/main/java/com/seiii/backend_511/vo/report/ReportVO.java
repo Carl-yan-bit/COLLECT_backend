@@ -1,5 +1,6 @@
 package com.seiii.backend_511.vo.report;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.po.report.Report;
 import lombok.Data;
 import lombok.NonNull;
@@ -22,7 +23,7 @@ public class ReportVO {
     private String testStep;
 
     private String deviceInfo;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Integer getId() {

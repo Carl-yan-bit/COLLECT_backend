@@ -50,6 +50,6 @@ public class UserTaskMapperTest {
     }
     @Test
     public void testSelectByTaskId(){
-        Assert.assertEquals(1,userTaskMapper.selectByTask(1).size());
+        Assert.assertEquals(2,userTaskMapper.selectByTask(1).size());
     }
 }
