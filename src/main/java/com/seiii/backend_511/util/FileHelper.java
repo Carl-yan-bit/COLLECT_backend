@@ -78,7 +78,7 @@ public class FileHelper {
         try {
             Resource resource = FileHelper.loadFileAsResource(path);
             if(resource == null)
-                throw new IOException();
+                throw new IOException("找不到文件"+path);
             inputStream = resource.getInputStream();
             //1.设置文件ContentType类型
             response.setContentType("application/octet-stream;charset=UTF-8");
