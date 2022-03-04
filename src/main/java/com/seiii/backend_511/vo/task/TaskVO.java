@@ -23,7 +23,7 @@ public class TaskVO {
     private Integer workerAmount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
-
+    private String isJoined = "Undefined";
     public Integer getId() {
         return id;
     }

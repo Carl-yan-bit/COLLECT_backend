@@ -17,6 +17,7 @@ public interface TaskService {
     List<TaskVO> getTasksByUser(Integer uid);
     boolean deleteAllTasksByProject(Integer project_id);
     TaskVO getTaskByID(Integer ID);
+    ResultVO<TaskVO> getTaskByIdAndUid(Integer ID,Integer uid);
     ResultVO<TaskVO> getTaskByTaskId(Integer ID);
     ResultVO<TaskVO> createTask(TaskVO taskVO);
     ResultVO<TaskVO> updateTask(TaskVO taskVO);

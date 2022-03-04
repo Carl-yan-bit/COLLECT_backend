@@ -236,6 +236,21 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public ResultVO<TaskVO> getTaskByIdAndUid(Integer ID, Integer uid) {
+        TaskVO taskVO = getTaskByID(ID);
+        if(taskVO==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"失败");
+        }
+        for (UserTask userTask:userTaskMapper.selectByUid(uid)){
+            if(userTask.getTaskId().equals(ID)){
+                taskVO.setIsJoined("True");
+                break;
+            }
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",taskVO);
+    }
+
+    @Override
     public ResultVO<TaskVO> getTaskByTaskId(Integer ID) {
         if(getTaskByID(ID)==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个需求");

@@ -22,7 +22,10 @@ public class TaskController {
     public ResultVO<TaskVO> getTaskById(@RequestParam Integer id){
         return taskService.getTaskByTaskId(id);
     }
-
+    @GetMapping("/find/uid")
+    public ResultVO<TaskVO> getTaskByIdWithUid(@RequestParam Integer id,@RequestParam Integer uid){
+        return taskService.getTaskByIdAndUid(id,uid);
+    }
     @GetMapping("/find/active/{pid}")
     public PageInfo<TaskVO> getActiveTasksByProject(@RequestParam Integer project_id,@PathVariable Integer pid){
         return taskService.getActiveTaskByProject(project_id,pid);
