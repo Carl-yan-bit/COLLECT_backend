@@ -18,11 +18,18 @@ public class TaskController {
     public PageInfo<TaskVO> getTaskByProject(@RequestParam Integer project_id, @PathVariable Integer pid){
         return taskService.getTaskByProject(project_id,pid);
     }
+    @GetMapping("/find/user/{pid}")
+    public PageInfo<TaskVO> getTasksByProjectWithUid(@RequestParam Integer project_id,@RequestParam Integer uid,@PathVariable Integer pid){
+        return taskService.getTaskByProjectWithUID(project_id,uid,pid);
+    }
     @GetMapping("/find")
     public ResultVO<TaskVO> getTaskById(@RequestParam Integer id){
         return taskService.getTaskByTaskId(id);
     }
-
+    @GetMapping("/find/uid")
+    public ResultVO<TaskVO> getTaskByIdWithUid(@RequestParam Integer id,@RequestParam Integer uid){
+        return taskService.getTaskByIdAndUid(id,uid);
+    }
     @GetMapping("/find/active/{pid}")
     public PageInfo<TaskVO> getActiveTasksByProject(@RequestParam Integer project_id,@PathVariable Integer pid){
         return taskService.getActiveTaskByProject(project_id,pid);

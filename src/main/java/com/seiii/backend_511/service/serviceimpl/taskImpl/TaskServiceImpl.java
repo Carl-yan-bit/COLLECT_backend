@@ -135,6 +135,25 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public PageInfo<TaskVO> getTaskByProjectWithUID(Integer project_id, Integer uid, Integer currPage) {
+        if(currPage==null||currPage<1) currPage = 1;
+        List<TaskVO> ans = new ArrayList<>();
+        for(TaskVO task:getALlTasksByProject(project_id)){
+            for(UserTask taskID:userTaskMapper.selectByUid(uid)){
+                if(task.getId().equals(taskID.getTaskId())){
+                    task.setIsJoined("True");
+                    if(reportService.getReportByTaskAndUID(task.getId(),uid).getCode().equals(CONST.REQUEST_SUCCESS)){
+                        //任务开放，且用户提交报告
+                        task.setIsFinished("True");
+                    }
+                }
+            }
+            ans.add(task);
+        }
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
+    }
+
+    @Override
     public PageInfo<TaskVO> getTodoTasks(Integer uid, Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
 
@@ -233,6 +252,21 @@ public class TaskServiceImpl implements TaskService {
             ans.add(setMemberNum(task));
         }
         return ans;
+    }
+
+    @Override
+    public ResultVO<TaskVO> getTaskByIdAndUid(Integer ID, Integer uid) {
+        TaskVO taskVO = getTaskByID(ID);
+        if(taskVO==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"失败");
+        }
+        for (UserTask userTask:userTaskMapper.selectByUid(uid)){
+            if(userTask.getTaskId().equals(ID)){
+                taskVO.setIsJoined("True");
+                break;
+            }
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",taskVO);
     }
 
     @Override

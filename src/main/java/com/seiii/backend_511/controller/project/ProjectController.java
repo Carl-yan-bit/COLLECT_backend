@@ -57,6 +57,10 @@ public class ProjectController {
         //System.out.println(projectservice.getProjectById(projectId));
         return projectservice.getProjectById(projectId);
     }
+    @GetMapping("/find/project/uid")
+    public ResultVO<ProjectVO> getProjectByIdWithUid(@RequestParam Integer projectId,@RequestParam Integer uid){
+        return projectservice.getProjectByIdWithUid(projectId,uid);
+    }
     @PostMapping("/join")
     public ResultVO<ProjectVO> joinProject(@RequestBody UserProjectVO userProjectVO){
         return projectservice.joinProject(userProjectVO);
