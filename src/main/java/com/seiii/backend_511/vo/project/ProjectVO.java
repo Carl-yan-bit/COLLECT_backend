@@ -21,7 +21,12 @@ public class ProjectVO {
     private String description;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date testTime;
-    private String isJoined = "Undefined";
+    private boolean isJoined = false;
+    public void setIsJoined(String isJoined){
+        if(isJoined.equals("True")){
+            this.isJoined = true;
+        }
+    }
     private Integer workerAmount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
