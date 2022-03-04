@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface TaskService {
     PageInfo<TaskVO> getTaskByProject(Integer project_id,Integer pid);
+    PageInfo<TaskVO> getTaskByProjectWithUID(Integer project_id,Integer uid,Integer pid);
     PageInfo<TaskVO> getActiveTaskByProject(Integer project_id,Integer pid);
     PageInfo<TaskVO> getHistoryTasks(Integer uid,Integer pid);
     PageInfo<TaskVO> getTodoTasks(Integer uid,Integer pid);
@@ -17,6 +18,7 @@ public interface TaskService {
     List<TaskVO> getTasksByUser(Integer uid);
     boolean deleteAllTasksByProject(Integer project_id);
     TaskVO getTaskByID(Integer ID);
+    ResultVO<TaskVO> getTaskByIdAndUid(Integer ID,Integer uid);
     ResultVO<TaskVO> getTaskByTaskId(Integer ID);
     ResultVO<TaskVO> createTask(TaskVO taskVO);
     ResultVO<TaskVO> updateTask(TaskVO taskVO);

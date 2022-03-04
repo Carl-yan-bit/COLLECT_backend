@@ -184,6 +184,21 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public ResultVO<ProjectVO> getProjectByIdWithUid(Integer projectId, Integer uid) {
+        ProjectVO project = getProjectById(projectId);
+        if(project==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"查询失败");
+        }
+        for(UserProject userProject:userProjectMapper.selectByUser(uid)){
+            if(userProject.getProjectId().equals(projectId)){
+                project.setIsJoined(true);
+                break;
+            }
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",project);
+    }
+
+    @Override
     public PageInfo<ProjectVO> getAllProjects(Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
         List<ProjectVO> projectVO = new ArrayList<>();

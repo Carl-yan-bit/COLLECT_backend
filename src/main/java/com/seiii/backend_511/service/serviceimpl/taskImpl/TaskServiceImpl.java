@@ -135,6 +135,25 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public PageInfo<TaskVO> getTaskByProjectWithUID(Integer project_id, Integer uid, Integer currPage) {
+        if(currPage==null||currPage<1) currPage = 1;
+        List<TaskVO> ans = new ArrayList<>();
+        for(TaskVO task:getALlTasksByProject(project_id)){
+            for(UserTask taskID:userTaskMapper.selectByUid(uid)){
+                if(task.getId().equals(taskID.getTaskId())){
+                    task.setIsJoined(true);
+                    if(reportService.getReportByTaskAndUID(task.getId(),uid).getCode().equals(CONST.REQUEST_SUCCESS)){
+                        //任务开放，且用户提交报告
+                        task.setIsFinished(true);
+                    }
+                }
+            }
+            ans.add(task);
+        }
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
+    }
+
+    @Override
     public PageInfo<TaskVO> getTodoTasks(Integer uid, Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
 
@@ -196,6 +215,9 @@ public class TaskServiceImpl implements TaskService {
         if(userTaskMapper.selectByTask(taskId).size()>=taskMapper.selectByPrimaryKey(taskId).getWorkerAmount()){
             return new ResultVO<>(CONST.REQUEST_FAIL,"任务人数已满");
         }
+        if(taskMapper.selectByPrimaryKey(taskId).getState().equals(CONST.STATE_CLOSED)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
+        }
         UserTask userTask = new UserTask(userTaskVO);
         UserProjectVO vo = new UserProjectVO();
         vo.setProjectId(taskMapper.selectByPrimaryKey(taskId).getProjectId());
@@ -233,6 +255,21 @@ public class TaskServiceImpl implements TaskService {
             ans.add(setMemberNum(task));
         }
         return ans;
+    }
+
+    @Override
+    public ResultVO<TaskVO> getTaskByIdAndUid(Integer ID, Integer uid) {
+        TaskVO taskVO = getTaskByID(ID);
+        if(taskVO==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"失败");
+        }
+        for (UserTask userTask:userTaskMapper.selectByUid(uid)){
+            if(userTask.getTaskId().equals(ID)){
+                taskVO.setIsJoined(true);
+                break;
+            }
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",taskVO);
     }
 
     @Override

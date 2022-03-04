@@ -13,6 +13,7 @@ public interface ProjectService {
     ResultVO<ProjectVO> createProject(ProjectVO projectVO);
     PageInfo<ProjectVO> getProjectsByUserId(Integer uid,Integer currPage);
     ProjectVO getProjectById(Integer projectId);
+    ResultVO<ProjectVO> getProjectByIdWithUid(Integer projectId,Integer uid);
     PageInfo<ProjectVO> getAllProjects(Integer pid);
     PageInfo<ProjectVO> getActiveProjects(Integer pid);
     PageInfo<ProjectVO> getJoinedProjects(Integer uid,Integer currpage);
