@@ -15,6 +15,7 @@ import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.PageInfoUtil;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.project.ProjectVO;
 import com.seiii.backend_511.vo.project.UserProjectVO;
 import com.seiii.backend_511.vo.task.TaskVO;
 import com.seiii.backend_511.vo.task.UserTaskVO;
@@ -219,10 +220,12 @@ public class TaskServiceImpl implements TaskService {
             return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
         }
         UserTask userTask = new UserTask(userTaskVO);
+
         UserProjectVO vo = new UserProjectVO();
         vo.setProjectId(taskMapper.selectByPrimaryKey(taskId).getProjectId());
         vo.setUserId(uid);
-        if(projectService.joinProject(vo).getCode().equals(CONST.REQUEST_SUCCESS)&&userTaskMapper.insert(userTask)==1)
+        ResultVO<ProjectVO> res = projectService.joinProject(vo);
+        if((res.getCode().equals(CONST.REQUEST_SUCCESS)||res.getMsg().equals("已经在项目中"))&&userTaskMapper.insert(userTask)==1)
             return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务加入成功",new TaskVO(taskMapper.selectByPrimaryKey(taskId)));
         return new ResultVO<>(CONST.REQUEST_FAIL,"任务加入失败");
     }
