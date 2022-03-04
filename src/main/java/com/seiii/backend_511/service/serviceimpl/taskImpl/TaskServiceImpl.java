@@ -215,6 +215,9 @@ public class TaskServiceImpl implements TaskService {
         if(userTaskMapper.selectByTask(taskId).size()>=taskMapper.selectByPrimaryKey(taskId).getWorkerAmount()){
             return new ResultVO<>(CONST.REQUEST_FAIL,"任务人数已满");
         }
+        if(taskMapper.selectByPrimaryKey(taskId).getState().equals(CONST.STATE_CLOSED)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
+        }
         UserTask userTask = new UserTask(userTaskVO);
         UserProjectVO vo = new UserProjectVO();
         vo.setProjectId(taskMapper.selectByPrimaryKey(taskId).getProjectId());
