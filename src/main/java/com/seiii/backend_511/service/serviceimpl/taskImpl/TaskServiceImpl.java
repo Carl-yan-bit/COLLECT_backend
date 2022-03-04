@@ -135,6 +135,25 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public PageInfo<TaskVO> getTaskByProjectWithUID(Integer project_id, Integer uid, Integer currPage) {
+        if(currPage==null||currPage<1) currPage = 1;
+        List<TaskVO> ans = new ArrayList<>();
+        for(TaskVO task:getALlTasksByProject(project_id)){
+            for(UserTask taskID:userTaskMapper.selectByUid(uid)){
+                if(task.getId().equals(taskID.getTaskId())){
+                    task.setIsJoined("True");
+                    if(reportService.getReportByTaskAndUID(task.getId(),uid).getCode().equals(CONST.REQUEST_SUCCESS)){
+                        //任务开放，且用户提交报告
+                        task.setIsFinished("True");
+                    }
+                }
+            }
+            ans.add(task);
+        }
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
+    }
+
+    @Override
     public PageInfo<TaskVO> getTodoTasks(Integer uid, Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface TaskService {
     PageInfo<TaskVO> getTaskByProject(Integer project_id,Integer pid);
+    PageInfo<TaskVO> getTaskByProjectWithUID(Integer project_id,Integer uid,Integer pid);
     PageInfo<TaskVO> getActiveTaskByProject(Integer project_id,Integer pid);
     PageInfo<TaskVO> getHistoryTasks(Integer uid,Integer pid);
     PageInfo<TaskVO> getTodoTasks(Integer uid,Integer pid);
