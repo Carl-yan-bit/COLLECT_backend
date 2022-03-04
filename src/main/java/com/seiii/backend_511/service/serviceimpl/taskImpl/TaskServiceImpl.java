@@ -141,10 +141,10 @@ public class TaskServiceImpl implements TaskService {
         for(TaskVO task:getALlTasksByProject(project_id)){
             for(UserTask taskID:userTaskMapper.selectByUid(uid)){
                 if(task.getId().equals(taskID.getTaskId())){
-                    task.setIsJoined("True");
+                    task.setIsJoined(true);
                     if(reportService.getReportByTaskAndUID(task.getId(),uid).getCode().equals(CONST.REQUEST_SUCCESS)){
                         //任务开放，且用户提交报告
-                        task.setIsFinished("True");
+                        task.setIsFinished(true);
                     }
                 }
             }
@@ -262,7 +262,7 @@ public class TaskServiceImpl implements TaskService {
         }
         for (UserTask userTask:userTaskMapper.selectByUid(uid)){
             if(userTask.getTaskId().equals(ID)){
-                taskVO.setIsJoined("True");
+                taskVO.setIsJoined(true);
                 break;
             }
         }
