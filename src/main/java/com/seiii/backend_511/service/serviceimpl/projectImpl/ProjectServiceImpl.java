@@ -191,7 +191,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             if(userProject.getProjectId().equals(projectId)){
-                project.setIsJoined("True");
+                project.setIsJoined(true);
                 break;
             }
         }
