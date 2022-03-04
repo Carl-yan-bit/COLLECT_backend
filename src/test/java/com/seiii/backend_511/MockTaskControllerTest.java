@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.seiii.backend_511.controller.user.UserController;
+import com.seiii.backend_511.po.task.Task;
 import com.seiii.backend_511.po.task.UserTask;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.vo.task.TaskVO;
@@ -36,7 +37,7 @@ public class MockTaskControllerTest {
 
     @Test
     public void testTaskCreate() throws Exception {
-        TaskVO taskVO = new TaskVO();
+        Task taskVO = new Task();
         taskVO.setProjectId(1);
         taskVO.setTestTime(new Date());
         taskVO.setDescription("测试不会写，招募测试人员");
@@ -51,7 +52,7 @@ public class MockTaskControllerTest {
     }
     @Test
     public void testTaskUpdate() throws Exception {
-        TaskVO taskVO = new TaskVO();
+        Task taskVO = new Task();
         taskVO.setId(1);
         taskVO.setProjectId(1);
         taskVO.setTestTime(new Date());

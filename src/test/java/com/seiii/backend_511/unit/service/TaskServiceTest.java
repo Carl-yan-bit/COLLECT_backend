@@ -109,7 +109,7 @@ public class TaskServiceTest {
         ans = taskService.joinTask(userTaskVO);
         Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
         //需求人数已满
-        userTaskVO.setUserId(45);
+        userTaskVO.setUserId(2);
         userTaskVO.setTaskId(5);
         ans = taskService.joinTask(userTaskVO);
         Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());
