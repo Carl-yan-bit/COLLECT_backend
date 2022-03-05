@@ -23,10 +23,10 @@ pipeline {
         stage('run') {
             steps {
                 echo 'run start'
-                sh 'docker build -f Dockerfile -t backend .'
+                sh 'docker build -f Dockerfile -t backend_511 .'
                 sh 'chmod u+x deploy.sh'
                 sh './deploy.sh'
-                sh 'docker run -d -p 8081:8081 --name backend backend'
+                sh 'docker run -d -p 8081:8081 --name backend_511 backend_511'
                 //sh 'cp -r file/. /file'
                 //sh 'docker stop demo'
                 //sh 'docker rm demo'
