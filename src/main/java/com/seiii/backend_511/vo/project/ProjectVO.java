@@ -22,6 +22,9 @@ public class ProjectVO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date testTime;
     private boolean joined = false;
+    public void setjoined(boolean isJoined){
+        this.joined = joined;
+    }
     private Integer workerAmount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
