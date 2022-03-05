@@ -1,5 +1,6 @@
-containerId = `docker ps -a | grep -w backend `
-if [ "$containerId" != ""];then
-  docker stop backend
-  docker rm backend
+#! /bin/bash
+containerId=`docker ps -a | grep -w backend | awk '{print $1}'`
+if [ "$containerId" != "" ];then
+	docker stop backend
+	docker rm backend
 fi
