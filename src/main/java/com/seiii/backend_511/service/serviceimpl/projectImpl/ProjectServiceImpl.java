@@ -43,6 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
     private UserProjectMapper userProjectMapper;
     @Override
     public ResultVO<ProjectVO> createProject(ProjectVO projectVO) {
+        projectVO.setId(null);
         if(userService.getUserByUid(projectVO.getUserId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目定义不完全!");
         }
@@ -191,7 +192,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             if(userProject.getProjectId().equals(projectId)){
-                project.setjoined(true);
+                project.setJoined(true);
                 break;
             }
         }
