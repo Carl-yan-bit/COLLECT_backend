@@ -3,9 +3,7 @@ package com.seiii.backend_511.service.serviceimpl.fileImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.enums.FileSaver;
-import com.seiii.backend_511.mapperservice.ProjectFileMapper;
-import com.seiii.backend_511.mapperservice.ReportFileMapper;
-import com.seiii.backend_511.mapperservice.TaskFileMapper;
+import com.seiii.backend_511.mapperservice.*;
 import com.seiii.backend_511.po.file.ProjectFile;
 import com.seiii.backend_511.po.file.ReportFile;
 import com.seiii.backend_511.po.file.TaskFile;
@@ -30,6 +28,13 @@ import java.util.Date;
 @Service
 public class FileServiceImpl implements FileService {
 
+
+    @Resource
+    private ProjectMapper projectMapper;
+    @Resource
+    private ReportMapper reportMapper;
+    @Resource
+    private TaskMapper taskMapper;
     @Resource
     private ProjectFileMapper projectFileMapper;
     @Resource
@@ -42,7 +47,7 @@ public class FileServiceImpl implements FileService {
         try {
             switch (fileVO.getCarrierType()){
                 case CONST.FILE_TYPE_PROJECT:
-                    if(fileVO.getCarrierId()==null || projectFileMapper.selectByPrimaryKey(fileVO.getCarrierId())==null){
+                    if(fileVO.getCarrierId()==null || projectMapper.selectByPrimaryKey(fileVO.getCarrierId())==null){
                         return new ResultVO<>(CONST.REQUEST_FAIL,"文件不存在");
                     }
                     saveResult=FileSaver.PROJECT.getSaveStrategy().save(fileVO,file);
@@ -61,7 +66,7 @@ public class FileServiceImpl implements FileService {
                     }
                     break;
                 case CONST.FILE_TYPE_REPORT:
-                    if(fileVO.getCarrierId()==null || reportFileMapper.selectByPrimaryKey(fileVO.getCarrierId())==null){
+                    if(fileVO.getCarrierId()==null || reportMapper.selectByPrimaryKey(fileVO.getCarrierId())==null){
                         return new ResultVO<>(CONST.REQUEST_FAIL,"文件不存在");
                     }
                     saveResult=FileSaver.REPORT.getSaveStrategy().save(fileVO,file);
@@ -80,7 +85,7 @@ public class FileServiceImpl implements FileService {
                     }
                     break;
                 case CONST.FILE_TYPE_TASK:
-                    if(fileVO.getCarrierId()==null || taskFileMapper.selectByPrimaryKey(fileVO.getCarrierId())==null){
+                    if(fileVO.getCarrierId()==null || taskMapper.selectByPrimaryKey(fileVO.getCarrierId())==null){
                         return new ResultVO<>(CONST.REQUEST_FAIL,"文件不存在");
                     }
                     saveResult=FileSaver.TASK.getSaveStrategy().save(fileVO,file);
