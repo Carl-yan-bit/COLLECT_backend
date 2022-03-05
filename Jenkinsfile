@@ -23,10 +23,14 @@ pipeline {
         stage('run') {
             steps {
                 echo 'run start'
-                sh 'cp -r /var/lib/jenkins/workspace/backend-511/file/. /file'
-                sh 'docker stop demo'
-                sh 'docker rm demo'
-                sh 'docker run -d -v /file:/file -v /var/lib/jenkins/workspace/backend-511/target:/jar -p 8081:8081 --name demo  openjdk java -jar  -Duser.timezone=GMT+08  /jar/backend_511-0.0.1.jar'
+                sh 'docker build -f Dockerfile -t backend .'
+                sh 'chmod u+x deploy.sh'
+                sh './deploy.sh'
+                sh 'docker run -d -p 8081:8081 --name backend backend'
+                //sh 'cp -r file/. /file'
+                //sh 'docker stop demo'
+                //sh 'docker rm demo'
+                //sh 'docker run -d -v /file:/file -v /var/lib/jenkins/workspace/backend-511/target:/jar -p 8081:8081 --name demo  openjdk java -jar  -Duser.timezone=GMT+08  /jar/backend_511-0.0.1.jar'
                 //sh 'java -jar /var/lib/jenkins/workspace/backend-511/target/backend_511-0.0.1.jar'
                 // gitlabCommitStatus(connection: gitLabConnection(gitLabConnection: 'SEIIIGitlab', jobCredentialId: ''), name: 'success') {
                 //     // some block
@@ -43,3 +47,4 @@ pipeline {
         }
     }
 }
+
