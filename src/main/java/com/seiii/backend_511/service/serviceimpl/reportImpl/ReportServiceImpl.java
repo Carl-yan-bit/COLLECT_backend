@@ -51,8 +51,10 @@ public class ReportServiceImpl implements ReportService {
             Report report = new Report(reportVO);
             report.setCreateTime(new Date());
             report.setState("finished");
-            if(reportMapper.insert(report)==1)
-                return new ResultVO<>(CONST.REQUEST_SUCCESS,"已完成!您辛苦了",new ReportVO(report));
+            if(reportMapper.insert(report)==1){
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"已完成!您辛苦了",new ReportVO(reportMapper.selectByTaskAndUser(report.gettaskId(),reportVO.getUserId())));
+            }
+
             return new ResultVO<>(CONST.REQUEST_FAIL,"提交失败");
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"报告还没填写完");
