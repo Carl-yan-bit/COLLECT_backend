@@ -23,17 +23,12 @@ public class TaskVO {
     private Integer workerAmount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
-    private boolean isJoined = false;
-    private boolean isFinished = false;
+    private boolean joined = false;
+    private boolean finished = false;
     public Integer getId() {
         return id;
     }
-    public void setIsJoined(boolean isJoined){
-        this.isJoined = isJoined;
-    }
-    public void setIsFinished(boolean isFinished){
-        this.isFinished = isFinished;
-    }
+
     public void setId(Integer id) {
         this.id = id;
     }

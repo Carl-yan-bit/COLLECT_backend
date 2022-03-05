@@ -42,6 +42,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public ResultVO<TaskVO> createTask(TaskVO taskVO) {
         Task task = new Task(taskVO);
+        task.setId(null);
         if(StringUtils.hasText(task.getName())&&StringUtils.hasText(task.getDescription())&&StringUtils.hasText(task.getState())&&StringUtils.hasText(task.getTestTime().toString())&&StringUtils.hasText(task.getWorkerAmount().toString())){
             if(projectService.getProjectById(taskVO.getProjectId())==null){
                 return new ResultVO<>(CONST.REQUEST_FAIL,"不存在该项目");
@@ -142,10 +143,10 @@ public class TaskServiceImpl implements TaskService {
         for(TaskVO task:getALlTasksByProject(project_id)){
             for(UserTask taskID:userTaskMapper.selectByUid(uid)){
                 if(task.getId().equals(taskID.getTaskId())){
-                    task.setIsJoined(true);
+                    task.setJoined(true);
                     if(reportService.getReportByTaskAndUID(task.getId(),uid).getCode().equals(CONST.REQUEST_SUCCESS)){
                         //任务开放，且用户提交报告
-                        task.setIsFinished(true);
+                        task.setFinished(true);
                     }
                 }
             }
@@ -268,7 +269,7 @@ public class TaskServiceImpl implements TaskService {
         }
         for (UserTask userTask:userTaskMapper.selectByUid(uid)){
             if(userTask.getTaskId().equals(ID)){
-                taskVO.setIsJoined(true);
+                taskVO.setJoined(true);
                 break;
             }
         }
