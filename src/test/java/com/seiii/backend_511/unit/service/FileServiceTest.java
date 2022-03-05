@@ -25,8 +25,6 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Rollback
-@Transactional
 public class FileServiceTest {
     @Resource
     FileService fileService;
