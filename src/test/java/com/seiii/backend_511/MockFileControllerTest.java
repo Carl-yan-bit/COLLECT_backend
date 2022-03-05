@@ -34,8 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(FileController.class)
 @ComponentScan()
-@Transactional
-@Rollback
 public class MockFileControllerTest {
     @Autowired
     private MockMvc mockMvc;
