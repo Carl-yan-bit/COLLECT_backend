@@ -9,6 +9,14 @@ import java.util.Date;
 public class User {
     private Integer id;
 
+    private Integer exp;
+
+    private Integer level;
+
+    private Integer projectPreferenceId;
+
+    private Integer activity;
+
     private String name;
 
     private String email;
@@ -18,74 +26,23 @@ public class User {
     private String password;
 
     private String userRole;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
     private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    public String getPhonenumber() {
-        return phonenumber;
-    }
-
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber == null ? null : phonenumber.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole == null ? null : userRole.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
     public User(){
 
     }
-    public User(UserVO userVO) {
-        this.id = userVO.getId();
-        this.name = userVO.getName();
-        this.email = userVO.getEmail();
-        this.phonenumber = userVO.getPhonenumber();
-        this.password = userVO.getPassword();
-        this.userRole = userVO.getUserRole();
-        this.createTime = userVO.getCreateTime();
+    public User(UserVO user) {
+        this.id = user.getId();
+        this.exp = user.getExp();
+        this.level = user.getLevel();
+        this.projectPreferenceId = user.getProjectPreferenceId();
+        this.activity = user.getActivity();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.phonenumber = user.getPhonenumber();
+        this.password = user.getPassword();
+        this.userRole = user.getUserRole();
+        this.createTime = user.getCreateTime();
     }
 }

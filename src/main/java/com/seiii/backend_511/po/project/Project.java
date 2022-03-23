@@ -3,17 +3,25 @@ package com.seiii.backend_511.po.project;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.vo.project.ProjectVO;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 @Data
+@NoArgsConstructor
 public class Project {
     private Integer id;
 
     private Integer userId;
 
+    private Integer difficulty;
+
+    private Integer deviceId;
+
+    private Integer type;
+
     private String name;
 
-    private String type;
+    private String state;
 
     private String description;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -39,6 +47,30 @@ public class Project {
         this.userId = userId;
     }
 
+    public Integer getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Integer difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Integer getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(Integer deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }
@@ -47,12 +79,12 @@ public class Project {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getType() {
-        return type;
+    public String getState() {
+        return state;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
     }
 
     public String getDescription() {
@@ -86,13 +118,13 @@ public class Project {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-    public Project(){
-
-    }
     public Project(ProjectVO projectVO){
         id = projectVO.getId();
         userId = projectVO.getUserId();
         name = projectVO.getName();
+        state = projectVO.getState();
+        difficulty = projectVO.getDifficulty();
+        deviceId = projectVO.getDeviceId();
         type = projectVO.getType();
         description = projectVO.getDescription();
         testTime = projectVO.getTestTime();

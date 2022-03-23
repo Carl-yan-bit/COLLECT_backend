@@ -29,8 +29,8 @@ public class ReportServiceTest {
         ReportVO reportVO = new ReportVO();
         reportVO.setTestStep("1");
         reportVO.setUserId(1);
-        reportVO.settaskId(3);
-        reportVO.setDeviceInfo("iphone");
+        reportVO.setTaskId(3);
+        reportVO.setDeviceId(1);
         reportVO.setCreateTime(new Date());
         reportVO.setDescription("f**k test");
         reportVO.setState("finish");
@@ -42,7 +42,7 @@ public class ReportServiceTest {
         Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
         //这里已经有过报告
         reportVO.setUserId(2);
-        reportVO.settaskId(1);
+        reportVO.setTaskId(1);
         ans = reportService.createReport(reportVO);
         Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());
     }
@@ -52,8 +52,8 @@ public class ReportServiceTest {
         reportVO.setId(1);
         reportVO.setTestStep("1");
         reportVO.setUserId(1);
-        reportVO.settaskId(3);
-        reportVO.setDeviceInfo("iphone");
+        reportVO.setTaskId(3);
+        reportVO.setDeviceId(1);
         reportVO.setCreateTime(new Date());
         reportVO.setDescription("f**k test");
         reportVO.setState("finish");
@@ -65,7 +65,7 @@ public class ReportServiceTest {
         Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
         //这里已经有过报告
         reportVO.setUserId(3);
-        reportVO.settaskId(1);
+        reportVO.setTaskId(1);
         ans = reportService.updateReport(reportVO);
         Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());
     }

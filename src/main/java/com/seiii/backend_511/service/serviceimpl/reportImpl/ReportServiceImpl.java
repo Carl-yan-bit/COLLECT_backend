@@ -29,30 +29,31 @@ public class ReportServiceImpl implements ReportService {
     ReportMapper reportMapper;
     @Override
     public ResultVO<ReportVO> createReport(ReportVO reportVO) {
+        reportVO.setScore(2.5F);
         if(userService.getUserByUid(reportVO.getUserId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
         }
-        if(taskService.getTaskByID(reportVO.gettaskId())==null){
+        if(taskService.getTaskByID(reportVO.getTaskId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个任务");
         }
         boolean flag = false;
         for(TaskVO task:taskService.getTasksByUser(reportVO.getUserId())){
-            if(task.getId().equals(reportVO.gettaskId())){
+            if(task.getId().equals(reportVO.getTaskId())){
                 flag = true;
             }
         }
         if(!flag){
             return new ResultVO<>(CONST.REQUEST_FAIL,"用户尚未加入该需求");
         }
-        if(reportMapper.selectByTaskAndUser(reportVO.gettaskId(),reportVO.getUserId())!=null){
+        if(reportMapper.selectByTaskAndUser(reportVO.getTaskId(),reportVO.getUserId())!=null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"请不要重复提交");
         }
-        if(StringUtils.hasText(reportVO.getName())&&StringUtils.hasText(reportVO.getDescription())&&StringUtils.hasText(reportVO.getDeviceInfo())&&StringUtils.hasText(reportVO.getTestStep())){
+        if(StringUtils.hasText(reportVO.getName())&&StringUtils.hasText(reportVO.getDescription())&&StringUtils.hasText(reportVO.getDeviceId().toString())&&StringUtils.hasText(reportVO.getTestStep())){
             Report report = new Report(reportVO);
             report.setCreateTime(new Date());
             report.setState("finished");
             if(reportMapper.insert(report)==1){
-                return new ResultVO<>(CONST.REQUEST_SUCCESS,"已完成!您辛苦了",new ReportVO(reportMapper.selectByTaskAndUser(report.gettaskId(),reportVO.getUserId())));
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"已完成!您辛苦了",new ReportVO(reportMapper.selectByTaskAndUser(report.getTaskId(),reportVO.getUserId())));
             }
 
             return new ResultVO<>(CONST.REQUEST_FAIL,"提交失败");
@@ -65,18 +66,18 @@ public class ReportServiceImpl implements ReportService {
         if(userService.getUserByUid(reportVO.getUserId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
         }
-        if(taskService.getTaskByID(reportVO.gettaskId())==null){
+        if(taskService.getTaskByID(reportVO.getTaskId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个任务");
         }
-        if(reportMapper.selectByTaskAndUser(reportVO.gettaskId(),reportVO.getUserId())==null){
+        if(reportMapper.selectByTaskAndUser(reportVO.getTaskId(),reportVO.getUserId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个报告");
         }
-        if(StringUtils.hasText(reportVO.getName())&&StringUtils.hasText(reportVO.getDescription())&&StringUtils.hasText(reportVO.getDeviceInfo())&&StringUtils.hasText(reportVO.getTestStep())){
+        if(StringUtils.hasText(reportVO.getName())&&StringUtils.hasText(reportVO.getDescription())&&StringUtils.hasText(reportVO.getDeviceId().toString())&&StringUtils.hasText(reportVO.getTestStep())){
             Report report = new Report(reportVO);
             report.setCreateTime(new Date());
             report.setState("finished");
             if(report.getId()==null){
-                report.setId(reportMapper.selectByTaskAndUser(reportVO.gettaskId(),reportVO.getUserId()).getId());
+                report.setId(reportMapper.selectByTaskAndUser(reportVO.getTaskId(),reportVO.getUserId()).getId());
             }
             if(reportMapper.updateByPrimaryKey(report)==1)
                 return new ResultVO<>(CONST.REQUEST_SUCCESS,"已完成!您辛苦了",new ReportVO(report));

@@ -22,6 +22,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultVO<UserVO> userRegister(UserVO userVO) {
+        userVO.setExp(0);
+        userVO.setLevel(0);
+        userVO.setActivity(0);
         String name = userVO.getName();
         String password = userVO.getPassword();
         String email = userVO.getEmail();

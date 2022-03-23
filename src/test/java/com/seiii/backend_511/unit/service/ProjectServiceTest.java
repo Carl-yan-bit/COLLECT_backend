@@ -33,7 +33,7 @@ public class ProjectServiceTest {
         project.setCreateTime(new Date());
         project.setTestTime(new Date());
         project.setDescription("我也没什么可说的");
-        project.setType(CONST.STATE_OPEN);
+        project.setState(CONST.STATE_OPEN);
         project.setWorkerAmount(1000);
         ResultVO<ProjectVO> ans = projectService.createProject(new ProjectVO(project));
         project.setUserId(100);
@@ -126,7 +126,7 @@ public class ProjectServiceTest {
         project.setCreateTime(new Date());
         project.setTestTime(new Date());
         project.setDescription("我也没什么可说的");
-        project.setType(CONST.STATE_OPEN);
+        project.setState(CONST.STATE_OPEN);
         project.setWorkerAmount(1000);
         ResultVO<ProjectVO> ans = projectService.updateProject(new ProjectVO(project));
         project.setUserId(100);

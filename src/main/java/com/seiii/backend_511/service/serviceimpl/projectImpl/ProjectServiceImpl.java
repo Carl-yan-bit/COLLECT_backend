@@ -47,7 +47,10 @@ public class ProjectServiceImpl implements ProjectService {
         if(userService.getUserByUid(projectVO.getUserId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目定义不完全!");
         }
-        if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getType())&&StringUtils.hasText(projectVO.getTestTime().toString())){
+        if (userService.getUserByUid(projectVO.getUserId()).getUserRole().equals(CONST.USER_ROLE_WORKER)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有权限");
+        }
+        if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getState())&&StringUtils.hasText(projectVO.getTestTime().toString())){
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
             if(projectMapper.insert(project)==1)
@@ -64,7 +67,10 @@ public class ProjectServiceImpl implements ProjectService {
         if(userService.getUserByUid(projectVO.getUserId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目定义不完全!");
         }
-        if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getType())&&StringUtils.hasText(projectVO.getTestTime().toString())){
+        if (userService.getUserByUid(projectVO.getUserId()).getUserRole().equals(CONST.USER_ROLE_WORKER)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有权限");
+        }
+        if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getState())&&StringUtils.hasText(projectVO.getTestTime().toString())){
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
             if(projectMapper.selectByPrimaryKey(project.getId())!=null){

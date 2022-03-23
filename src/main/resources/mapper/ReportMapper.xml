@@ -5,11 +5,13 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="task_id" jdbcType="INTEGER" property="taskId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="parent_report" jdbcType="INTEGER" property="parentReport" />
+    <result column="score" jdbcType="REAL" property="score" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="state" jdbcType="VARCHAR" property="state" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="test_step" jdbcType="VARCHAR" property="testStep" />
-    <result column="device_info" jdbcType="VARCHAR" property="deviceInfo" />
+    <result column="device_id" jdbcType="INTEGER" property="deviceId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -18,46 +20,48 @@
   </delete>
   <insert id="insert" parameterType="com.seiii.backend_511.po.report.Report">
     insert into report (id, task_id, user_id, 
-      name, state, description, 
-      test_step, device_info, create_time
-      )
+      parent_report, score, name, 
+      state, description, test_step, 
+      device_id, create_time)
     values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{testStep,jdbcType=VARCHAR}, #{deviceInfo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{parentReport,jdbcType=INTEGER}, #{score,jdbcType=REAL}, #{name,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{testStep,jdbcType=VARCHAR}, 
+      #{deviceId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.report.Report">
     update report
     set task_id = #{taskId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      parent_report = #{parentReport,jdbcType=INTEGER},
+      score = #{score,jdbcType=REAL},
       name = #{name,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       test_step = #{testStep,jdbcType=VARCHAR},
-      device_info = #{deviceInfo,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, task_id, user_id, name, state, description, test_step, device_info, 
-    create_time
+    select id, task_id, user_id, parent_report, score, name, state, description, test_step, 
+    device_id, create_time
     from report
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, task_id, user_id, name, state, description, test_step, device_info, 
-    create_time
+    select id, task_id, user_id, parent_report, score, name, state, description, test_step, 
+    device_id, create_time
     from report
   </select>
   <select id="selectByTask" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, task_id, user_id, name, state, description, test_step, device_info,
-           create_time
+    select id, task_id, user_id, parent_report, score, name, state, description, test_step,
+           device_id, create_time
     from report
     where task_id = #{taskID,jdbcType=INTEGER}
   </select>
   <select id="selectByTaskAndUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, task_id, user_id, name, state, description, test_step, device_info,
-           create_time
+    select id, task_id, user_id, parent_report, score, name, state, description, test_step,
+           device_id, create_time
     from report
     where task_id = #{taskID,jdbcType=INTEGER} and user_id = #{UID,jdbcType=INTEGER}
   </select>

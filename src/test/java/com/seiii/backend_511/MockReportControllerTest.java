@@ -35,10 +35,10 @@ public class MockReportControllerTest {
     public void testReportCreate() throws Exception {
         ReportVO reportVO = new ReportVO();
         reportVO.setUserId(3);
-        reportVO.settaskId(2);
+        reportVO.setTaskId(2);
         reportVO.setDescription("测试不会写，招募测试人员");
         reportVO.setName("金陵大学黑马程序员学院");
-        reportVO.setDeviceInfo("iphone");
+        reportVO.setDeviceId(1);
         reportVO.setState(CONST.STATE_OPEN);
         reportVO.setTestStep("begin");
         ObjectMapper mapper = new ObjectMapper();
@@ -52,10 +52,10 @@ public class MockReportControllerTest {
         ReportVO reportVO = new ReportVO();
         reportVO.setId(2);
         reportVO.setUserId(3);
-        reportVO.settaskId(2);
+        reportVO.setTaskId(2);
         reportVO.setDescription("测试不会写，招募测试人员");
         reportVO.setName("金陵大学黑马程序员学院");
-        reportVO.setDeviceInfo("iphone");
+        reportVO.setDeviceId(1);
         reportVO.setState(CONST.STATE_OPEN);
         reportVO.setTestStep("begin");
         ObjectMapper mapper = new ObjectMapper();

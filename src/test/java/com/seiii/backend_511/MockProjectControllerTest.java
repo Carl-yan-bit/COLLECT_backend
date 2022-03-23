@@ -41,7 +41,7 @@ public class MockProjectControllerTest {
         projectVO.setDescription("测试不会写，招募测试人员");
         projectVO.setName("金陵大学黑马程序员学院");
         projectVO.setWorkerAmount(1);
-        projectVO.setType(CONST.STATE_OPEN);
+        projectVO.setState(CONST.STATE_OPEN);
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
         String requestJson = ow.writeValueAsString(projectVO);
@@ -57,7 +57,7 @@ public class MockProjectControllerTest {
         projectVO.setDescription("测试不会写，招募测试人员,我们需要更多");
         projectVO.setName("金陵大学黑马程序员学院");
         projectVO.setWorkerAmount(100);
-        projectVO.setType(CONST.STATE_OPEN);
+        projectVO.setState(CONST.STATE_OPEN);
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
         String requestJson = ow.writeValueAsString(projectVO);
