@@ -11,7 +11,7 @@ public class UserVO {
     private Integer id;
 
     private Integer exp;
-
+    private Integer expRequire;
     private Integer level;
 
     private Integer projectPreferenceId;

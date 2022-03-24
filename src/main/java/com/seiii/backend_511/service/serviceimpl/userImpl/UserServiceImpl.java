@@ -46,9 +46,9 @@ public class UserServiceImpl implements UserService {
                 userVO.setPassword(Encryption.encryptPassword(password,name));
                 //创建一个持久对象
                 User user = new User(userVO);
-                System.out.println(new UserVO(user));
+                System.out.println(toUserVO(user));
                 if(userMapper.insert(user)==1)
-                    return new ResultVO<>(CONST.REQUEST_SUCCESS, "账号注册成功！", new UserVO(user));
+                    return new ResultVO<>(CONST.REQUEST_SUCCESS, "账号注册成功！", toUserVO(user));
                 return new ResultVO<>(CONST.REQUEST_FAIL, "注册失败");
             }
             else {
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
         if(!user.getPassword().equals(Encryption.encryptPassword(password,user.getName()))){
             return new ResultVO<>(CONST.REQUEST_FAIL, "账号或密码错误!");
         }
-        return new ResultVO<>(CONST.REQUEST_SUCCESS, "登陆成功!",new UserVO(user));
+        return new ResultVO<>(CONST.REQUEST_SUCCESS, "登陆成功!",toUserVO(user));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(Encryption.encryptPassword(password_new,user.getName()));
         if(userMapper.updateByPrimaryKey(user)==1)
-            return new ResultVO<>(CONST.REQUEST_SUCCESS, "更改成功!",new UserVO(user));
+            return new ResultVO<>(CONST.REQUEST_SUCCESS, "更改成功!",toUserVO(user));
         return new ResultVO<>(CONST.REQUEST_FAIL, "密码更改失败");
     }
     @Override
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
         if(user==null){
             return null;
         }
-        return new UserVO(user);
+        return toUserVO(user);
     }
 
     @Override
@@ -188,5 +188,15 @@ public class UserServiceImpl implements UserService {
         userVO.setExp(exp);
         userVO.setLevel(level);
         userMapper.updateByPrimaryKey(new User(userVO));
+    }
+    private UserVO toUserVO(User user){
+        UserVO userVO = new UserVO(user);
+        int expRequire = (int) (Math.exp(user.getLevel()+1)-user.getExp());
+        if(expRequire<0){
+            userVO.setLevel(userVO.getLevel()+1);
+            expRequire = (int) (Math.exp(userVO.getLevel()+1)-user.getExp());
+        }
+        userVO.setExpRequire(expRequire);
+        return userVO;
     }
 }
