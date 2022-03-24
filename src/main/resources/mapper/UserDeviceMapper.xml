@@ -6,8 +6,9 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="device_id" jdbcType="INTEGER" property="deviceId" />
   </resultMap>
-  <resultMap id="DeviceMap" type="com.seiii.backend_511.po.user.Device">
+  <resultMap id="DeviceMap" type="com.seiii.backend_511.vo.user.DeviceVO">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="device_id" jdbcType="VARCHAR" property="deviceId" />
     <result column="device_info" jdbcType="VARCHAR" property="deviceInfo" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -32,7 +33,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="DeviceMap">
-    select u.device_id as id,d.device_info
+    select u.id as id,u.device_id as device_id,d.device_info
     from user_device as u,seiii.device as d
     where u.user_id = #{uid,jdbcType=INTEGER} and u.device_id = d.id
   </select>

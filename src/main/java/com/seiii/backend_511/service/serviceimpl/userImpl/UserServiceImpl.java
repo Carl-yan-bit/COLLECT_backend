@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
         if(!userDeviceVO.getUserId().equals(userDeviceMapper.selectByPrimaryKey(userDeviceVO.getId()).getUserId())){
             return new ResultVO<>(CONST.REQUEST_FAIL,"失败,没有权限");
         }
-        DeviceVO deviceVO = deviceService.getDeviceById(userDeviceVO.getDeviceId());
+        DeviceVO deviceVO = deviceService.getDeviceById(userDeviceMapper.selectByPrimaryKey(userDeviceVO.getId()).getDeviceId());
         if(userDeviceMapper.deleteByPrimaryKey(userDeviceVO.getId())==1){
             return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",deviceVO);
         }

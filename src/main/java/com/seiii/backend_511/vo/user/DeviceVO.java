@@ -10,6 +10,7 @@ import lombok.NonNull;
 public class DeviceVO {
     private Integer id;
     private Integer uid;
+    private Integer deviceId;
     private String deviceInfo;
 
     public Integer getId() {
