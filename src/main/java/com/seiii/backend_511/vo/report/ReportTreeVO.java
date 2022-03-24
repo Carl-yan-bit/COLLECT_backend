@@ -11,7 +11,7 @@ public class ReportTreeVO {
     private Integer id;
     private String label;
     private ReportVO reportVO;
-    private List<ReportTreeVO> subReportList;
+    private List<ReportTreeVO> children;
     public ReportTreeVO(ReportVO reportVO){
         label = reportVO.getName();
         id = reportVO.getId();

@@ -150,7 +150,7 @@ public class ReportServiceImpl implements ReportService {
         for(Report report:sub){
             list.add(toReportTreeVO(toReportVO(report)));
         }
-        treeVO.setSubReportList(list);
+        treeVO.setChildren(list);
         return treeVO;
     }
 

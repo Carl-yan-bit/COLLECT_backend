@@ -19,9 +19,19 @@ CREATE TABLE `user` (
     UNIQUE(`phoneNumber`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `user` VALUES (1,12,1,NULL,0,"root","test1@test.com","1234567","dbb1c112a931eeb16299d9de1f30161d","0",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (1,12,1,NULL,0,"root","root1@test.com","1234567","dbb1c112a931eeb16299d9de1f30161d","0",'2022-02-28 10:00:00');
 INSERT INTO `user` VALUES (2,0,0,NULL,0,"root","test2@test.com","12345678","dbb1c112a931eeb16299d9de1f30161d","1",'2022-02-28 10:00:00');
 INSERT INTO `user` VALUES (3,0,0,NULL,0,"root","test3@test.com","123456789","dbb1c112a931eeb16299d9de1f30161d","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (4,130,5,NULL,0,"employee1","employee1@test.com","74751","521217f86e7105b50785b02d0659a054","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (5,120,5,NULL,0,"employee2","employee2@test.com","74752","720556b32d40f48dc6f3b2b83fc94c82","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (6,10,1,NULL,0,"employee3","employee3@test.com","74753","9df1097747222bce16c6265bab52e121","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (7,12,1,NULL,0,"employee4","employee4@test.com","74754","3c557a63f2887866055d79834e19e8f3","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (8,130,5,NULL,0,"employeeIOS","IOS@test.com","74755","aa320d82002497c267e77fed2f2c774f","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (9,120,5,NULL,0,"employeeAndroid","Android@test.com","74756","2d8712176552abeead274aa3bdb72c26","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (10,10,1,NULL,0,"employeeMAC","MAC@test.com","74757","0fa8ed9b1788d84bb9ec5becc19bff3d","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (11,12,1,NULL,0,"employeeLINUX","LINUX@test.com","74758","10808c670f25cef8ed5e8b4cc3d6eb66","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (12,1000,50,NULL,0,"employer1","employer1@test.com","418511","07f3fbbb15d8766730745f1d970b890b","1",'2022-02-28 10:00:00');
+
 DROP TABLE IF EXISTS `project_preference`;
 CREATE TABLE `project_preference`(
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
@@ -51,17 +61,52 @@ CREATE TABLE `project` (
     CONSTRAINT `fk_user_project` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `project` VALUES (1,2,1,8,1,"test_project1","open","testproject1",'2022-03-28 10:00:00',0,'2022-02-28 10:00:00');
-INSERT INTO `project` VALUES (2,2,1,7,1,"test_project2","open","testproject2",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
-INSERT INTO `project` VALUES (3,2,1,6,1,"test_project2","open","testproject3",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
-INSERT INTO `project` VALUES (4,2,1,4,1,"test_project2","open","testproject4",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
-INSERT INTO `project` VALUES (5,2,1,4,1,"test_project2","open","testproject5",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
-INSERT INTO `project` VALUES (6,2,1,5,1,"test_project2","open","testproject6",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
-INSERT INTO `project` VALUES (7,2,1,2,1,"test_project2","open","testproject7",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
-INSERT INTO `project` VALUES (8,2,1,3,1,"test_project2","open","testproject8",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
-INSERT INTO `project` VALUES (9,2,1,1,1,"test_project2","open","testproject9",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
-INSERT INTO `project` VALUES (10,2,1,8,1,"test_project2","open","testproject10",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
-INSERT INTO `project` VALUES (11,2,1,8,1,"test_project2","open","testproject11",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (1,2,1,1,1,"财新（企业版）-7.0.0-BUG探索-IOS","open","1、可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试
+                                                                          2、所有功能都测试，重点测试支付、FM、音频播放器、文章正文页、我的播单等功能",'2022-03-28 10:00:00',15,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (2,2,3,3,1,"财新测试-7.8.0-BUG探索-鸿蒙系统","open","1、可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。
+                                                                           2、所有功能都测试，重点测试支付、FM、音频播放器、文章正文页、我的播单等功能",'2022-03-28 10:00:00',35,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (3,2,7,1,1,"Welink-5.59.5-Bug探索-IOS","open","【重要】测试前必看，WeLink探索测试指南
+                                                                          https://kdocs.cn/l/cnHhUKkDXLJa
+                                                                          1.Android安装包用任务的，IOS包用群里Testflght账号的
+                                                                          2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html
+                                                                          3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA
+                                                                          4.所有人都需要自主注册选择员工，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (4,2,7,3,1,"Welink-5.59.3-Bug探索-HarmonyOS","open","【重要】测试前必看，WeLink探索测试指南
+                                                                                https://kdocs.cn/l/cnHhUKkDXLJa
+                                                                                1.Android安装包用任务的，IOS包用群里Testflght账号的
+                                                                                2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html
+                                                                                3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA
+                                                                                4.所有人都需要自主注册，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (5,2,1,4,1,"WeLink-7.14.0.280-Bug探索-PC","open","安装包：PC版本7.14.0.280
+                                                                             测试平台：Windows
+                                                                             版本地址： https://softclient.obs.cn-north-4.myhuaweicloud.com:443/temp/WeLink_Win_cloud_202201301518_4790_master_7.14.0_280.exe?AccessKeyId=UH1ZMWZA2MLTCGRVEBJM&Expires=1644461315&Signature=UmBfx24upyAazfHxfUxsv2lXPJM%3D
+                                                                             所有的bug必须带上日志【登录页点击登陆设置-收集日志，收集后自动打开日志所在目录了】
+                                                                             WeLinkPC_0216各模块需求列表
+                                                                             https://kdocs.cn/l/cp7SZzdCBxRf",'2022-03-28 10:00:00',200,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (6,12,1,5,1,"58同城-11.0.0-Bug探索-LINUX","open","此次版本更新内容
+                                                                         1、使用到微聊的业务线需要回归测试：微聊登录登出、两台手机账号互踢、未读消息数、聊天页跳转（业务线帖子详情页点“微聊”，进入会话页）、语音消息播放
+                                                                         2、在屏幕顶部弹出定位权限使用说明，在屏幕底部弹出定位权限使用弹窗，可参考https://note.youdao.com/s/cAlsf6sN，新增脚本1；
+                                                                         3、首次打开app,不同意隐私协议，进入app首页前不再展示引导页面，目前灰度80%用户同意隐私协议可以看到引导页面。
+                                                                         4、安卓单端：前提条件：允许58app使用定位信息；手动切换城市到不是当前定位的城市，例如：当前定位在北京，切换至上海市首页，然后杀掉app，重新冷启动app;",'2022-03-28 10:00:00',25,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (7,12,1,6,1,"58同城-11.0.0-Bug探索-MAC","open","
+期望结果：冷启动后弹出城市切换弹窗；
+5、首页底部菜单使用新版UI，UI展示正常；
+6、登录SDK升级需求
+1）账号密码登录、手机号一键登录、第三方登录、切换账号登录
+2）注册功能
+3）账号安全页面相关功能
+4）登录相关页面滑动返回（右滑返回）
+7、点击手机接收到的push消息，可以调起58app，正常进入落地页；
+
+重点测试模块
+1）App桌面底部tabUI；
+2）登录模块；
+3）个人中心--我的收藏页面；
+4）消息中心：",'2022-03-28 10:00:00',2,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (8,12,1,2,1,"McDonald-Bug探索-Android","open","testproject8",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (9,12,1,1,1,"test_project2","open","testproject9",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (10,12,1,8,1,"test_project2","open","testproject10",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
+INSERT INTO `project` VALUES (11,12,1,8,1,"test_project2","open","testproject11",'2022-03-28 10:00:00',2000,'2022-02-28 10:00:00');
 
 DROP TABLE IF EXISTS `device`;
 CREATE TABLE `device`(
