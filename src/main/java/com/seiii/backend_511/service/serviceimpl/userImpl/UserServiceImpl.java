@@ -11,6 +11,7 @@ import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.Encryption;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.user.DeviceVO;
+import com.seiii.backend_511.vo.user.UserDeviceListVO;
 import com.seiii.backend_511.vo.user.UserDeviceVO;
 import com.seiii.backend_511.vo.user.UserVO;
 
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Service
@@ -153,5 +155,31 @@ public class UserServiceImpl implements UserService {
             return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",deviceVO);
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"失败");
+    }
+
+    @Override
+    public ResultVO<List<DeviceVO>> addUserDevice(UserDeviceListVO userDeviceVOList) {
+        List<DeviceVO> list=new ArrayList<>();
+        for(UserDeviceVO userDeviceVO:userDeviceVOList.getList()){
+            ResultVO<DeviceVO> temp = addUserDevice(userDeviceVO);
+            if(temp.getCode().equals(CONST.REQUEST_FAIL)){
+                return new ResultVO<>(CONST.REQUEST_FAIL,"失败");
+            }
+            else {
+                list.add(temp.getData());
+            }
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",list);
+    }
+
+    @Override
+    public void getExp(UserVO userVO, int Exp) {
+        int exp = userVO.getExp();
+        int level = userVO.getLevel();
+        exp += Exp;
+        level = (int)Math.log(exp);
+        userVO.setExp(exp);
+        userVO.setLevel(level);
+        userMapper.updateByPrimaryKey(new User(userVO));
     }
 }

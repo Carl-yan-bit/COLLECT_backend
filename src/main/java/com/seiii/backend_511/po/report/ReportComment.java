@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ReportComment {
     private Integer id;
-
+    private Integer userId;
     private Integer reportId;
 
     private Float score;
@@ -24,6 +24,7 @@ public class ReportComment {
         this.reportId = reportComment.getReportId();
         this.score = reportComment.getScore();
         this.content = reportComment.getContent();
+        this.userId = reportComment.getUserId();
         this.createTime = reportComment.getCreateTime();
     }
 }

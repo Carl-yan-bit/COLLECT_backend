@@ -4,6 +4,7 @@ import com.seiii.backend_511.po.user.Device;
 import com.seiii.backend_511.po.user.User;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.user.DeviceVO;
+import com.seiii.backend_511.vo.user.UserDeviceListVO;
 import com.seiii.backend_511.vo.user.UserDeviceVO;
 import com.seiii.backend_511.vo.user.UserVO;
 
@@ -21,5 +22,7 @@ public interface UserService {
     List<User> getAll();
     ResultVO<List<Device>> getUserDevices(Integer uid);
     ResultVO<DeviceVO> addUserDevice(UserDeviceVO userDeviceVO);
+    ResultVO<List<DeviceVO>> addUserDevice(UserDeviceListVO userDeviceVOList);
     ResultVO<DeviceVO> deleteUserDevice(UserDeviceVO userDeviceVO);
+    void getExp(UserVO userVO, int Exp);
 }

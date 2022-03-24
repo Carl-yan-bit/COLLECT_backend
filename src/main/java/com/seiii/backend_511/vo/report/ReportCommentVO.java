@@ -11,9 +11,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class ReportCommentVO {
     private Integer id;
-
+    private Integer userId;
     private Integer reportId;
-
+    private String userName;
     private Float score;
 
     private String content;
@@ -25,6 +25,7 @@ public class ReportCommentVO {
         this.reportId = reportComment.getReportId();
         this.score = reportComment.getScore();
         this.content = reportComment.getContent();
+        this.userId = reportComment.getUserId();
         this.createTime = reportComment.getCreateTime();
     }
 }

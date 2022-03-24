@@ -3,6 +3,7 @@
 <mapper namespace="com.seiii.backend_511.mapperservice.ReportCommentMapper">
   <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.report.ReportComment">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="report_id" jdbcType="INTEGER" property="reportId" />
     <result column="score" jdbcType="REAL" property="score" />
     <result column="content" jdbcType="VARCHAR" property="content" />
@@ -13,26 +14,37 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.seiii.backend_511.po.report.ReportComment">
-    insert into report_comment (id, report_id, score, 
+    insert into report_comment (id,user_id, report_id, score,
       content, create_time)
-    values (#{id,jdbcType=INTEGER}, #{reportId,jdbcType=INTEGER}, #{score,jdbcType=REAL}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{reportId,jdbcType=INTEGER}, #{score,jdbcType=REAL},
       #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.report.ReportComment">
     update report_comment
-    set report_id = #{reportId,jdbcType=INTEGER},
+    set user_id = #{userId,jdbcType=INTEGER},
+        report_id = #{reportId,jdbcType=INTEGER},
       score = #{score,jdbcType=REAL},
       content = #{content,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, report_id, score, content, create_time
+    select id, user_id,report_id, score, content, create_time
     from report_comment
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, report_id, score, content, create_time
+  <select id="selectByReport" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id,report_id, score, content, create_time
     from report_comment
+    where report_id = #{rid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_id,report_id, score, content, create_time
+    from report_comment
+  </select>
+  <select id="getScoreByReport" parameterType="java.lang.Integer" resultType="java.lang.Float">
+    select avg(score)
+    from report_comment
+    where report_id = #{rid,jdbcType=INTEGER}
   </select>
 </mapper>

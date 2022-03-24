@@ -7,10 +7,10 @@ public interface ReportCommentMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(ReportComment record);
-
+    float getScoreByReport(Integer rid);
     ReportComment selectByPrimaryKey(Integer id);
 
     List<ReportComment> selectAll();
-
+    List<ReportComment> selectByReport(Integer rid);
     int updateByPrimaryKey(ReportComment record);
 }

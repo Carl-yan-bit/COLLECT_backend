@@ -4,10 +4,7 @@ package com.seiii.backend_511.controller.user;
 import com.seiii.backend_511.po.user.Device;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.vo.ResultVO;
-import com.seiii.backend_511.vo.user.DeviceVO;
-import com.seiii.backend_511.vo.user.UserDeviceVO;
-import com.seiii.backend_511.vo.user.UserFormVo;
-import com.seiii.backend_511.vo.user.UserVO;
+import com.seiii.backend_511.vo.user.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,8 +33,8 @@ public class UserController {
         return userService.getUserByUidWithCode(uid);
     }
     @PostMapping("/device/add")
-    public ResultVO<DeviceVO> addUserDevice(@RequestBody UserDeviceVO userDeviceVO){
-        return userService.addUserDevice(userDeviceVO);
+    public ResultVO<List<DeviceVO>> addUserDevice(@RequestBody UserDeviceListVO userDeviceVOList){
+        return userService.addUserDevice(userDeviceVOList);
     }
     @PostMapping("/device/delete")
     public ResultVO<DeviceVO> deleteUserDevice(@RequestBody UserDeviceVO userDeviceVO){
