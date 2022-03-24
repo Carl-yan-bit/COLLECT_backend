@@ -14,6 +14,7 @@ public class ReportCommentVO {
     private Integer userId;
     private Integer reportId;
     private String userName;
+    private Integer userLevel;
     private Float score;
 
     private String content;

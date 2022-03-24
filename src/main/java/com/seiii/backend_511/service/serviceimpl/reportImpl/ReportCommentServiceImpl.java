@@ -76,6 +76,7 @@ public class ReportCommentServiceImpl implements ReportCommentService {
     private ReportCommentVO toReportCommentVO(ReportComment reportComment){
         ReportCommentVO reportCommentVO = new ReportCommentVO(reportComment);
         reportCommentVO.setUserName(userService.getUserByUid(reportComment.getUserId()).getName());
+        reportCommentVO.setUserLevel(userService.getUserByUid(reportComment.getUserId()).getLevel());
         return reportCommentVO;
     }
 }

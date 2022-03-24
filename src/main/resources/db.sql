@@ -19,18 +19,18 @@ CREATE TABLE `user` (
     UNIQUE(`phoneNumber`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `user` VALUES (1,12,1,NULL,0,"root","root1@test.com","1234567","dbb1c112a931eeb16299d9de1f30161d","0",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (1,12,2,NULL,0,"root","root1@test.com","1234567","dbb1c112a931eeb16299d9de1f30161d","0",'2022-02-28 10:00:00');
 INSERT INTO `user` VALUES (2,0,0,NULL,0,"root","test2@test.com","12345678","dbb1c112a931eeb16299d9de1f30161d","1",'2022-02-28 10:00:00');
 INSERT INTO `user` VALUES (3,0,0,NULL,0,"root","test3@test.com","123456789","dbb1c112a931eeb16299d9de1f30161d","2",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (4,130,5,NULL,0,"employee1","employee1@test.com","74751","521217f86e7105b50785b02d0659a054","2",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (5,120,5,NULL,0,"employee2","employee2@test.com","74752","720556b32d40f48dc6f3b2b83fc94c82","2",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (6,10,1,NULL,0,"employee3","employee3@test.com","74753","9df1097747222bce16c6265bab52e121","2",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (7,12,1,NULL,0,"employee4","employee4@test.com","74754","3c557a63f2887866055d79834e19e8f3","2",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (8,130,5,NULL,0,"employeeIOS","IOS@test.com","74755","aa320d82002497c267e77fed2f2c774f","2",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (9,120,5,NULL,0,"employeeAndroid","Android@test.com","74756","2d8712176552abeead274aa3bdb72c26","2",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (10,10,1,NULL,0,"employeeMAC","MAC@test.com","74757","0fa8ed9b1788d84bb9ec5becc19bff3d","2",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (11,12,1,NULL,0,"employeeLINUX","LINUX@test.com","74758","10808c670f25cef8ed5e8b4cc3d6eb66","2",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (12,1000,50,NULL,0,"employer1","employer1@test.com","418511","07f3fbbb15d8766730745f1d970b890b","1",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (4,13,2,NULL,0,"employee1","employee1@test.com","74751","521217f86e7105b50785b02d0659a054","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (5,1,0,NULL,0,"employee2","employee2@test.com","74752","720556b32d40f48dc6f3b2b83fc94c82","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (6,3,1,NULL,0,"employee3","employee3@test.com","74753","9df1097747222bce16c6265bab52e121","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (7,3,1,NULL,0,"employee4","employee4@test.com","74754","3c557a63f2887866055d79834e19e8f3","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (8,600,6,NULL,0,"employeeIOS","IOS@test.com","74755","aa320d82002497c267e77fed2f2c774f","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (9,600,6,NULL,0,"employeeAndroid","Android@test.com","74756","2d8712176552abeead274aa3bdb72c26","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (10,10,2,NULL,0,"employeeMAC","MAC@test.com","74757","0fa8ed9b1788d84bb9ec5becc19bff3d","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (11,12,2,NULL,0,"employeeLINUX","LINUX@test.com","74758","10808c670f25cef8ed5e8b4cc3d6eb66","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (12,1000,6,NULL,0,"employer1","employer1@test.com","418511","07f3fbbb15d8766730745f1d970b890b","1",'2022-02-28 10:00:00');
 
 DROP TABLE IF EXISTS `project_preference`;
 CREATE TABLE `project_preference`(
@@ -216,8 +216,16 @@ CREATE TABLE `report_comment`(
     CONSTRAINT `fk_report_comment` FOREIGN KEY(`report_id`) REFERENCES `report`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `report_comment` VALUES (1,1,1,3.5,"report2_task2_project1",'2022-02-28 10:00:00');
-INSERT INTO `report_comment` VALUES (2,1,2,3.7,"report2_task2_project1",'2022-02-28 10:00:00');
+INSERT INTO `report_comment` VALUES (1,1,2,3.5,"中规中矩",'2022-02-28 10:00:00');
+INSERT INTO `report_comment` VALUES (2,2,2,3.6,"我觉得楼上说的对",'2022-02-28 11:00:00');
+INSERT INTO `report_comment` VALUES (3,3,2,1.7,"他employee1什么的都在写报告，能写吗？写不了，没那个能力知道吗？",'2022-02-28 12:00:00');
+INSERT INTO `report_comment` VALUES (4,10,2,0.7,"这份报告脸都不要了",'2022-02-28 13:00:00');
+INSERT INTO `report_comment` VALUES (5,5,2,2.7,"能上3分吗？很蓝的啦",'2022-02-28 14:00:00');
+INSERT INTO `report_comment` VALUES (6,6,2,4.7,"报告牛逼！",'2022-02-28 15:00:00');
+INSERT INTO `report_comment` VALUES (7,7,2,4.7,"国足牛逼！",'2022-02-28 16:00:00');
+INSERT INTO `report_comment` VALUES (8,8,2,4.7,"报告牛逼（一条5毛",'2022-02-28 17:00:00');
+INSERT INTO `report_comment` VALUES (9,9,2,3.7,"楼上是有钱一起赚啊",'2022-02-28 18:00:00');
+
 DROP TABLE IF EXISTS `project_file`;
 CREATE TABLE `project_file` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
