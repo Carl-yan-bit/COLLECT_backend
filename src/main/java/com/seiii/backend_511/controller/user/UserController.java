@@ -1,13 +1,17 @@
 package com.seiii.backend_511.controller.user;
 
 
+import com.seiii.backend_511.po.user.Device;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.user.DeviceVO;
+import com.seiii.backend_511.vo.user.UserDeviceVO;
 import com.seiii.backend_511.vo.user.UserFormVo;
 import com.seiii.backend_511.vo.user.UserVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -31,5 +35,16 @@ public class UserController {
     public ResultVO<UserVO> getUserByUid(@PathVariable Integer uid){
         return userService.getUserByUidWithCode(uid);
     }
-
+    @PostMapping("/device/add")
+    public ResultVO<DeviceVO> addUserDevice(@RequestBody UserDeviceVO userDeviceVO){
+        return userService.addUserDevice(userDeviceVO);
+    }
+    @PostMapping("/device/delete")
+    public ResultVO<DeviceVO> deleteUserDevice(@RequestBody UserDeviceVO userDeviceVO){
+        return userService.deleteUserDevice(userDeviceVO);
+    }
+    @GetMapping("/device")
+    public ResultVO<List<Device>> getUserDevices(@RequestParam Integer uid){
+        return userService.getUserDevices(uid);
+    }
 }

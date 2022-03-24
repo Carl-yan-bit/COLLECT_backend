@@ -1,11 +1,17 @@
 package com.seiii.backend_511.service.serviceimpl.userImpl;
 
+import com.seiii.backend_511.mapperservice.UserDeviceMapper;
 import com.seiii.backend_511.mapperservice.UserMapper;
+import com.seiii.backend_511.po.user.Device;
 import com.seiii.backend_511.po.user.User;
+import com.seiii.backend_511.po.user.UserDevice;
+import com.seiii.backend_511.service.device.DeviceService;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.Encryption;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.user.DeviceVO;
+import com.seiii.backend_511.vo.user.UserDeviceVO;
 import com.seiii.backend_511.vo.user.UserVO;
 
 import org.springframework.stereotype.Service;
@@ -18,8 +24,10 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
-
-
+    @Resource
+    private UserDeviceMapper userDeviceMapper;
+    @Resource
+    private DeviceService deviceService;
     @Override
     public ResultVO<UserVO> userRegister(UserVO userVO) {
         userVO.setExp(0);
@@ -111,5 +119,39 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAll() {
         return userMapper.selectAll();
+    }
+
+    @Override
+    public ResultVO<List<Device>> getUserDevices(Integer uid) {
+        if(userDeviceMapper.selectByUserId(uid)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"用户没有设备");
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",userDeviceMapper.selectByUserId(uid));
+    }
+
+    @Override
+    public ResultVO<DeviceVO> addUserDevice(UserDeviceVO userDeviceVO) {
+        if(getUserByUid(userDeviceVO.getUserId())==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
+        }
+        if(userDeviceMapper.insert(new UserDevice(userDeviceVO))==1){
+            return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",deviceService.getDeviceById(userDeviceVO.getDeviceId()));
+        }
+        return new ResultVO<>(CONST.REQUEST_FAIL,"失败");
+    }
+
+    @Override
+    public ResultVO<DeviceVO> deleteUserDevice(UserDeviceVO userDeviceVO) {
+        if(getUserByUid(userDeviceVO.getUserId())==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
+        }
+        if(!userDeviceVO.getUserId().equals(userDeviceMapper.selectByPrimaryKey(userDeviceVO.getId()).getUserId())){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"失败,没有权限");
+        }
+        DeviceVO deviceVO = deviceService.getDeviceById(userDeviceVO.getDeviceId());
+        if(userDeviceMapper.deleteByPrimaryKey(userDeviceVO.getId())==1){
+            return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",deviceVO);
+        }
+        return new ResultVO<>(CONST.REQUEST_FAIL,"失败");
     }
 }

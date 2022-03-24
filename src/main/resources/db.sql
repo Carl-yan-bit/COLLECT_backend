@@ -221,7 +221,16 @@ CREATE TABLE `user_task`(
     CONSTRAINT `fk_task_user` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `fk_task_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
+DROP TABLE IF EXISTS `user_device`;
+CREATE TABLE `user_device`(
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `device_id` int(5) NOT NULL,
+    INDEX `fk_device_user`(`user_id`) USING BTREE,
+    INDEX `fk_device_user1`(`device_id`) USING BTREE,
+    CONSTRAINT `fk_device_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_device_user1` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+)
 INSERT INTO `user_task` VALUES (1,1,3);
 INSERT INTO `user_task` VALUES (2,2,3);
 INSERT INTO `user_task` VALUES (3,1,2);
