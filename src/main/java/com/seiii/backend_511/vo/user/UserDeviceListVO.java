@@ -8,8 +8,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class UserDeviceListVO {
-    private List<UserDeviceVO> list;
-    public UserDeviceListVO(List<UserDeviceVO> list){
-        this.list = list;
-    }
+    private Integer uid;
+    private List<Integer> list;
 }

@@ -4,10 +4,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.mapperservice.ProjectMapper;
 import com.seiii.backend_511.mapperservice.TaskMapper;
+import com.seiii.backend_511.mapperservice.TypeMapper;
 import com.seiii.backend_511.mapperservice.UserTaskMapper;
 import com.seiii.backend_511.po.project.Project;
 import com.seiii.backend_511.po.task.Task;
 import com.seiii.backend_511.po.task.UserTask;
+import com.seiii.backend_511.service.device.DeviceService;
 import com.seiii.backend_511.service.project.ProjectService;
 import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.service.task.TaskService;
@@ -39,6 +41,10 @@ public class TaskServiceImpl implements TaskService {
     UserTaskMapper userTaskMapper;
     @Resource
     ReportService reportService;
+    @Resource
+    private DeviceService deviceService;
+    @Resource
+    private TypeMapper typeMapper;
     @Override
     public ResultVO<TaskVO> createTask(TaskVO taskVO) {
         Task task = new Task(taskVO);
@@ -52,7 +58,7 @@ public class TaskServiceImpl implements TaskService {
             }
             task.setCreateTime(new Date());
             if(taskMapper.insert(task)==1)
-                return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务创建成功",new TaskVO(task));
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务创建成功",toTaskVO(task));
             return new ResultVO<>(CONST.REQUEST_FAIL,"任务创建失败");
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"任务信息填写不全");
@@ -74,7 +80,7 @@ public class TaskServiceImpl implements TaskService {
             }
             task.setCreateTime(oldTask.getCreateTime());
             if(taskMapper.updateByPrimaryKey(task)==1)
-                return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务更新成功",new TaskVO(task));
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务更新成功",toTaskVO(task));
             return new ResultVO<>(CONST.REQUEST_FAIL,"任务更新失败");
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"任务信息填写不全");
@@ -83,7 +89,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public ResultVO<TaskVO> deleteTask(Integer taskID) {
         if(taskMapper.selectByPrimaryKey(taskID)!=null){
-            TaskVO taskVO = new TaskVO(taskMapper.selectByPrimaryKey(taskID));
+            TaskVO taskVO = toTaskVO(taskMapper.selectByPrimaryKey(taskID));
             if(taskMapper.deleteByPrimaryKey(taskID)==1)
                 return new ResultVO<>(CONST.REQUEST_SUCCESS,"删除成功",taskVO);
             return new ResultVO<>(CONST.REQUEST_FAIL,"删除失败");
@@ -227,7 +233,7 @@ public class TaskServiceImpl implements TaskService {
         vo.setUserId(uid);
         ResultVO<ProjectVO> res = projectService.joinProject(vo);
         if((res.getCode().equals(CONST.REQUEST_SUCCESS)||res.getMsg().equals("已经在项目中"))&&userTaskMapper.insert(userTask)==1)
-            return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务加入成功",new TaskVO(taskMapper.selectByPrimaryKey(taskId)));
+            return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务加入成功",toTaskVO(taskMapper.selectByPrimaryKey(taskId)));
         return new ResultVO<>(CONST.REQUEST_FAIL,"任务加入失败");
     }
 
@@ -244,7 +250,7 @@ public class TaskServiceImpl implements TaskService {
         for (UserTask userTask:userTaskMapper.selectByUid(uid)){
             if(userTask.getTaskId().equals(taskId)){
                 if(userTaskMapper.deleteByPrimaryKey(userTask.getId())==1)
-                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",new TaskVO(taskMapper.selectByPrimaryKey(taskId)));
+                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",toTaskVO(taskMapper.selectByPrimaryKey(taskId)));
                 return new ResultVO<>(CONST.REQUEST_FAIL,"退出失败");
             }
         }
@@ -284,7 +290,7 @@ public class TaskServiceImpl implements TaskService {
         return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",getTaskByID(ID));
     }
     private TaskVO setMemberNum(Task po){
-        TaskVO taskVO = new TaskVO(po);
+        TaskVO taskVO = toTaskVO(po);
         if(getMemberNum(po.getId()).getCode()==CONST.REQUEST_SUCCESS){
             taskVO.setNowMembers(getMemberNum(po.getId()).getData());
         }
@@ -297,5 +303,13 @@ public class TaskServiceImpl implements TaskService {
             taskMapper.deleteByPrimaryKey(task.getId());
         }
         return getALlTasksByProject(project_id).size()==0;
+    }
+    private TaskVO toTaskVO(Task task){
+        TaskVO taskVO = new TaskVO(task);
+        if(deviceService.getDeviceById(taskVO.getDeviceId())!=null)
+            taskVO.setDeviceInfo(deviceService.getDeviceById(taskVO.getDeviceId()).getDeviceInfo());
+        if(typeMapper.selectByPrimaryKey(taskVO.getType())!=null)
+            taskVO.setTypeInfo(typeMapper.selectByPrimaryKey(taskVO.getType()).getTypeInfo());
+        return taskVO;
     }
 }

@@ -136,8 +136,11 @@ public class UserServiceImpl implements UserService {
         if(getUserByUid(userDeviceVO.getUserId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
         }
+        if(userDeviceMapper.selectByUserAndDevice(userDeviceVO.getUserId(),userDeviceVO.getDeviceId())!=null){
+            return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",deviceService.getDeviceById(userDeviceMapper.selectByUserAndDevice(userDeviceVO.getUserId(),userDeviceVO.getDeviceId()).getDeviceId()));
+        }
         if(userDeviceMapper.insert(new UserDevice(userDeviceVO))==1){
-            return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",deviceService.getDeviceById(userDeviceVO.getDeviceId()));
+            return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",deviceService.getDeviceById(userDeviceMapper.selectByUserAndDevice(userDeviceVO.getUserId(),userDeviceVO.getDeviceId()).getDeviceId()));
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"失败");
     }
@@ -160,7 +163,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVO<List<DeviceVO>> addUserDevice(UserDeviceListVO userDeviceVOList) {
         List<DeviceVO> list=new ArrayList<>();
-        for(UserDeviceVO userDeviceVO:userDeviceVOList.getList()){
+        for(int i=0;i<userDeviceVOList.getList().size();i++){
+            UserDeviceVO userDeviceVO = new UserDeviceVO();
+            userDeviceVO.setUserId(userDeviceVOList.getUid());
+            userDeviceVO.setDeviceId(userDeviceVOList.getList().get(i));
             ResultVO<DeviceVO> temp = addUserDevice(userDeviceVO);
             if(temp.getCode().equals(CONST.REQUEST_FAIL)){
                 return new ResultVO<>(CONST.REQUEST_FAIL,"失败");

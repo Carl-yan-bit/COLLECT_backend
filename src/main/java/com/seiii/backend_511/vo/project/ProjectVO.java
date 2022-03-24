@@ -18,9 +18,9 @@ public class ProjectVO {
     private Integer difficulty;
 
     private Integer deviceId;
-
+    private String deviceInfo;
     private Integer type;
-
+    private String typeInfo;
     private String name;
 
     private String state;

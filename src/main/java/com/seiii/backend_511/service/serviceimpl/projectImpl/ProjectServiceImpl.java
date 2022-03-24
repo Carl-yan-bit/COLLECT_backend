@@ -3,10 +3,12 @@ package com.seiii.backend_511.service.serviceimpl.projectImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.mapperservice.ProjectMapper;
+import com.seiii.backend_511.mapperservice.TypeMapper;
 import com.seiii.backend_511.mapperservice.UserProjectMapper;
 import com.seiii.backend_511.po.project.Project;
 import com.seiii.backend_511.po.project.UserProject;
 import com.seiii.backend_511.po.task.Task;
+import com.seiii.backend_511.service.device.DeviceService;
 import com.seiii.backend_511.service.file.FileService;
 import com.seiii.backend_511.service.project.ProjectService;
 import com.seiii.backend_511.service.report.ReportService;
@@ -30,17 +32,17 @@ import java.util.List;
 @Service
 public class ProjectServiceImpl implements ProjectService {
     @Resource
-    private FileService fileService;
-    @Resource
     private TaskService taskService;
     @Resource
     private UserService userService;
     @Resource
-    private ReportService reportService;
-    @Resource
     private ProjectMapper projectMapper;
     @Resource
     private UserProjectMapper userProjectMapper;
+    @Resource
+    private DeviceService deviceService;
+    @Resource
+    private TypeMapper typeMapper;
     @Override
     public ResultVO<ProjectVO> createProject(ProjectVO projectVO) {
         projectVO.setId(null);
@@ -54,7 +56,7 @@ public class ProjectServiceImpl implements ProjectService {
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
             if(projectMapper.insert(project)==1)
-                return new ResultVO<>(CONST.REQUEST_SUCCESS,"创建成功",new ProjectVO(project));
+                return new ResultVO<>(CONST.REQUEST_SUCCESS,"创建成功",toProjectVO(project));
             return new ResultVO<>(CONST.REQUEST_FAIL,"创建失败");
         }
         else {
@@ -75,7 +77,7 @@ public class ProjectServiceImpl implements ProjectService {
             project.setCreateTime(new Date());
             if(projectMapper.selectByPrimaryKey(project.getId())!=null){
                 if(projectMapper.updateByPrimaryKey(project)==1)
-                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"更新成功",new ProjectVO(project));
+                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"更新成功",toProjectVO(project));
                 return new ResultVO<>(CONST.REQUEST_FAIL,"创建失败");
             }
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个项目，不要试图更改了");
@@ -152,7 +154,7 @@ public class ProjectServiceImpl implements ProjectService {
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             if(userProject.getProjectId().equals(projectId)){
                 if(userProjectMapper.deleteByPrimaryKey(userProject.getId())==1)
-                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+                    return new ResultVO<>(CONST.REQUEST_SUCCESS,"退出成功",toProjectVO(projectMapper.selectByPrimaryKey(projectId)));
                 return new ResultVO<>(CONST.REQUEST_FAIL,"退出失败");
             }
         }
@@ -160,9 +162,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
     private ProjectVO setMemberNum(Project po){
         if(getProjectNumbers(po.getId()).getCode().equals(CONST.REQUEST_FAIL)){
-            return new ProjectVO(po);
+            return toProjectVO(po);
         }
-        ProjectVO vo = new ProjectVO(po);
+        ProjectVO vo = toProjectVO(po);
         vo.setMemberNum(getProjectNumbers(po.getId()).getData());
         return vo;
     }
@@ -186,7 +188,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
         UserProject up = new UserProject(userProjectVO);
         if(userProjectMapper.insert(up)==1)
-            return new ResultVO<>(CONST.REQUEST_SUCCESS,"加入成功",new ProjectVO(projectMapper.selectByPrimaryKey(projectId)));
+            return new ResultVO<>(CONST.REQUEST_SUCCESS,"加入成功",toProjectVO(projectMapper.selectByPrimaryKey(projectId)));
         return new ResultVO<>(CONST.REQUEST_FAIL,"加入失败");
     }
 
@@ -210,7 +212,7 @@ public class ProjectServiceImpl implements ProjectService {
         if(currPage==null || currPage<1) currPage=1;
         List<ProjectVO> projectVO = new ArrayList<>();
         for(Project project:projectMapper.selectAll()){
-            ProjectVO p = new ProjectVO(project);
+            ProjectVO p = toProjectVO(project);
             p.setMemberNum(userProjectMapper.selectByProjects(p.getId()).size());
             projectVO.add(p);
         }
@@ -223,5 +225,13 @@ public class ProjectServiceImpl implements ProjectService {
             return null;
         }
         return setMemberNum(projectMapper.selectByPrimaryKey(projectId));
+    }
+    private ProjectVO toProjectVO(Project project){
+        ProjectVO projectVO = new ProjectVO(project);
+        if(deviceService.getDeviceById(projectVO.getDeviceId())!=null)
+            projectVO.setDeviceInfo(deviceService.getDeviceById(projectVO.getDeviceId()).getDeviceInfo());
+        if(typeMapper.selectByPrimaryKey(projectVO.getType())!=null)
+            projectVO.setTypeInfo(typeMapper.selectByPrimaryKey(projectVO.getType()).getTypeInfo());
+        return projectVO;
     }
 }
