@@ -15,6 +15,10 @@
     delete from user_device
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByUid" parameterType="java.lang.Integer">
+    delete from user_device
+    where user_id = #{uid,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="com.seiii.backend_511.po.user.UserDevice">
     insert into user_device (id, user_id, device_id
       )

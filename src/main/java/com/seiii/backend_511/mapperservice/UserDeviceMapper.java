@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserDeviceMapper {
     int deleteByPrimaryKey(Integer id);
-
+    int deleteByUid(Integer uid);
     int insert(UserDevice record);
 
     UserDevice selectByPrimaryKey(Integer id);

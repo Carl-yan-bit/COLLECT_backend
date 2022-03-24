@@ -163,6 +163,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVO<List<DeviceVO>> addUserDevice(UserDeviceListVO userDeviceVOList) {
         List<DeviceVO> list=new ArrayList<>();
+        userDeviceMapper.deleteByUid(userDeviceVOList.getUid());
         for(int i=0;i<userDeviceVOList.getList().size();i++){
             UserDeviceVO userDeviceVO = new UserDeviceVO();
             userDeviceVO.setUserId(userDeviceVOList.getUid());
@@ -181,7 +182,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void getExp(UserVO userVO, int Exp) {
         int exp = userVO.getExp();
-        int level = userVO.getLevel();
+        int level;
         exp += Exp;
         level = (int)Math.log(exp);
         userVO.setExp(exp);
