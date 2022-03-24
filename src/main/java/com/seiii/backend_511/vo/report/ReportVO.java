@@ -15,7 +15,8 @@ public class ReportVO {
     private Integer userId;
 
     private Integer parentReport;
-
+    private String userName;
+    private String deviceInfo;
     private Float score;
 
     private String name;

@@ -4,18 +4,23 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.mapperservice.ReportMapper;
 import com.seiii.backend_511.po.report.Report;
+import com.seiii.backend_511.service.device.DeviceService;
 import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.service.task.TaskService;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.PageInfoUtil;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.report.ReportTreeVO;
 import com.seiii.backend_511.vo.report.ReportVO;
 import com.seiii.backend_511.vo.task.TaskVO;
+import com.seiii.backend_511.vo.user.DeviceVO;
+import com.seiii.backend_511.vo.user.UserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +30,8 @@ public class ReportServiceImpl implements ReportService {
     UserService userService;
     @Resource
     TaskService taskService;
+    @Resource
+    DeviceService deviceService;
     @Resource
     ReportMapper reportMapper;
     @Override
@@ -89,9 +96,21 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public PageInfo<ReportVO> getReportsByTask(Integer task_id,Integer currPage) {
         if(currPage==null||currPage<1) currPage = 1;
-        PageHelper.startPage(currPage,CONST.PAGE_SIZE);
         List<Report> reportList = reportMapper.selectByTask(task_id);
-        return PageInfoUtil.convert(new PageInfo<>(reportList),ReportVO.class);
+        List<ReportVO> ans = new ArrayList<>();
+        for(Report r:reportList){
+            ans.add(toReportVO(r));
+        }
+        return PageInfoUtil.ListToPageInfo(ans,currPage);
+    }
+
+    @Override
+    public ResultVO<ReportVO> getReportByID(Integer id) {
+        Report report = reportMapper.selectByPrimaryKey(id);
+        if(report==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个报告");
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",toReportVO(report));
     }
 
     @Override
@@ -100,6 +119,39 @@ public class ReportServiceImpl implements ReportService {
         if(report==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个报告");
         }
-        return new ResultVO<>(CONST.REQUEST_SUCCESS,"查找成功",new ReportVO(report));
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"查找成功",toReportVO(report));
     }
+    private ReportVO toReportVO(Report report){
+        ReportVO reportVO = new ReportVO(report);
+        DeviceVO deviceVO = deviceService.getDeviceById(report.getDeviceId());
+        if(deviceVO!=null)
+            reportVO.setDeviceInfo(deviceVO.getDeviceInfo());
+        UserVO userVO = userService.getUserByUid(report.getUserId());
+        if(userVO!=null)
+            reportVO.setUserName(userVO.getName());
+        return reportVO;
+    }
+
+    @Override
+    public ResultVO<ReportTreeVO> getReportTreeById(Integer id) {
+        if(getReportByID(id).getCode().equals(CONST.REQUEST_FAIL)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个节点");
+        }
+        ReportVO reportVO = getReportByID(id).getData();
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",toReportTreeVO(reportVO));
+    }
+    private ReportTreeVO toReportTreeVO(ReportVO reportVO){
+        ReportTreeVO treeVO = new ReportTreeVO(reportVO);
+        List<ReportTreeVO> list = new ArrayList<>();
+        List<Report> sub = reportMapper.selectByParentReport(reportVO.getId());
+        if (sub.size()==0){
+            return treeVO;
+        }
+        for(Report report:sub){
+            list.add(toReportTreeVO(toReportVO(report)));
+        }
+        treeVO.setSubReportList(list);
+        return treeVO;
+    }
+
 }

@@ -9,7 +9,7 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class DeviceVO {
     private Integer id;
-
+    private Integer uid;
     private String deviceInfo;
 
     public Integer getId() {

@@ -95,6 +95,8 @@ CREATE TABLE `report` (
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `fk_user_report`(`user_id`) USING BTREE,
     INDEX `fk_task_report`(`task_id`) USING BTREE,
+    INDEX `fk_task_user_report`(`task_id`,`user_id`) USING BTREE,
+    INDEX `fk_parentReport_report`(`parent_report`) USING BTREE,
     CONSTRAINT `fk_user_report` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `fk_task_report` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;

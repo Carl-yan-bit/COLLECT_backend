@@ -4,6 +4,7 @@ package com.seiii.backend_511.unit.service;
 import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.report.ReportTreeVO;
 import com.seiii.backend_511.vo.report.ReportVO;
 import org.junit.Assert;
 import org.junit.Test;
@@ -77,5 +78,10 @@ public class ReportServiceTest {
     public void testGetReportsByTaskAndUID(){
         Assert.assertEquals(CONST.REQUEST_SUCCESS,reportService.getReportByTaskAndUID(2,3).getCode().intValue());
         Assert.assertEquals(CONST.REQUEST_FAIL,reportService.getReportByTaskAndUID(4,3).getCode().intValue());
+    }
+    @Test
+    public void testGetReportTreeByID(){
+        ResultVO<ReportTreeVO> temp = reportService.getReportTreeById(1);
+        System.out.println(temp);
     }
 }

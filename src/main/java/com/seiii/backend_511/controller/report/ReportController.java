@@ -3,6 +3,7 @@ package com.seiii.backend_511.controller.report;
 import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.report.ReportTreeVO;
 import com.seiii.backend_511.vo.report.ReportVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +29,13 @@ public class ReportController {
     @GetMapping("/find")
     public ResultVO<ReportVO> getReportByTaskAndUID(@RequestParam Integer task_id,@RequestParam Integer uid){
         return reportService.getReportByTaskAndUID(task_id,uid);
+    }
+    @GetMapping("/find/id")
+    public ResultVO<ReportVO> getReportByID(@RequestParam Integer id){
+        return reportService.getReportByID(id);
+    }
+    @GetMapping("/find/tree")
+    public ResultVO<ReportTreeVO> getReportTreeByID(@RequestParam Integer id){
+        return reportService.getReportTreeById(id);
     }
 }
