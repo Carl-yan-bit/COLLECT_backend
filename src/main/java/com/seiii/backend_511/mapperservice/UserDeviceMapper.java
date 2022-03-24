@@ -10,7 +10,7 @@ public interface UserDeviceMapper {
     int insert(UserDevice record);
 
     UserDevice selectByPrimaryKey(Integer id);
-
+    UserDevice selectByUserAndDevice(Integer uid,Integer did);
     List<UserDevice> selectAll();
     List<Device> selectByUserId(Integer uid);
     int updateByPrimaryKey(UserDevice record);

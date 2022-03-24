@@ -32,6 +32,11 @@
     from user_device
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByUserAndDevice" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, device_id
+    from user_device
+    where user_id = #{uid,jdbcType=INTEGER} and device_id = #{did,jdbcType=INTEGER}
+  </select>
   <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="DeviceMap">
     select u.id as id,u.device_id as device_id,d.device_info
     from user_device as u,seiii.device as d
