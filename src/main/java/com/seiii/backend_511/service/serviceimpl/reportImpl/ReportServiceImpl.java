@@ -62,6 +62,10 @@ public class ReportServiceImpl implements ReportService {
                 if(reportVO.getParentReport().equals(report.getParentReport())){
                     return new ResultVO<>(CONST.REQUEST_FAIL,"不要重复协作");
                 }
+                if(reportVO.getParentReport().equals(report.getId())){
+                    reportVO.setId(report.getId());
+                    return updateReport(reportVO);
+                }
             }
         }
         if(StringUtils.hasText(reportVO.getName())&&StringUtils.hasText(reportVO.getDescription())&&StringUtils.hasText(reportVO.getDeviceId().toString())&&StringUtils.hasText(reportVO.getTestStep())){

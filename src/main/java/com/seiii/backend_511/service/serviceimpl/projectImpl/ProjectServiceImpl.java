@@ -195,6 +195,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ResultVO<ProjectVO> getProjectByIdWithUid(Integer projectId, Integer uid) {
         ProjectVO project = getProjectById(projectId);
+        onClick(projectId);
         if(project==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"查询失败");
         }
@@ -237,9 +238,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ResultVO<ProjectVO> onClick(Integer pid) {
-        ProjectVO project = getProjectById(pid);
+        Project project = projectMapper.selectByPrimaryKey(pid);
         project.setClickTimes(project.getClickTimes()+1);
-        updateProject(project);
+        updateProject(new ProjectVO(project));
         return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功");
     }
 }
