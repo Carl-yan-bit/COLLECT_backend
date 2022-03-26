@@ -34,7 +34,7 @@ public class ReportController {
         return reportService.getReportsByTask(task_id,pid);
     }
     @GetMapping("/find")
-    public ResultVO<ReportVO> getReportByTaskAndUID(@RequestParam Integer task_id,@RequestParam Integer uid){
+    public ResultVO<List<ReportVO>> getReportByTaskAndUID(@RequestParam Integer task_id,@RequestParam Integer uid){
         return reportService.getReportByTaskAndUID(task_id,uid);
     }
     @GetMapping("/find/id")

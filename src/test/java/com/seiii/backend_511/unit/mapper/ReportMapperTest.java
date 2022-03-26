@@ -26,6 +26,6 @@ public class ReportMapperTest {
     }
     @Test
     public void testSelectByTaskAndUID(){
-        Assert.assertEquals(Integer.valueOf(2),reportMapper.selectByTaskAndUser(2,3).getId());
+        Assert.assertEquals(Integer.valueOf(2),reportMapper.selectByTaskAndUser(2,3).get(0).getId());
     }
 }
