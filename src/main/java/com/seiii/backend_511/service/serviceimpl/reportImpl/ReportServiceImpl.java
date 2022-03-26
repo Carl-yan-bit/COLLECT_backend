@@ -45,26 +45,34 @@ public class ReportServiceImpl implements ReportService {
         }
         boolean flag = false;
         for(TaskVO task:taskService.getTasksByUser(reportVO.getUserId())){
-            if(task.getId().equals(reportVO.getTaskId())){
+            if (task.getId().equals(reportVO.getTaskId())) {
                 flag = true;
+                break;
             }
         }
         if(!flag){
             return new ResultVO<>(CONST.REQUEST_FAIL,"用户尚未加入该需求");
         }
-        if(reportMapper.selectByTaskAndUser(reportVO.getTaskId(),reportVO.getUserId())!=null&&reportVO.getParentReport()==null){
-            return new ResultVO<>(CONST.REQUEST_FAIL,"请不要重复提交");
+        List<Report> oldList = reportMapper.selectByTaskAndUser(reportVO.getTaskId(),reportVO.getUserId());
+        if(oldList!=null){
+            //只能提交一份根报告
+            if(reportVO.getParentReport()==null)
+                return new ResultVO<>(CONST.REQUEST_FAIL,"只能提交一份根报告");
+            for(Report report:oldList){
+                if(reportVO.getParentReport().equals(report.getParentReport())){
+                    return new ResultVO<>(CONST.REQUEST_FAIL,"不要重复协作");
+                }
+            }
         }
         if(StringUtils.hasText(reportVO.getName())&&StringUtils.hasText(reportVO.getDescription())&&StringUtils.hasText(reportVO.getDeviceId().toString())&&StringUtils.hasText(reportVO.getTestStep())){
             Report report = new Report(reportVO);
             report.setCreateTime(new Date());
             report.setState("finished");
-            List<Report> oldList = reportMapper.selectByTaskAndUser(report.getTaskId(),reportVO.getUserId());
             if(reportMapper.insert(report)==1){
                 List<Report> newList = reportMapper.selectByTaskAndUser(report.getTaskId(),reportVO.getUserId());
                 Report thisReport = report;
                 for(Report r:newList){
-                    if(!oldList.contains(r)){
+                    if(oldList==null||!oldList.contains(r)){
                         thisReport = r;
                         break;
                     }
