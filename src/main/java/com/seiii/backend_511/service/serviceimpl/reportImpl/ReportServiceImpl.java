@@ -56,8 +56,8 @@ public class ReportServiceImpl implements ReportService {
         List<Report> oldList = reportMapper.selectByTaskAndUser(reportVO.getTaskId(),reportVO.getUserId());
         if(oldList!=null){
             //只能提交一份根报告
-            if(reportVO.getParentReport()==null)
-                return new ResultVO<>(CONST.REQUEST_FAIL,"只能提交一份根报告");
+//            if(reportVO.getParentReport()==null)
+//                return new ResultVO<>(CONST.REQUEST_FAIL,"只能提交一份根报告");
             for(Report report:oldList){
                 if(reportVO.getParentReport().equals(report.getParentReport())){
                     return new ResultVO<>(CONST.REQUEST_FAIL,"不要重复协作");
