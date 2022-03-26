@@ -22,4 +22,5 @@ public interface ProjectService {
     ResultVO<ProjectVO> updateProject(ProjectVO project);
     ResultVO<ProjectVO> deleteProject(Integer pid);
     ResultVO<Integer> getProjectNumbers(Integer pid);
+    ResultVO<ProjectVO> onClick(Integer pid);
 }

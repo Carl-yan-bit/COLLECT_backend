@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Project {
     private Integer id;
-
+    private Integer clickTimes;
     private Integer userId;
 
     private Integer difficulty;
@@ -120,6 +120,7 @@ public class Project {
     }
     public Project(ProjectVO projectVO){
         id = projectVO.getId();
+        this.clickTimes = projectVO.getClickTimes();
         userId = projectVO.getUserId();
         name = projectVO.getName();
         state = projectVO.getState();

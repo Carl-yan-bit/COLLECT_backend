@@ -234,4 +234,12 @@ public class ProjectServiceImpl implements ProjectService {
             projectVO.setTypeInfo(typeMapper.selectByPrimaryKey(projectVO.getType()).getTypeInfo());
         return projectVO;
     }
+
+    @Override
+    public ResultVO<ProjectVO> onClick(Integer pid) {
+        ProjectVO project = getProjectById(pid);
+        project.setClickTimes(project.getClickTimes()+1);
+        updateProject(project);
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功");
+    }
 }

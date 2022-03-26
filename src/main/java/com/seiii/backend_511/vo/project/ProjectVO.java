@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ProjectVO {
     private Integer id;
-
+    private Integer clickTimes;
     private Integer userId;
 
     private Integer difficulty;
@@ -124,6 +124,7 @@ public class ProjectVO {
     }
     public ProjectVO(@NonNull Project project) {
         this.id = project.getId();
+        this.clickTimes = project.getClickTimes();
         this.userId = project.getUserId();
         this.name = project.getName();
         this.type = project.getType();
