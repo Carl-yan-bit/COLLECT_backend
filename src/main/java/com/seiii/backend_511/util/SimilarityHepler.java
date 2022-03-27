@@ -28,7 +28,8 @@ public class SimilarityHepler {
     private String indexPath="file/index/";
     private int fileCount=0;
 
-    public List<ReportSimilar> findSimilarity(String text, List<Report> base) throws IOException {
+    public List<ReportSimilar> findSimilarity(ReportVO report, List<Report> base) throws IOException {
+        String text=report.getDescription();
         String content=text.replaceAll("[\\p{P}+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]", "");
         content = content.replaceAll("\\t|\\r|\\n","");
         content = content.replaceAll(" ","");
@@ -42,12 +43,23 @@ public class SimilarityHepler {
         HashMap<Report,Double> cosSimMap=cosineSimilarity(textTfIdfMap,allTfIdfMap);
 
         List<Map.Entry<Report,Double>> list=new ArrayList<Map.Entry<Report, Double>>(cosSimMap.entrySet());
+        for(Map.Entry<Report,Double> e:list){
+            if(e.getKey().getUserId()==report.getUserId()){
+                list.remove(e);
+            }
+        }
         list.sort(new Comparator<Map.Entry<Report, Double>>() {
             @Override
             public int compare(Map.Entry<Report, Double> o1, Map.Entry<Report, Double> o2) {
                 return o2.getValue().compareTo(o1.getValue());
             }
         });
+
+        for(Map.Entry<Report,Double> e:list){
+            if(e.getKey().getUserId()==report.getUserId()){
+                 list.remove(e);
+            }
+        }
 
         File indexDir=new File(indexPath);
         for(File f:indexDir.listFiles()){

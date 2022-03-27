@@ -204,7 +204,7 @@ public class ReportServiceImpl implements ReportService {
         }
         try {
             SimilarityHepler hepler=new SimilarityHepler();
-            List<ReportSimilar> tempRes= hepler.findSimilarity(report.getDescription(),taskReportList);
+            List<ReportSimilar> tempRes= hepler.findSimilarity(report,taskReportList);
             List<ReportSimilarVO> res= new LinkedList<>();
             for(int i=0;i<tempRes.size();i++){
                 ReportSimilarVO r=new ReportSimilarVO(toReportVO(tempRes.get(i).getReport()),tempRes.get(i).getSimilarity());
