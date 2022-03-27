@@ -63,6 +63,9 @@ public class ReportServiceImpl implements ReportService {
             //只能提交一份根报告
 //            if(reportVO.getParentReport()==null)
 //                return new ResultVO<>(CONST.REQUEST_FAIL,"只能提交一份根报告");
+            if(getReportByID(reportVO.getParentReport())==null){
+                return new ResultVO<>(CONST.REQUEST_FAIL,"父报告不存在");
+            }
             for(Report report:oldList){
                 if(reportVO.getParentReport().equals(report.getParentReport())){
                     return new ResultVO<>(CONST.REQUEST_FAIL,"不要重复协作");

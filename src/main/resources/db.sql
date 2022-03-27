@@ -15,13 +15,16 @@ CREATE TABLE `user` (
     `user_role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
     `create_time` datetime(0) NOT NULL,
     PRIMARY KEY (`id`) USING BTREE,
+    INDEX `index_email`(`email`) USING BTREE,
+    INDEX `index_phone`(`phoneNumber`) USING BTREE,
+    INDEX `index_name`(`name`) USING BTREE,
     UNIQUE(`email`),
     UNIQUE(`phoneNumber`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 INSERT INTO `user` VALUES (1,12,2,NULL,0,"root","root1@test.com","1234567","dbb1c112a931eeb16299d9de1f30161d","0",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (2,0,0,NULL,0,"root","test2@test.com","12345678","dbb1c112a931eeb16299d9de1f30161d","1",'2022-02-28 10:00:00');
-INSERT INTO `user` VALUES (3,0,0,NULL,0,"root","test3@test.com","123456789","dbb1c112a931eeb16299d9de1f30161d","2",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (2,0,0,NULL,0,"发包方","test2@test.com","12345678","36a61e11fb03704d18e12bd98459727a","1",'2022-02-28 10:00:00');
+INSERT INTO `user` VALUES (3,0,0,NULL,0,"第一个用户","test3@test.com","123456789","2f0698cf3a9bfb73ad0167306fdd2ce4","2",'2022-02-28 10:00:00');
 INSERT INTO `user` VALUES (4,13,2,NULL,0,"employee1","employee1@test.com","74751","521217f86e7105b50785b02d0659a054","2",'2022-02-28 10:00:00');
 INSERT INTO `user` VALUES (5,1,0,NULL,0,"employee2","employee2@test.com","74752","720556b32d40f48dc6f3b2b83fc94c82","2",'2022-02-28 10:00:00');
 INSERT INTO `user` VALUES (6,3,1,NULL,0,"employee3","employee3@test.com","74753","9df1097747222bce16c6265bab52e121","2",'2022-02-28 10:00:00');

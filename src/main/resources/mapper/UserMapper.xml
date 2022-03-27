@@ -65,4 +65,10 @@
     from user
     where phoneNumber = #{phonenumber,jdbcType=VARCHAR}
   </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, exp, level, project_preference_id, activity, name, email, phoneNumber,
+           password, user_role, create_time
+    from user
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
 </mapper>

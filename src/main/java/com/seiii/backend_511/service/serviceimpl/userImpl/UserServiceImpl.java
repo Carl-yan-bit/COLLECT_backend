@@ -39,6 +39,9 @@ public class UserServiceImpl implements UserService {
         String password = userVO.getPassword();
         String email = userVO.getEmail();
         String phoneNumber = userVO.getPhonenumber();
+        if(userMapper.selectByName(userVO.getName())!=null){
+            return new ResultVO<>(CONST.REQUEST_FAIL, "用户名已被占用");
+        }
         if(userMapper.selectByEmail(email)==null&&userMapper.selectByPhoneNumber(phoneNumber)==null){
             if(StringUtils.hasText(name)&&StringUtils.hasText(password)){
                 userVO.setCreateTime(new Date());
