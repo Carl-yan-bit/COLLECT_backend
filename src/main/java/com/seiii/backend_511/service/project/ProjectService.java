@@ -1,11 +1,13 @@
 package com.seiii.backend_511.service.project;
 
 import com.github.pagehelper.PageInfo;
+import com.seiii.backend_511.po.project.Project;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.project.ProjectVO;
 import com.seiii.backend_511.vo.project.UserProjectVO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -23,4 +25,6 @@ public interface ProjectService {
     ResultVO<ProjectVO> deleteProject(Integer pid);
     ResultVO<Integer> getProjectNumbers(Integer pid);
     ResultVO<ProjectVO> onClick(Integer pid);
+    ResultVO<List<ProjectVO>> getRecommendation(Integer uid);
+    List<Project> selectAllByClickOrder(int nums);
 }

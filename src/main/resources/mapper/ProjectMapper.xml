@@ -50,6 +50,13 @@
     from project
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAllByClickOrder" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, click_times, user_id, difficulty, device_id, type, name, state, description, test_time,
+           worker_amount, create_time
+    from project
+    order by click_times desc
+    limit #{num,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, click_times, user_id, difficulty, device_id, type, name, state, description, test_time,
     worker_amount, create_time

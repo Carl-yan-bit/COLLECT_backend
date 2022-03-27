@@ -59,6 +59,7 @@ CREATE TABLE `project` (
     `create_time` datetime(0) NOT NULL,
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `fk_user_project`(`user_id`) USING BTREE,
+    INDEX `fk_click_times`(`click_times`) USING BTREE,
     CONSTRAINT `fk_user_project` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -318,7 +319,20 @@ CREATE TABLE `user_project`(
     CONSTRAINT `fk_project_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-
+DROP TABLE IF EXISTS `recommend_strategy`;
+CREATE TABLE `recommend_strategy`(
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `on_use` int(1) NOT NULL DEFAULT 0,
+    `exp` int(11) NOT NULL,
+    `level` int(11) NOT NULL,
+    `difficulty` int(11) NOT NULL,
+    `activity` int(11) NOT NULL,
+    `device` int(11) NOT NULL,
+    `num` int(11) NOT NULL,
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `fk_recommend`(`on_use`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+INSERT INTO `recommend_strategy` VALUES (1,1,1,1,1,1,1,6);
 
 DROP TABLE IF EXISTS `user_task`;
 CREATE TABLE `user_task`(
