@@ -128,7 +128,7 @@ public class ReportServiceImpl implements ReportService {
         for(Report r:reportList){
             ans.add(toReportVO(r));
         }
-        return PageInfoUtil.ListToPageInfo(ans,currPage);
+        return PageInfoUtil.ListToPageInfo(ans,currPage,100);
     }
 
     @Override
