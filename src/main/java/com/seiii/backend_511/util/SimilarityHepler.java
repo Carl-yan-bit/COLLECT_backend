@@ -2,6 +2,7 @@ package com.seiii.backend_511.util;
 
 import com.huaban.analysis.jieba.JiebaSegmenter;
 import com.seiii.backend_511.po.report.Report;
+import com.seiii.backend_511.po.report.ReportSimilar;
 import com.seiii.backend_511.vo.report.ReportSimilarVO;
 import com.seiii.backend_511.vo.report.ReportVO;
 import org.apache.lucene.analysis.WhitespaceAnalyzer;
@@ -27,7 +28,7 @@ public class SimilarityHepler {
     private String indexPath="file/index/";
     private int fileCount=0;
 
-    public List<ReportSimilarVO> findSimilarity(String text, List<Report> base) throws IOException {
+    public List<ReportSimilar> findSimilarity(String text, List<Report> base) throws IOException {
         String content=text.replaceAll("[\\p{P}+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]", "");
         content = content.replaceAll("\\t|\\r|\\n","");
         content = content.replaceAll(" ","");
@@ -53,11 +54,11 @@ public class SimilarityHepler {
             f.delete();
         }
 
-        List<ReportSimilarVO> res=new LinkedList<>();
+        List<ReportSimilar> res=new LinkedList<>();
         int size=Math.min(5,list.size());
         for(int i=0;i<size;i++){
-            ReportSimilarVO reportSimilarVO=new ReportSimilarVO(list.get(i).getKey(),list.get(i).getValue());
-            res.add(reportSimilarVO);
+            ReportSimilar reportSimilar=new ReportSimilar(list.get(i).getKey(),list.get(i).getValue());
+            res.add(reportSimilar);
         }
         return res;
     }

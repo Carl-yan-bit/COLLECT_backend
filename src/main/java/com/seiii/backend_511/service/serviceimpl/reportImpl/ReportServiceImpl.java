@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.huaban.analysis.jieba.JiebaSegmenter;
 import com.seiii.backend_511.mapperservice.ReportMapper;
 import com.seiii.backend_511.po.report.Report;
+import com.seiii.backend_511.po.report.ReportSimilar;
 import com.seiii.backend_511.service.device.DeviceService;
 import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.service.task.TaskService;
@@ -203,7 +204,12 @@ public class ReportServiceImpl implements ReportService {
         }
         try {
             SimilarityHepler hepler=new SimilarityHepler();
-            List<ReportSimilarVO> res= hepler.findSimilarity(report.getDescription(),taskReportList);
+            List<ReportSimilar> tempRes= hepler.findSimilarity(report.getDescription(),taskReportList);
+            List<ReportSimilarVO> res= new LinkedList<>();
+            for(int i=0;i<tempRes.size();i++){
+                ReportSimilarVO r=new ReportSimilarVO(toReportVO(tempRes.get(i).getReport()),tempRes.get(i).getSimilarity());
+                res.add(r);
+            }
             return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功查询",res);
         }catch (Exception e){
             e.printStackTrace();

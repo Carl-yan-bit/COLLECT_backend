@@ -33,11 +33,27 @@ public class ReportSimilarVO {
 
     private Double similarity;
 
-    public ReportSimilarVO(){}
-    public ReportSimilarVO(@NonNull Report report,Double sim) {
+    public void setReportVO(ReportVO report){
         this.id = report.getId();
         this.taskId = report.getTaskId();
         this.userId = report.getUserId();
+        this.parentReport = report.getParentReport();
+        this.score = report.getScore();
+        this.name = report.getName();
+        this.state = report.getState();
+        this.description = report.getDescription();
+        this.testStep = report.getTestStep();
+        this.deviceId = report.getDeviceId();
+        this.createTime = report.getCreateTime();
+    }
+
+    public ReportSimilarVO(){}
+    public ReportSimilarVO(@NonNull ReportVO report,Double sim) {
+        this.id = report.getId();
+        this.taskId = report.getTaskId();
+        this.userId = report.getUserId();
+        this.userName=report.getUserName();
+        this.deviceInfo=report.getDeviceInfo();
         this.parentReport = report.getParentReport();
         this.score = report.getScore();
         this.name = report.getName();
