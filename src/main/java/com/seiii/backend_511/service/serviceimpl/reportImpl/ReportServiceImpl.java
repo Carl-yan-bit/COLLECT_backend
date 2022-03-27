@@ -2,6 +2,7 @@ package com.seiii.backend_511.service.serviceimpl.reportImpl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.huaban.analysis.jieba.JiebaSegmenter;
 import com.seiii.backend_511.mapperservice.ReportMapper;
 import com.seiii.backend_511.po.report.Report;
 import com.seiii.backend_511.service.device.DeviceService;
@@ -10,18 +11,21 @@ import com.seiii.backend_511.service.task.TaskService;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.PageInfoUtil;
+import com.seiii.backend_511.util.SimilarityHepler;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.report.ReportTreeVO;
 import com.seiii.backend_511.vo.report.ReportVO;
 import com.seiii.backend_511.vo.task.TaskVO;
 import com.seiii.backend_511.vo.user.DeviceVO;
 import com.seiii.backend_511.vo.user.UserVO;
+import javafx.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -169,6 +173,8 @@ public class ReportServiceImpl implements ReportService {
         ReportVO reportVO = getReportByID(id).getData();
         return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",toReportTreeVO(reportVO));
     }
+
+
     private ReportTreeVO toReportTreeVO(ReportVO reportVO){
         ReportTreeVO treeVO = new ReportTreeVO(reportVO);
         List<ReportTreeVO> list = new ArrayList<>();
@@ -181,6 +187,34 @@ public class ReportServiceImpl implements ReportService {
         }
         treeVO.setChildren(list);
         return treeVO;
+    }
+
+    @Override
+    public ResultVO<List<Pair<ReportVO,Double>>> getSimilarReport(ReportVO report) {
+        if(report.getDescription()==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"报告内容为空",new LinkedList<>());
+        }
+        if(report.getTaskId()==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"报告所属任务id为空",new LinkedList<>());
+        }
+        List<Report> taskReportList=reportMapper.selectAllByTask(report.getTaskId());
+        if(taskReportList==null || taskReportList.size()==0){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务下无其余报告",new LinkedList<>());
+        }
+        try {
+            SimilarityHepler hepler=new SimilarityHepler();
+            List<Pair<Report,Double>> tempRes= hepler.findSimilarity(report.getDescription(),taskReportList);
+            List<Pair<ReportVO,Double>> res=new LinkedList<>();
+            for(int i=0;i<tempRes.size();i++){
+                Pair<Report,Double> p1=tempRes.get(i);
+                Pair<ReportVO,Double> p2=new Pair<>(new ReportVO(p1.getKey()),p1.getValue());
+                res.add(p2);
+            }
+            return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功查询",res);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResultVO<>(CONST.REQUEST_FAIL,"未知错误",new LinkedList<>());
     }
 
 }

@@ -32,8 +32,6 @@ web:
   project-file-upload-path: file/project/
   report-file-upload-path: file/report/
   task-file-upload-path: file/task/
-#web:
-#  file-upload-path: D:/courselearning/upload/
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.seiii.backend_511.po

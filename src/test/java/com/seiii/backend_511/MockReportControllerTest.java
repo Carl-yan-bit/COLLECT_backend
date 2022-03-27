@@ -74,4 +74,21 @@ public class MockReportControllerTest {
         String responseString = mockMvc.perform( MockMvcRequestBuilders.get("/api/report/find").param("task_id","2").param("uid","3")).andDo(print())
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     }
+    @Test
+    public void testGetSimilarReport() throws Exception{
+        ReportVO reportVO = new ReportVO();
+        reportVO.setId(100);
+        reportVO.setTestStep("1");
+        reportVO.setUserId(1);
+        reportVO.setTaskId(1);
+        reportVO.setDeviceId(1);
+        reportVO.setCreateTime(new Date());
+        reportVO.setDescription("我这是一个报告测试1");
+        reportVO.setState("finish");
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(reportVO);
+        String responseString = mockMvc.perform( MockMvcRequestBuilders.post("/api/report/similar").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andDo(print())
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    }
 }
