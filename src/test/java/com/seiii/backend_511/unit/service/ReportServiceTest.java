@@ -7,7 +7,6 @@ import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.report.ReportSimilarVO;
 import com.seiii.backend_511.vo.report.ReportTreeVO;
 import com.seiii.backend_511.vo.report.ReportVO;
-import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
