@@ -4,6 +4,7 @@ package com.seiii.backend_511.unit.service;
 import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.report.ReportSimilarVO;
 import com.seiii.backend_511.vo.report.ReportTreeVO;
 import com.seiii.backend_511.vo.report.ReportVO;
 import javafx.util.Pair;
@@ -97,7 +98,7 @@ public class ReportServiceTest {
         reportVO.setCreateTime(new Date());
         reportVO.setDescription("我这是一个报告测试1");
         reportVO.setState("finish");
-        ResultVO<List<Pair<ReportVO,Double>>> temp = reportService.getSimilarReport(reportVO);
+        ResultVO<List<ReportSimilarVO>> temp = reportService.getSimilarReport(reportVO);
         System.out.println(temp);
     }
 }

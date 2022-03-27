@@ -1,14 +1,13 @@
 package com.seiii.backend_511.controller.report;
 
 import com.github.pagehelper.PageInfo;
-import com.seiii.backend_511.po.report.ReportComment;
 import com.seiii.backend_511.service.report.ReportCommentService;
 import com.seiii.backend_511.service.report.ReportService;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.report.ReportCommentVO;
+import com.seiii.backend_511.vo.report.ReportSimilarVO;
 import com.seiii.backend_511.vo.report.ReportTreeVO;
 import com.seiii.backend_511.vo.report.ReportVO;
-import javafx.util.Pair;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -55,7 +54,7 @@ public class ReportController {
         return reportCommentService.postComment(reportCommentVO);
     }
     @PostMapping("/similar")
-    public ResultVO<List<Pair<ReportVO,Double>>> getSimilarReport(@RequestBody ReportVO report){
+    public ResultVO<List<ReportSimilarVO>> getSimilarReport(@RequestBody ReportVO report){
         return reportService.getSimilarReport(report);
     }
 }

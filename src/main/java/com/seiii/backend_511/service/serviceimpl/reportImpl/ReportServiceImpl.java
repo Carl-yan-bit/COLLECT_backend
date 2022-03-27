@@ -13,12 +13,12 @@ import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.PageInfoUtil;
 import com.seiii.backend_511.util.SimilarityHepler;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.report.ReportSimilarVO;
 import com.seiii.backend_511.vo.report.ReportTreeVO;
 import com.seiii.backend_511.vo.report.ReportVO;
 import com.seiii.backend_511.vo.task.TaskVO;
 import com.seiii.backend_511.vo.user.DeviceVO;
 import com.seiii.backend_511.vo.user.UserVO;
-import javafx.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -190,7 +190,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public ResultVO<List<Pair<ReportVO,Double>>> getSimilarReport(ReportVO report) {
+    public ResultVO<List<ReportSimilarVO>> getSimilarReport(ReportVO report) {
         if(report.getDescription()==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"报告内容为空",new LinkedList<>());
         }
@@ -203,13 +203,7 @@ public class ReportServiceImpl implements ReportService {
         }
         try {
             SimilarityHepler hepler=new SimilarityHepler();
-            List<Pair<Report,Double>> tempRes= hepler.findSimilarity(report.getDescription(),taskReportList);
-            List<Pair<ReportVO,Double>> res=new LinkedList<>();
-            for(int i=0;i<tempRes.size();i++){
-                Pair<Report,Double> p1=tempRes.get(i);
-                Pair<ReportVO,Double> p2=new Pair<>(new ReportVO(p1.getKey()),p1.getValue());
-                res.add(p2);
-            }
+            List<ReportSimilarVO> res= hepler.findSimilarity(report.getDescription(),taskReportList);
             return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功查询",res);
         }catch (Exception e){
             e.printStackTrace();
