@@ -6,6 +6,7 @@ import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.report.ReportTreeVO;
 import com.seiii.backend_511.vo.report.ReportVO;
+import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -82,6 +84,20 @@ public class ReportServiceTest {
     @Test
     public void testGetReportTreeByID(){
         ResultVO<ReportTreeVO> temp = reportService.getReportTreeById(1);
+        System.out.println(temp);
+    }
+    @Test
+    public void testGetSimilarReport(){
+        ReportVO reportVO = new ReportVO();
+        reportVO.setId(100);
+        reportVO.setTestStep("1");
+        reportVO.setUserId(1);
+        reportVO.setTaskId(1);
+        reportVO.setDeviceId(1);
+        reportVO.setCreateTime(new Date());
+        reportVO.setDescription("我这是一个报告测试1");
+        reportVO.setState("finish");
+        ResultVO<List<Pair<ReportVO,Double>>> temp = reportService.getSimilarReport(reportVO);
         System.out.println(temp);
     }
 }

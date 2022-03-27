@@ -59,6 +59,12 @@
     from report
     where task_id = #{taskID,jdbcType=INTEGER} and parent_report is NULL
   </select>
+  <select id="selectAllByTask" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, task_id, user_id, parent_report, score, name, state, description, test_step,
+           device_id, create_time
+    from report
+    where task_id = #{taskID,jdbcType=INTEGER}
+  </select>
   <select id="selectByParentReport" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, task_id, user_id, parent_report, score, name, state, description, test_step,
            device_id, create_time

@@ -8,6 +8,7 @@ import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.report.ReportCommentVO;
 import com.seiii.backend_511.vo.report.ReportTreeVO;
 import com.seiii.backend_511.vo.report.ReportVO;
+import javafx.util.Pair;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -52,5 +53,9 @@ public class ReportController {
     @PostMapping("/comment")
     public ResultVO<ReportCommentVO> postComment(@RequestBody ReportCommentVO reportCommentVO){
         return reportCommentService.postComment(reportCommentVO);
+    }
+    @PostMapping("/similar")
+    public ResultVO<List<Pair<ReportVO,Double>>> getSimilarReport(@RequestBody ReportVO report){
+        return reportService.getSimilarReport(report);
     }
 }
