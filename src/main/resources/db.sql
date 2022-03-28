@@ -308,7 +308,7 @@ INSERT INTO `task` VALUES (7,3,1,1,1,"全功能测试IOS","open","【重要】�
 INSERT INTO `task` VALUES (8,4,1,3,2,"全功能测试HM","open","测试前必看，WeLink探索测试指南 https://kdocs.cn/l/cnHhUKkDXLJa 1.Android安装包用任务的，IOS包用群里Testflght账号的 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA 4.所有人都需要自主注册，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
 INSERT INTO `task` VALUES (9,5,1,4,3,"Bug探索-PC","closed","所有的bug必须带上日志【登录页点击登陆设置-收集日志，收集后自动打开日志所在目录了】 WeLinkPC_0216各模块需求列表 https://kdocs.cn/l/cp7SZzdCBxRf",'2022-03-28 10:00:00',200,'2022-02-28 10:00:00');
 INSERT INTO `task` VALUES (10,6,2,5,1,"Bug探索-LINUX","open","首次打开app,不同意隐私协议，进入app首页前不再展示引导页面，目前灰度80%用户同意隐私协议可以看到引导页面。",'2022-03-28 10:00:00',15,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (11,7,3,6,1,"Bug探索-MAC","open","首页底部菜单使用新版UI，UI展示正常",'2022-03-28 10:00:00',1,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (11,7,3,6,1,"Bug探索-MAC","open","首页底部菜单使用新版UI，UI展示正常",'2022-03-28 20:21:00',1,'2022-02-28 10:00:00');
 
 DROP TABLE IF EXISTS `user_project`;
 CREATE TABLE `user_project`(
@@ -359,6 +359,27 @@ CREATE TABLE `user_device`(
     CONSTRAINT `fk_device_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `fk_device_user1` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
+-- 定时事务，用于项目的到期自动关闭
+CREATE EVENT `auto_close_task`
+ON SCHEDULE EVERY 1 MINUTE
+DO
+update seiii.task
+set state = 'closed'
+where test_time < now();
+
+
+CREATE EVENT `auto_close_project`
+ON SCHEDULE EVERY 1 MINUTE
+DO
+update seiii.project as p
+set p.state = 'closed'
+where test_time < now() and not exists(
+	select *
+    from seiii.task as t
+    where t.project_id = p.id and t.state = 'open'
+);
+
+-- 一些样例
 INSERT INTO `user_device` VALUES (1,3,1)
 INSERT INTO `user_device` VALUES (2,3,2)
 INSERT INTO `user_device` VALUES (3,3,3)

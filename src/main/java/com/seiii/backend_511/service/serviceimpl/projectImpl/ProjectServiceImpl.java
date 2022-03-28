@@ -81,6 +81,9 @@ public class ProjectServiceImpl implements ProjectService {
         if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getState())&&StringUtils.hasText(projectVO.getTestTime().toString())){
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
+            if(projectVO.getTestTime().after(new Date())){
+                projectVO.setState(CONST.STATE_OPEN);
+            }
             if(projectMapper.selectByPrimaryKey(project.getId())!=null){
                 if(projectMapper.updateByPrimaryKey(project)==1)
                     return new ResultVO<>(CONST.REQUEST_SUCCESS,"更新成功",toProjectVO(project));
@@ -138,7 +141,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> all= projectMapper.selectAll();
         List<ProjectVO> ans = new ArrayList<>();
         for(Project p:all){
-            if(userProjectMapper.selectByProjects(p.getId()).size()<p.getWorkerAmount()){
+            if(userProjectMapper.selectByProjects(p.getId()).size()<p.getWorkerAmount()&&p.getState().equals(CONST.STATE_OPEN)){
                 ans.add(setMemberNum(p));
             }
         }
@@ -157,6 +160,9 @@ public class ProjectServiceImpl implements ProjectService {
     public ResultVO<ProjectVO> quitProject(UserProjectVO userProjectVO) {
         Integer uid = userProjectVO.getUserId();
         Integer projectId = userProjectVO.getProjectId();
+        if(getProjectById(projectId).getState().equals(CONST.STATE_CLOSED)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
+        }
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             if(userProject.getProjectId().equals(projectId)){
                 if(userProjectMapper.deleteByPrimaryKey(userProject.getId())==1)
@@ -181,16 +187,19 @@ public class ProjectServiceImpl implements ProjectService {
         if(userService.getUserByUid(uid)==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
         }
-        for(UserProject userProject:userProjectMapper.selectByUser(uid)){
-            if(userProject.getProjectId().equals(projectId)){
-                return new ResultVO<>(CONST.REQUEST_FAIL,"已经在项目中");
-            }
+        if(getProjectById(projectId).getState().equals(CONST.STATE_CLOSED)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
         }
         if(projectMapper.selectByPrimaryKey(projectId)==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目不存在");
         }
         if(userProjectMapper.selectByProjects(projectId).size()>=projectMapper.selectByPrimaryKey(projectId).getWorkerAmount()){
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目人数已满!");
+        }
+        for(UserProject userProject:userProjectMapper.selectByUser(uid)){
+            if(userProject.getProjectId().equals(projectId)){
+                return new ResultVO<>(CONST.REQUEST_FAIL,"已经在项目中");
+            }
         }
         UserProject up = new UserProject(userProjectVO);
         if(userProjectMapper.insert(up)==1)
