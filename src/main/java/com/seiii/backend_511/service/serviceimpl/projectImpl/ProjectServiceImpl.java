@@ -59,7 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (userService.getUserByUid(projectVO.getUserId()).getUserRole().equals(CONST.USER_ROLE_WORKER)){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有权限");
         }
-        if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getState())&&StringUtils.hasText(projectVO.getTestTime().toString())){
+        if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getTestTime().toString())){
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
             if(projectMapper.insert(project)==1)
