@@ -49,6 +49,8 @@ public class ProjectServiceImpl implements ProjectService {
     private RecommendStrategyFactory recommendStrategyFactory;
     @Resource
     private RecommendStrategyMapper recommendStrategyMapper;
+
+
     @Override
     public ResultVO<ProjectVO> createProject(ProjectVO projectVO) {
         projectVO.setId(null);
