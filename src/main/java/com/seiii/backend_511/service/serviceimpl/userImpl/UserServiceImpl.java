@@ -1,7 +1,9 @@
 package com.seiii.backend_511.service.serviceimpl.userImpl;
 
 import com.seiii.backend_511.mapperservice.UserDeviceMapper;
+import com.seiii.backend_511.mapperservice.UserLogMapper;
 import com.seiii.backend_511.mapperservice.UserMapper;
+import com.seiii.backend_511.po.UserLog;
 import com.seiii.backend_511.po.user.Device;
 import com.seiii.backend_511.po.user.User;
 import com.seiii.backend_511.po.user.UserDevice;
@@ -30,6 +32,8 @@ public class UserServiceImpl implements UserService {
     private UserDeviceMapper userDeviceMapper;
     @Resource
     private DeviceService deviceService;
+    @Resource
+    private UserLogMapper userLogMapper;
     @Override
     public ResultVO<UserVO> userRegister(UserVO userVO) {
         userVO.setExp(0);
@@ -77,6 +81,8 @@ public class UserServiceImpl implements UserService {
         if(user==null){
             return new ResultVO<>(CONST.REQUEST_FAIL, "尚未注册，请检查输入或先注册!");
         }
+        UserLog userLog = new UserLog(user.getId(),"登陆",CONST.LOGIN_POINT,new Date());
+        userLogMapper.insert(userLog);
         if(!user.getPassword().equals(Encryption.encryptPassword(password,user.getName()))){
             return new ResultVO<>(CONST.REQUEST_FAIL, "账号或密码错误!");
         }

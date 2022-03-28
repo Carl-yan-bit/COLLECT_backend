@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.huaban.analysis.jieba.JiebaSegmenter;
 import com.seiii.backend_511.mapperservice.ReportMapper;
+import com.seiii.backend_511.mapperservice.UserLogMapper;
+import com.seiii.backend_511.po.UserLog;
 import com.seiii.backend_511.po.report.Report;
 import com.seiii.backend_511.po.report.ReportSimilar;
 import com.seiii.backend_511.service.device.DeviceService;
@@ -39,6 +41,9 @@ public class ReportServiceImpl implements ReportService {
     DeviceService deviceService;
     @Resource
     ReportMapper reportMapper;
+    @Resource
+    UserLogMapper userLogMapper;
+
     @Override
     public ResultVO<ReportVO> createReport(ReportVO reportVO) {
         reportVO.setScore(2.5F);
@@ -48,6 +53,8 @@ public class ReportServiceImpl implements ReportService {
         if(taskService.getTaskByID(reportVO.getTaskId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个任务");
         }
+        UserLog userLog = new UserLog(reportVO.getUserId(),"写报告",CONST.REPORT_POINT,new Date());
+        userLogMapper.insert(userLog);
         boolean flag = false;
         for(TaskVO task:taskService.getTasksByUser(reportVO.getUserId())){
             if (task.getId().equals(reportVO.getTaskId())) {

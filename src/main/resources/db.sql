@@ -358,26 +358,55 @@ CREATE TABLE `user_device`(
     INDEX `fk_device_user1`(`device_id`) USING BTREE,
     CONSTRAINT `fk_device_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `fk_device_user1` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-)
+)ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `user_log`;
+CREATE TABLE `user_log`(
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `msg` varchar(255),
+    `activity_point` int(5),
+    `time` datetime,
+    INDEX `fk_user_log`(`user_id`) USING BTREE,
+    CONSTRAINT `fk_user_log` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+INSERT INTO `user_log` VALUES(1,1,"登陆",10,'2022-02-28 18:00:00')
+INSERT INTO `user_log` VALUES(2,1,"登陆",1,'2022-03-28 18:00:00')
+INSERT INTO `user_log` VALUES(3,1,"登陆",1,'2022-03-28 18:00:00')
+INSERT INTO `user_log` VALUES(4,1,"登陆",1,'2022-03-28 18:00:00')
+INSERT INTO `user_log` VALUES(5,1,"登陆",1,'2022-03-28 18:00:00')
+INSERT INTO `user_log` VALUES(6,1,"登陆",1,'2022-03-28 18:00:00')
 -- 定时事务，用于项目的到期自动关闭
+DROP EVENT IF EXISTS `auto_close_task`;
 CREATE EVENT `auto_close_task`
 ON SCHEDULE EVERY 1 MINUTE
 DO
-update seiii.task
+update task
 set state = 'closed'
 where test_time < now();
 
-
+DROP EVENT IF EXISTS `auto_close_project`;
 CREATE EVENT `auto_close_project`
 ON SCHEDULE EVERY 1 MINUTE
 DO
-update seiii.project as p
+update project as p
 set p.state = 'closed'
 where test_time < now() and not exists(
 	select *
-    from seiii.task as t
+    from task as t
     where t.project_id = p.id and t.state = 'open'
 );
+
+DROP EVENT IF EXISTS `auto_get_activity`;
+CREATE EVENT `auto_get_activity`
+ON SCHEDULE EVERY 1 DAY
+DO
+update user as u
+set activity = (
+	select sum(log.activity_point)
+    from user_log as log
+    where log.time > date_sub(now(),interval 1 month) and log.user_id = u.id
+)
 
 -- 一些样例
 INSERT INTO `user_device` VALUES (1,3,1)
