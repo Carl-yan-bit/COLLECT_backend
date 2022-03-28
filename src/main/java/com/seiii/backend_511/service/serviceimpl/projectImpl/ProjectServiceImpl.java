@@ -52,6 +52,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ResultVO<ProjectVO> createProject(ProjectVO projectVO) {
         projectVO.setId(null);
+        projectVO.setClickTimes(0);
         if(userService.getUserByUid(projectVO.getUserId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目定义不完全!");
         }
@@ -82,9 +83,10 @@ public class ProjectServiceImpl implements ProjectService {
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
             if(projectVO.getTestTime().after(new Date())){
-                projectVO.setState(CONST.STATE_OPEN);
+                project.setState(CONST.STATE_OPEN);
             }
             if(projectMapper.selectByPrimaryKey(project.getId())!=null){
+                project.setClickTimes(projectMapper.selectByPrimaryKey(project.getId()).getClickTimes());
                 if(projectMapper.updateByPrimaryKey(project)==1)
                     return new ResultVO<>(CONST.REQUEST_SUCCESS,"更新成功",toProjectVO(project));
                 return new ResultVO<>(CONST.REQUEST_FAIL,"创建失败");
