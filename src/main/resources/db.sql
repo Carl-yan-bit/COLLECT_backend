@@ -204,10 +204,10 @@ CREATE TABLE `report` (
     CONSTRAINT `fk_task_report` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `report` VALUES (1,1,3,NULL,2.5,"我是报告1","open","我是1号主报告","123","1",'2022-02-28 10:00:00');
-INSERT INTO `report` VALUES (2,1,4,1,5.0,"我是报告2","open","我是1号的子报告","123","1",'2022-02-28 10:00:00');
-INSERT INTO `report` VALUES (3,1,5,NULL,2.5,"我是报告3","open","我是2号主报告","123","1",'2022-02-28 10:00:00');
-INSERT INTO `report` VALUES (4,1,6,1,5.0,"我是报告4","open","我是1号的子报告","123","1",'2022-02-28 10:00:00');
+INSERT INTO `report` VALUES (1,1,3,NULL,2.5,"我是报告1","open","我是1号主报告,登录界面有碧油鸡,登录按钮乱飞","123","1",'2022-02-28 10:00:00');
+INSERT INTO `report` VALUES (2,1,4,1,5.0,"我是报告2","open","我是1号的子报告,注册界面有碧油鸡,注册按钮乱飞","123","1",'2022-02-28 10:00:00');
+INSERT INTO `report` VALUES (3,1,5,NULL,2.5,"我是报告3","open","我是2号主报告,十大科技和客户经理全文阿萨德看见了回去","123","1",'2022-02-28 10:00:00');
+INSERT INTO `report` VALUES (4,1,6,1,5.0,"我是报告4","open","我是1号的子报告,到处都是碧油鸡，到处都是乱飞","123","1",'2022-02-28 10:00:00');
 INSERT INTO `report` VALUES (5,1,7,2,5.0,"我是报告5","open","我是2号的子报告，1号的孙子","123","1",'2022-02-28 10:00:00');
 DROP TABLE IF EXISTS `report_comment`;
 CREATE TABLE `report_comment`(

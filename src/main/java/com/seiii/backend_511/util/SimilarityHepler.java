@@ -31,6 +31,7 @@ public class SimilarityHepler {
     public List<ReportSimilar> findSimilarity(ReportVO report, List<Report> base) throws IOException {
         String text=report.getDescription();
         String content=text.replaceAll("[\\p{P}+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]", "");
+        content=content.replaceAll("\\d+(?:[.,]\\d+)*\\s*", "");
         content = content.replaceAll("\\t|\\r|\\n","");
         content = content.replaceAll(" ","");
 
@@ -84,6 +85,9 @@ public class SimilarityHepler {
         for(Report r:base){
             String content=r.getDescription();
             content=content.replaceAll("\\d+(?:[.,]\\d+)*\\s*", "");
+            content=content.replaceAll("[\\p{P}+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]", "");
+            content = content.replaceAll("\\t|\\r|\\n","");
+            content = content.replaceAll(" ","");
             List<String> vecList=segmenter.sentenceProcess(content);
             StringBuilder sb=new StringBuilder();
             for(String s:vecList){
@@ -196,7 +200,11 @@ public class SimilarityHepler {
                 termValue += termEntry.getValue() * termEntry.getValue();
             }
 
-            similarityMap.put(report,acrossValue/(Math.sqrt(termValue) * Math.sqrt(searchValue)));
+            Double res=acrossValue/(Math.sqrt(termValue) * Math.sqrt(searchValue));
+            if(res>1){
+                res=1.0;
+            }
+            similarityMap.put(report,res);
         }
 
         return similarityMap;
