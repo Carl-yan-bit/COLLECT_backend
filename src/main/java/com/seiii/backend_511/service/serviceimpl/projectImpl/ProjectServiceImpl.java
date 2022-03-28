@@ -188,6 +188,7 @@ public class ProjectServiceImpl implements ProjectService {
     public ResultVO<ProjectVO> joinProject(UserProjectVO userProjectVO) {
         Integer uid = userProjectVO.getUserId();
         Integer projectId = userProjectVO.getProjectId();
+        userProjectVO.setJoinTime(new Date());
         if(userService.getUserByUid(uid)==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
         }

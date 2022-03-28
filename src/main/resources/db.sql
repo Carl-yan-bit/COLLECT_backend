@@ -45,6 +45,18 @@ CREATE TABLE `project_preference`(
     INDEX `fk_user_project_preference`(`user_id`) USING BTREE,
     CONSTRAINT `fk_user_project_preference` FOREIGN KEY(`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+INSERT INTO `project_preference` VALUES (1,1,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (2,2,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (3,3,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (4,4,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (5,5,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (6,6,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (7,7,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (8,8,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (9,9,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (10,10,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (11,11,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (12,12,0.0,0.0,0.0)
 
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project` (
@@ -315,6 +327,7 @@ CREATE TABLE `user_project`(
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `project_id` int(11) NOT NULL,
     `user_id` int(11) NOT NULL,
+    `join_time` datetime,
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `fk_project_user`(`project_id`) USING BTREE,
     INDEX `fk_project_user1`(`user_id`) USING BTREE,
@@ -403,9 +416,28 @@ ON SCHEDULE EVERY 1 DAY
 DO
 update user as u
 set activity = (
-	select sum(log.activity_point)
+	select ifnull(sum(log.activity_point),0)
     from user_log as log
     where log.time > date_sub(now(),interval 1 month) and log.user_id = u.id
+)
+
+DROP EVENT IF EXISTS `auto_project_preference`;
+CREATE EVENT `auto_project_preference`
+ON SCHEDULE EVENT 1 DAY
+DO
+(
+update project_preference as proj
+set difficulty = (
+	select difficulty
+    from(
+	select u.user_id as user_id,avg(p.difficulty) as difficulty
+	from project as p join user_project as u
+	where p.id = u.project_id and u.join_time > date_sub(now(),interval 1 month)
+	group by u.user_id) as temp
+    where temp.user_id = proj.user_id
+)
+
+
 )
 
 -- 一些样例
@@ -425,18 +457,18 @@ INSERT INTO `user_device` VALUES (13,8,1)
 INSERT INTO `user_device` VALUES (14,9,2)
 INSERT INTO `user_device` VALUES (15,10,6)
 INSERT INTO `user_device` VALUES (16,11,5)
-INSERT INTO `user_project` VALUES (1,2,3);
-INSERT INTO `user_project` VALUES (2,2,2);
-INSERT INTO `user_project` VALUES (3,2,4);
-INSERT INTO `user_project` VALUES (4,3,2);
-INSERT INTO `user_project` VALUES (5,1,3);
-INSERT INTO `user_project` VALUES (6,4,2);
-INSERT INTO `user_project` VALUES (7,5,3);
-INSERT INTO `user_project` VALUES (8,6,2);
-INSERT INTO `user_project` VALUES (9,1,4);
-INSERT INTO `user_project` VALUES (10,1,5);
-INSERT INTO `user_project` VALUES (11,1,6);
-INSERT INTO `user_project` VALUES (12,1,7);
+INSERT INTO `user_project` VALUES (1,2,3,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (2,2,2,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (3,2,4,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (4,3,2,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (5,1,3,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (6,4,2,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (7,5,3,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (8,6,2,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (9,1,4,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (10,1,5,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (11,1,6,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (12,1,7,'2022-03-28 18:00:00');
 INSERT INTO `user_task` VALUES (1,1,3);
 INSERT INTO `user_task` VALUES (2,2,3);
 INSERT INTO `user_task` VALUES (3,1,2);

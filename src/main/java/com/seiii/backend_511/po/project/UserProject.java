@@ -1,7 +1,10 @@
 package com.seiii.backend_511.po.project;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seiii.backend_511.vo.project.UserProjectVO;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class UserProject {
@@ -10,7 +13,8 @@ public class UserProject {
     private Integer projectId;
 
     private Integer userId;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date joinTime;
     public Integer getId() {
         return id;
     }
@@ -41,5 +45,6 @@ public class UserProject {
         id = userProject.getId();
         projectId = userProject.getProjectId();
         userId = userProject.getUserId();
+        joinTime = userProject.getJoinTime();
     }
 }

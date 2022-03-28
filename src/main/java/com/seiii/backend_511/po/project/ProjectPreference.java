@@ -11,11 +11,11 @@ public class ProjectPreference {
 
     private Integer userId;
 
-    private Float difficulty;
+    private Float difficulty = 0.0F;
 
-    private Float deviceId;
+    private Float deviceId= 0.0F;
 
-    private Float type;
+    private Float type= 0.0F;
 
     public Integer getId() {
         return id;
@@ -64,4 +64,5 @@ public class ProjectPreference {
         this.deviceId = projectPreference.getDeviceId();
         this.type = projectPreference.getType();
     }
+
 }
