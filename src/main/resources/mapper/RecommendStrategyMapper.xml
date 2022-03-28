@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="on_use" jdbcType="INTEGER" property="onUse" />
     <result column="exp" jdbcType="INTEGER" property="exp" />
-    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="difficulty" jdbcType="INTEGER" property="difficulty" />
     <result column="activity" jdbcType="INTEGER" property="activity" />
     <result column="device" jdbcType="INTEGER" property="device" />
@@ -17,17 +17,17 @@
   </delete>
   <insert id="insert" parameterType="com.seiii.backend_511.po.recommend.RecommendStrategyInfo">
     insert into recommend_strategy (id, on_use, exp, 
-      level, difficulty, activity, 
+      name, difficulty, activity, 
       device, num)
     values (#{id,jdbcType=INTEGER}, #{onUse,jdbcType=INTEGER}, #{exp,jdbcType=INTEGER}, 
-      #{level,jdbcType=INTEGER}, #{difficulty,jdbcType=INTEGER}, #{activity,jdbcType=INTEGER}, 
+      #{name,jdbcType=INTEGER}, #{difficulty,jdbcType=INTEGER}, #{activity,jdbcType=INTEGER}, 
       #{device,jdbcType=INTEGER}, #{num,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.recommend.RecommendStrategyInfo">
     update recommend_strategy
     set on_use = #{onUse,jdbcType=INTEGER},
       exp = #{exp,jdbcType=INTEGER},
-      level = #{level,jdbcType=INTEGER},
+      name = #{name,jdbcType=INTEGER},
       difficulty = #{difficulty,jdbcType=INTEGER},
       activity = #{activity,jdbcType=INTEGER},
       device = #{device,jdbcType=INTEGER},
@@ -35,17 +35,17 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectOnUse" resultMap="BaseResultMap">
-    select id, on_use, exp, level, difficulty, activity, device, num
+    select id, on_use, exp, name, difficulty, activity, device, num
     from recommend_strategy
     where on_use = 1
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, on_use, exp, level, difficulty, activity, device, num
+    select id, on_use, exp, name, difficulty, activity, device, num
     from recommend_strategy
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, on_use, exp, level, difficulty, activity, device, num
+    select id, on_use, exp, name, difficulty, activity, device, num
     from recommend_strategy
   </select>
 </mapper>

@@ -327,7 +327,7 @@ CREATE TABLE `recommend_strategy`(
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `on_use` int(1) NOT NULL DEFAULT 0,
     `exp` int(11) NOT NULL,
-    `level` int(11) NOT NULL,
+    `name` varchar(255) NOT NULL,
     `difficulty` int(11) NOT NULL,
     `activity` int(11) NOT NULL,
     `device` int(11) NOT NULL,
@@ -335,7 +335,7 @@ CREATE TABLE `recommend_strategy`(
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `fk_recommend`(`on_use`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-INSERT INTO `recommend_strategy` VALUES (1,1,1,1,1,1,1,6);
+INSERT INTO `recommend_strategy` VALUES (1,1,1,"默认策略",1,1,1,6);
 
 DROP TABLE IF EXISTS `user_task`;
 CREATE TABLE `user_task`(
