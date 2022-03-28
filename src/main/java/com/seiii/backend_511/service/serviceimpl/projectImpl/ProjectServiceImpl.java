@@ -54,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectVO.setId(null);
         projectVO.setClickTimes(0);
         if(userService.getUserByUid(projectVO.getUserId())==null){
-            return new ResultVO<>(CONST.REQUEST_FAIL,"项目定义不完全!");
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有用户");
         }
         if (userService.getUserByUid(projectVO.getUserId()).getUserRole().equals(CONST.USER_ROLE_WORKER)){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有权限");
