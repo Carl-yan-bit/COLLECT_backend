@@ -11,7 +11,7 @@ public class UserProjectVO {
     private Integer id;
 
     private Integer projectId;
-
+    private double rank = 0.0;
     private Integer userId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date joinTime;

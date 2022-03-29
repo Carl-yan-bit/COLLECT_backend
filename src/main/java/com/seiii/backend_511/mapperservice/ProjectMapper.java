@@ -11,7 +11,7 @@ public interface ProjectMapper {
     Project selectByPrimaryKey(Integer id);
 
     List<Project> selectAll();
-    List<Project> selectAllByClickOrder(Integer nums);
+    List<Project> selectAllByClickOrder(Integer nums,Integer uid);
     int updateByPrimaryKey(Project record);
     List<Project> selectByUserId(Integer uid);
 }

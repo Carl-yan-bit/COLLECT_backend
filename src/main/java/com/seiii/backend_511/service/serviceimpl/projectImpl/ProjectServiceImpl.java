@@ -262,8 +262,8 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return projectVOList;
     }
-    public List<Project> selectAllByClickOrder(int nums){
-        return projectMapper.selectAllByClickOrder(nums);
+    public List<Project> selectAllByClickOrder(int nums,Integer uid){
+        return projectMapper.selectAllByClickOrder(nums,uid);
     }
     @Override
     public ResultVO<ProjectVO> onClick(Integer pid) {
@@ -275,6 +275,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ResultVO<List<ProjectVO>> getRecommendation(Integer uid) {
-        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",toProjectVO(recommendStrategyFactory.getRecommendStrategy().getRecommend(uid,recommendStrategyMapper.selectOnUse())));
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",toProjectVO(recommendStrategyFactory.getRecommendStrategy(uid).getRecommend(uid,recommendStrategyMapper.selectOnUse())));
     }
 }

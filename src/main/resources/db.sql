@@ -1,5 +1,7 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+set @@GLOBAL.sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -345,10 +347,11 @@ CREATE TABLE `recommend_strategy`(
     `activity` int(11) NOT NULL,
     `device` int(11) NOT NULL,
     `num` int(11) NOT NULL,
+    `type` int(11) NOT NULL,
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `fk_recommend`(`on_use`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-INSERT INTO `recommend_strategy` VALUES (1,1,1,"默认策略",1,1,1,6);
+INSERT INTO `recommend_strategy` VALUES (1,1,1,"默认策略",1,1,1,6,1);
 
 DROP TABLE IF EXISTS `user_task`;
 CREATE TABLE `user_task`(
@@ -421,11 +424,10 @@ set activity = (
     where log.time > date_sub(now(),interval 1 month) and log.user_id = u.id
 )
 
-DROP EVENT IF EXISTS `auto_project_preference`;
-CREATE EVENT `auto_project_preference`
-ON SCHEDULE EVENT 1 DAY
+DROP EVENT IF EXISTS `auto_project_preference_difficulty`;
+CREATE EVENT `auto_project_preference_difficulty`
+ON SCHEDULE EVERY 1 MINUTE
 DO
-(
 update project_preference as proj
 set difficulty = (
 	select difficulty
@@ -437,8 +439,84 @@ set difficulty = (
     where temp.user_id = proj.user_id
 )
 
+DROP EVENT IF EXISTS `auto_project_preference_device`;
+CREATE EVENT `auto_project_preference_device`
+ON SCHEDULE EVERY 1 MINUTE
+DO
+update project_preference as proj
+set device_id = (
+	select device_id
+    from(
+	select user_id,device_id
+from(
+    select user_id,device_id,count(device_id) as n
+    from(
+	    select u.user_id as user_id,p.device_id as device_id
+	    from project as p join user_project as u
+	    where p.id = u.project_id and u.join_time > date_sub(now(),interval 1 month)
+    )temp
+    group by user_id,device_id
+    order by n desc,user_id
+    ) ans
+where ans.n >= all(
+	select ans1.n
+    from(
 
+        select user_id,device_id,count(device_id) as n
+        from(
+	        select u.user_id as user_id,p.device_id as device_id
+	        from project as p join user_project as u
+	        where p.id = u.project_id and u.join_time > date_sub(now(),interval 1 month)
+        )temp
+        group by user_id,device_id
+        order by n desc,user_id
+    ) ans1
+	where ans1.user_id=ans.user_id
 )
+group by user_id
+) as temp2
+    where temp2.user_id = proj.user_id
+)
+
+
+DROP EVENT IF EXISTS `auto_project_preference_type`;
+CREATE EVENT `auto_project_preference_type`
+ON SCHEDULE EVERY 1 MINUTE
+DO
+update project_preference as proj
+set type = (
+	select type
+    from(
+	select user_id,type
+from(
+    select user_id,type,count(type) as n
+    from(
+	    select u.user_id as user_id,p.type as type
+	    from project as p join user_project as u
+	    where p.id = u.project_id and u.join_time > date_sub(now(),interval 1 month)
+    )temp
+    group by user_id,type
+    order by n desc,user_id
+    ) ans
+where ans.n >= all(
+	select ans1.n
+    from(
+
+        select user_id,type,count(type) as n
+        from(
+	        select u.user_id as user_id,p.type as type
+	        from project as p join user_project as u
+	        where p.id = u.project_id and u.join_time > date_sub(now(),interval 1 month)
+        )temp
+        group by user_id,type
+        order by n desc,user_id
+    ) ans1
+	where ans1.user_id=ans.user_id
+)
+group by user_id) as temp2
+    where temp2.user_id = proj.user_id
+)
+
 
 -- 一些样例
 INSERT INTO `user_device` VALUES (1,3,1)

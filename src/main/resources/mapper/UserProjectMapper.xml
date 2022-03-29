@@ -39,6 +39,20 @@
     from user_project
     where project_id = #{pid,jdbcType=INTEGER}
   </select>
+  <select id="selectByProjectAndUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, project_id, user_id,join_time
+    from user_project
+    where project_id = #{pid,jdbcType=INTEGER} and user_id = #{uid,jdbcType=INTEGER}
+  </select>
+  <select id="getNeighbors" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select distinct user_id
+    from user_project as u2
+    where u2.project_id in (
+        select u1.project_id
+        from user_project as u1
+        where u1.user_id = #{uid,jdbcType=INTEGER}
+    ) and user_id != #{uid,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, project_id, user_id,join_time
     from user_project

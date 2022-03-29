@@ -12,6 +12,7 @@ public class UserVO {
 
     private Integer exp;
     private Integer expRequire;
+    private Double similarity;
     private Integer level;
 
     private Integer projectPreferenceId;

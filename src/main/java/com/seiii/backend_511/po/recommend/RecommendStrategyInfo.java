@@ -23,7 +23,7 @@ public class RecommendStrategyInfo {
     private Integer device;
 
     private Integer num;
-
+    private Integer type;
     public Integer getId() {
         return id;
     }
@@ -96,5 +96,6 @@ public class RecommendStrategyInfo {
         this.activity = recommendStrategyInfo.getActivity();
         this.device = recommendStrategyInfo.getDevice();
         this.num = recommendStrategyInfo.getNum();
+        this.type = recommendStrategyInfo.getType();
     }
 }

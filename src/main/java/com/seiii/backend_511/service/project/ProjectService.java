@@ -26,5 +26,5 @@ public interface ProjectService {
     ResultVO<Integer> getProjectNumbers(Integer pid);
     ResultVO<ProjectVO> onClick(Integer pid);
     ResultVO<List<ProjectVO>> getRecommendation(Integer uid);
-    List<Project> selectAllByClickOrder(int nums);
+    List<Project> selectAllByClickOrder(int nums, Integer uid);
 }
