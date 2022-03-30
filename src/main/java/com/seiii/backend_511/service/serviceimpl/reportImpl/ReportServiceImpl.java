@@ -79,6 +79,7 @@ public class ReportServiceImpl implements ReportService {
                 }
                 if(reportVO.getParentReport().equals(report.getId())){
                     reportVO.setId(report.getId());
+                    reportVO.setParentReport(null);
                     return updateReport(reportVO);
                 }
             }
