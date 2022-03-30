@@ -54,6 +54,9 @@ public class UserServiceImpl implements UserService {
         String password = userVO.getPassword();
         String email = userVO.getEmail();
         String phoneNumber = userVO.getPhonenumber();
+        if(!StringUtils.hasText(userVO.getUserRole())){
+            return new ResultVO<>(CONST.REQUEST_FAIL, "请选择用户角色");
+        }
         if(userMapper.selectByName(userVO.getName())!=null){
             return new ResultVO<>(CONST.REQUEST_FAIL, "用户名已被占用");
         }
