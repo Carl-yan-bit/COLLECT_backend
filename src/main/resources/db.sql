@@ -40,7 +40,7 @@ INSERT INTO `user` VALUES (12,1000,6,NULL,0,"employer1","employer1@test.com","41
 DROP TABLE IF EXISTS `project_preference`;
 CREATE TABLE `project_preference`(
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
-    `user_id` int(11) NOT NULL,
+    `user_id` int(11) UNIQUE NOT NULL,
     `difficulty` float DEFAULT 0.0,
     `device_id` float DEFAULT 0.0,
     `type` float DEFAULT 0.0,

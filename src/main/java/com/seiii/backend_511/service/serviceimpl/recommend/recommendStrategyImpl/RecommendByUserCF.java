@@ -48,7 +48,7 @@ public class RecommendByUserCF implements RecommendStrategy {
         for(int i=0;i<recommendStrategyInfo.getActivity();i++){
             v.add((double) (user.getActivity()));
         }
-        ProjectPreference projectPreference = projectPreferenceMapper.selectByPrimaryKey(user.getId());
+        ProjectPreference projectPreference = projectPreferenceMapper.selectByUserId(user.getId());
         for(int i=0;i<recommendStrategyInfo.getDifficulty();i++){
             if(projectPreference.getDifficulty()==null){
                 v.add((double)-1);

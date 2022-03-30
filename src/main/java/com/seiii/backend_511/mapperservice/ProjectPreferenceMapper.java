@@ -9,7 +9,7 @@ public interface ProjectPreferenceMapper {
     int insert(ProjectPreference record);
 
     ProjectPreference selectByPrimaryKey(Integer id);
-
+    ProjectPreference selectByUserId(Integer uid);
     List<ProjectPreference> selectAll();
 
     int updateByPrimaryKey(ProjectPreference record);
