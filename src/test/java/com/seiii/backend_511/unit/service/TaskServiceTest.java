@@ -154,7 +154,7 @@ public class TaskServiceTest {
     }
     @Test
     public void testGetNowTasks(){
-        Assert.assertEquals(1,taskService.getNowTasks(3,1).getTotal());
+        Assert.assertEquals(0,taskService.getNowTasks(3,1).getTotal());
     }
     @Test
     public void testGetHistoryTasks(){
@@ -170,6 +170,6 @@ public class TaskServiceTest {
     }
     @Test
     public void testGetActiveTaskByProject(){
-        Assert.assertEquals(2,taskService.getActiveTaskByProject(2,1).getTotal());
+        Assert.assertEquals(0,taskService.getActiveTaskByProject(2,1).getTotal());
     }
 }

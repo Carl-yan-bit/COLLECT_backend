@@ -46,6 +46,9 @@ public class RecommendStrategyInfoServiceImpl implements RecommendStrategyInfoSe
         if(!isValidId(id)){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个策略");
         }
+        if(recommendStrategyMapper.selectByPrimaryKey(id).getOnUse()!=0){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"无法删除正在使用的策略");
+        }
         if(recommendStrategyMapper.deleteByPrimaryKey(id)==1){
             return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功");
         }

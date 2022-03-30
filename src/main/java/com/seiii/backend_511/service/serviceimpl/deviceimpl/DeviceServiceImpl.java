@@ -21,6 +21,9 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public DeviceVO getDeviceById(Integer id) {
         Device d = deviceMapper.selectByPrimaryKey(id);
+        if(d==null){
+            return null;
+        }
         return new DeviceVO(d);
     }
 

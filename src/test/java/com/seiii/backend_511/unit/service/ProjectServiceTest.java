@@ -50,25 +50,25 @@ public class ProjectServiceTest {
     @Test
     public void testGetProjectsByUserId(){
         PageInfo<ProjectVO> ans = projectService.getProjectsByUserId(2,2);
-        Assert.assertEquals(5,ans.getSize());
+        Assert.assertEquals(2,ans.getSize());
     }
     @Test
     public void testJoinedProjects(){
         PageInfo<ProjectVO> ans = projectService.getJoinedProjects(3,1);
-        Assert.assertEquals(1,ans.getSize());
+        Assert.assertEquals(3,ans.getSize());
     }
     @Test
     public void testGetProjectsByID(){
-        Assert.assertEquals("testproject2",projectService.getProjectById(2).getDescription());
+        Assert.assertEquals("财新测试-7.8.0-BUG探索-鸿蒙系统",projectService.getProjectById(2).getName());
     }
     @Test
     public void testGetALLProjects(){
-        Assert.assertEquals(5,projectService.getAllProjects(2).getSize());
+        Assert.assertEquals(6,projectService.getAllProjects(2).getSize());
     }
     @Test
     public void testGetActiveProjects(){
-        PageInfo<ProjectVO> p = projectService.getActiveProjects(2);
-        Assert.assertEquals(4,p.getSize());
+        PageInfo<ProjectVO> p = projectService.getActiveProjects(1);
+        Assert.assertEquals(6,p.getSize());
     }
     @Test
     public void testJoinProjects(){
@@ -101,7 +101,7 @@ public class ProjectServiceTest {
     public void quitProject(){
         UserProjectVO userProjectVO = new UserProjectVO();
         userProjectVO.setUserId(3);
-        userProjectVO.setProjectId(1);
+        userProjectVO.setProjectId(3);
         ResultVO<ProjectVO> ans = projectService.quitProject(userProjectVO);
         Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
         //这里是因为用户没有加入项目
@@ -149,6 +149,6 @@ public class ProjectServiceTest {
     }
     @Test
     public void testGetProjectMembers(){
-        Assert.assertEquals(2,projectService.getProjectNumbers(2).getData().intValue());
+        Assert.assertEquals(3,projectService.getProjectNumbers(2).getData().intValue());
     }
 }

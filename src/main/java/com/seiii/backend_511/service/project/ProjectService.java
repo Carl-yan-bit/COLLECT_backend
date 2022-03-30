@@ -27,4 +27,5 @@ public interface ProjectService {
     ResultVO<ProjectVO> onClick(Integer pid);
     ResultVO<List<ProjectVO>> getRecommendation(Integer uid);
     List<Project> selectAllByClickOrder(int nums, Integer uid);
+    boolean isActive(Project project);
 }

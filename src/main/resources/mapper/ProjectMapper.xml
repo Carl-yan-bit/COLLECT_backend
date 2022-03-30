@@ -58,6 +58,10 @@
         select up.user_id
         from seiii.user_project as up
         where up.project_id = p.id
+      ) and worker_amount > (
+        select count(up1.user_id)
+        from seiii.user_project as up1
+        where up1.project_id = p.id
       )
     order by click_times desc
     limit #{nums,jdbcType=INTEGER}

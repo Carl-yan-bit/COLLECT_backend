@@ -74,11 +74,11 @@ public class ReportServiceTest {
     }
     @Test
     public void testGetReportsByTask(){
-        Assert.assertEquals(1,reportService.getReportsByTask(2,1).getTotal());
+        Assert.assertEquals(0,reportService.getReportsByTask(2,1).getTotal());
     }
     @Test
     public void testGetReportsByTaskAndUID(){
-        Assert.assertEquals(CONST.REQUEST_SUCCESS,reportService.getReportByTaskAndUID(2,3).getCode().intValue());
+        Assert.assertEquals(CONST.REQUEST_SUCCESS,reportService.getReportByTaskAndUID(1,3).getCode().intValue());
         Assert.assertEquals(CONST.REQUEST_FAIL,reportService.getReportByTaskAndUID(4,3).getCode().intValue());
     }
     @Test

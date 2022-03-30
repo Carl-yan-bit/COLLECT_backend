@@ -81,32 +81,32 @@ CREATE TABLE `project` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 INSERT INTO `project` VALUES (1,11,2,1,1,1,"财新（企业版）-7.0.0-BUG探索-IOS","open","1、可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试
-                                                                          2、所有功能都测试，重点测试支付、FM、音频播放器、文章正文页、我的播单等功能",'2022-03-28 10:00:00',15,'2022-02-28 10:00:00');
+                                                                          2、所有功能都测试，重点测试支付、FM、音频播放器、文章正文页、我的播单等功能",'2022-04-28 10:00:00',15,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (2,100,2,3,3,1,"财新测试-7.8.0-BUG探索-鸿蒙系统","open","1、可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。
-                                                                           2、所有功能都测试，重点测试支付、FM、音频播放器、文章正文页、我的播单等功能",'2022-03-28 10:00:00',35,'2022-02-28 10:00:00');
+                                                                           2、所有功能都测试，重点测试支付、FM、音频播放器、文章正文页、我的播单等功能",'2022-04-28 10:00:00',35,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (3,11,2,7,1,1,"Welink-5.59.5-Bug探索-IOS","open","【重要】测试前必看，WeLink探索测试指南
                                                                           https://kdocs.cn/l/cnHhUKkDXLJa
                                                                           1.Android安装包用任务的，IOS包用群里Testflght账号的
                                                                           2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html
                                                                           3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA
-                                                                          4.所有人都需要自主注册选择员工，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
+                                                                          4.所有人都需要自主注册选择员工，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-04-28 10:00:00',20,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (4,1,2,7,3,1,"Welink-5.59.3-Bug探索-HarmonyOS","open","【重要】测试前必看，WeLink探索测试指南
                                                                                 https://kdocs.cn/l/cnHhUKkDXLJa
                                                                                 1.Android安装包用任务的，IOS包用群里Testflght账号的
                                                                                 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html
                                                                                 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA
-                                                                                4.所有人都需要自主注册，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
+                                                                                4.所有人都需要自主注册，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-04-28 10:00:00',20,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (5,0,2,1,4,1,"WeLink-7.14.0.280-Bug探索-PC","open","安装包：PC版本7.14.0.280
                                                                              测试平台：Windows
                                                                              版本地址： https://softclient.obs.cn-north-4.myhuaweicloud.com:443/temp/WeLink_Win_cloud_202201301518_4790_master_7.14.0_280.exe?AccessKeyId=UH1ZMWZA2MLTCGRVEBJM&Expires=1644461315&Signature=UmBfx24upyAazfHxfUxsv2lXPJM%3D
                                                                              所有的bug必须带上日志【登录页点击登陆设置-收集日志，收集后自动打开日志所在目录了】
                                                                              WeLinkPC_0216各模块需求列表
-                                                                             https://kdocs.cn/l/cp7SZzdCBxRf",'2022-03-28 10:00:00',200,'2022-02-28 10:00:00');
+                                                                             https://kdocs.cn/l/cp7SZzdCBxRf",'2022-04-28 10:00:00',200,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (6,0,12,1,5,1,"58同城-11.0.0-Bug探索-LINUX","open","此次版本更新内容
                                                                          1、使用到微聊的业务线需要回归测试：微聊登录登出、两台手机账号互踢、未读消息数、聊天页跳转（业务线帖子详情页点“微聊”，进入会话页）、语音消息播放
                                                                          2、在屏幕顶部弹出定位权限使用说明，在屏幕底部弹出定位权限使用弹窗，可参考https://note.youdao.com/s/cAlsf6sN，新增脚本1；
                                                                          3、首次打开app,不同意隐私协议，进入app首页前不再展示引导页面，目前灰度80%用户同意隐私协议可以看到引导页面。
-                                                                         4、安卓单端：前提条件：允许58app使用定位信息；手动切换城市到不是当前定位的城市，例如：当前定位在北京，切换至上海市首页，然后杀掉app，重新冷启动app;",'2022-03-28 10:00:00',25,'2022-02-28 10:00:00');
+                                                                         4、安卓单端：前提条件：允许58app使用定位信息；手动切换城市到不是当前定位的城市，例如：当前定位在北京，切换至上海市首页，然后杀掉app，重新冷启动app;",'2022-04-28 10:00:00',25,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (7,0,12,1,6,1,"58同城-11.0.0-Bug探索-MAC","open","
 期望结果：冷启动后弹出城市切换弹窗；
 5、首页底部菜单使用新版UI，UI展示正常；
@@ -121,7 +121,7 @@ INSERT INTO `project` VALUES (7,0,12,1,6,1,"58同城-11.0.0-Bug探索-MAC","open
 1）App桌面底部tabUI；
 2）登录模块；
 3）个人中心--我的收藏页面；
-4）消息中心：",'2022-03-28 10:00:00',2,'2022-02-28 10:00:00');
+4）消息中心：",'2022-04-28 10:00:00',2,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (8,0,12,9,2,1,"1905电影网-6.4.0-Bug探索-Android","open","视频平台改版涉及：
                                                                           1、首页-电影页
                                                                           2、首页-电影-为你推荐-（更多）为你推荐列表页
@@ -312,17 +312,17 @@ CREATE TABLE `task`(
     CONSTRAINT `fk_project_task` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `task` VALUES (1,1,1,1,1,"测试支付IOS","open","1、可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试",'2022-03-28 10:00:00',12,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (2,1,1,1,2,"测试文章正文页IOS","closed","可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试",'2022-03-28 10:00:00',12,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (3,2,1,3,1,"测试支付HM","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-03-28 10:00:00',35,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (4,2,1,3,2,"测试文章正文页HM","closed","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-03-28 10:00:00',35,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (5,2,0,3,3,"测试我的播单","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (6,2,1,3,4,"测试音频播放","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (7,3,1,1,1,"全功能测试IOS","open","【重要】测试前必看，WeLink探索测试指南 https://kdocs.cn/l/cnHhUKkDXLJa 1.Android安装包用任务的，IOS包用群里Testflght账号的 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA 4.所有人都需要自主注册选择员工，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (8,4,1,3,2,"全功能测试HM","open","测试前必看，WeLink探索测试指南 https://kdocs.cn/l/cnHhUKkDXLJa 1.Android安装包用任务的，IOS包用群里Testflght账号的 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA 4.所有人都需要自主注册，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (9,5,1,4,3,"Bug探索-PC","closed","所有的bug必须带上日志【登录页点击登陆设置-收集日志，收集后自动打开日志所在目录了】 WeLinkPC_0216各模块需求列表 https://kdocs.cn/l/cp7SZzdCBxRf",'2022-03-28 10:00:00',200,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (10,6,2,5,1,"Bug探索-LINUX","open","首次打开app,不同意隐私协议，进入app首页前不再展示引导页面，目前灰度80%用户同意隐私协议可以看到引导页面。",'2022-03-28 10:00:00',15,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (11,7,3,6,1,"Bug探索-MAC","open","首页底部菜单使用新版UI，UI展示正常",'2022-03-28 20:21:00',1,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (1,1,1,1,1,"测试支付IOS","open","1、可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试",'2022-04-28 10:00:00',12,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (2,1,1,1,2,"测试文章正文页IOS","closed","可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试",'2022-04-28 10:00:00',12,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (3,2,1,3,1,"测试支付HM","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-04-28 10:00:00',35,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (4,2,1,3,2,"测试文章正文页HM","closed","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-04-28 10:00:00',35,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (5,2,0,3,3,"测试我的播单","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-04-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (6,2,1,3,4,"测试音频播放","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-04-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (7,3,1,1,1,"全功能测试IOS","open","【重要】测试前必看，WeLink探索测试指南 https://kdocs.cn/l/cnHhUKkDXLJa 1.Android安装包用任务的，IOS包用群里Testflght账号的 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA 4.所有人都需要自主注册选择员工，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-04-28 10:00:00',20,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (8,4,1,3,2,"全功能测试HM","open","测试前必看，WeLink探索测试指南 https://kdocs.cn/l/cnHhUKkDXLJa 1.Android安装包用任务的，IOS包用群里Testflght账号的 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA 4.所有人都需要自主注册，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-04-28 10:00:00',20,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (9,5,1,4,3,"Bug探索-PC","closed","所有的bug必须带上日志【登录页点击登陆设置-收集日志，收集后自动打开日志所在目录了】 WeLinkPC_0216各模块需求列表 https://kdocs.cn/l/cp7SZzdCBxRf",'2022-04-28 10:00:00',200,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (10,6,2,5,1,"Bug探索-LINUX","open","首次打开app,不同意隐私协议，进入app首页前不再展示引导页面，目前灰度80%用户同意隐私协议可以看到引导页面。",'2022-04-28 10:00:00',15,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (11,7,3,6,1,"Bug探索-MAC","open","首页底部菜单使用新版UI，UI展示正常",'2022-04-28 20:21:00',1,'2022-02-28 10:00:00');
 
 DROP TABLE IF EXISTS `user_project`;
 CREATE TABLE `user_project`(

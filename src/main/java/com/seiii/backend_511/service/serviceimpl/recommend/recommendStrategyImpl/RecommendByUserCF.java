@@ -29,6 +29,8 @@ public class RecommendByUserCF implements RecommendStrategy {
     @Resource
     ProjectMapper projectMapper;
     @Resource
+    ProjectService projectService;
+    @Resource
     ProjectPreferenceMapper projectPreferenceMapper;
 
     private UserVO mainUser;
@@ -134,13 +136,13 @@ public class RecommendByUserCF implements RecommendStrategy {
                 break;
             }
             Project project = projectMapper.selectByPrimaryKey(allProject.get(idx).getProjectId());
-            if(userProjectMapper.selectByProjectAndUser(project.getId(), mainUser.getId())==null&&project.getState().equals(CONST.STATE_OPEN)){
+            if(userProjectMapper.selectByProjectAndUser(project.getId(), mainUser.getId())==null&&projectService.isActive(project)){
                 ans.add(project);
                 //只推荐用户未加入的、开放的任务
             }
             idx++;
         }
-        while (ans.size()<recommendStrategyInfo.getNum()){
+        if (ans.size()<recommendStrategyInfo.getNum()){
             for(Project project:projectMapper.selectAllByClickOrder(recommendStrategyInfo.getNum(), mainUser.getId())){
                 if(!ans.contains(project)){
                     ans.add(project);

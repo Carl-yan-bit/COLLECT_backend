@@ -59,10 +59,12 @@ public class ReportCommentServiceImpl implements ReportCommentService {
         if(reportService.getReportByID(report_id).getData().getUserId().equals(user_id)){
             return new ResultVO<>(CONST.REQUEST_FAIL,"不能评论给自己");
         }
+        Date oldTime = new Date();
         if(reportCommentMapper.selectByReport(report_id).size()==0){
             //第一次评论时初始化评分
             ReportVO reportVO = reportService.getReportByID(report_id).getData();
             reportVO.setScore(0.0F);
+            oldTime = reportVO.getCreateTime();
             reportService.updateReport(reportVO);
         }
         if(reportCommentVO.getScore()>=4){
@@ -75,6 +77,7 @@ public class ReportCommentServiceImpl implements ReportCommentService {
             //插入，并改变报告分数
             ReportVO reportVO = reportService.getReportByID(report_id).getData();
             reportVO.setScore(reportCommentMapper.getScoreByReport(report_id));
+            reportVO.setCreateTime(oldTime);
             reportService.updateReport(reportVO);
             return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",reportCommentVO);
         }

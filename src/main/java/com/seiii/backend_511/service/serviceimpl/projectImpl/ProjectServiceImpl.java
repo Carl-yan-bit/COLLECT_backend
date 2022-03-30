@@ -164,6 +164,9 @@ public class ProjectServiceImpl implements ProjectService {
     public ResultVO<ProjectVO> quitProject(UserProjectVO userProjectVO) {
         Integer uid = userProjectVO.getUserId();
         Integer projectId = userProjectVO.getProjectId();
+        if(projectMapper.selectByPrimaryKey(projectId)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个项目");
+        }
         if(getProjectById(projectId).getState().equals(CONST.STATE_CLOSED)){
             return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
         }
@@ -192,11 +195,11 @@ public class ProjectServiceImpl implements ProjectService {
         if(userService.getUserByUid(uid)==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
         }
-        if(getProjectById(projectId).getState().equals(CONST.STATE_CLOSED)){
-            return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
-        }
         if(projectMapper.selectByPrimaryKey(projectId)==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目不存在");
+        }
+        if(getProjectById(projectId).getState().equals(CONST.STATE_CLOSED)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
         }
         if(userProjectMapper.selectByProjects(projectId).size()>=projectMapper.selectByPrimaryKey(projectId).getWorkerAmount()){
             return new ResultVO<>(CONST.REQUEST_FAIL,"项目人数已满!");
@@ -276,5 +279,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ResultVO<List<ProjectVO>> getRecommendation(Integer uid) {
         return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",toProjectVO(recommendStrategyFactory.getRecommendStrategy(uid).getRecommend(uid,recommendStrategyMapper.selectOnUse())));
+    }
+
+    @Override
+    public boolean isActive(Project p) {
+        return userProjectMapper.selectByProjects(p.getId()).size()<p.getWorkerAmount()&&p.getState().equals(CONST.STATE_OPEN);
     }
 }
