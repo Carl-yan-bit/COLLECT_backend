@@ -4,6 +4,7 @@ import com.seiii.backend_511.mapperservice.ProjectMapper;
 import com.seiii.backend_511.mapperservice.UserMapper;
 import com.seiii.backend_511.mapperservice.UserProjectMapper;
 import com.seiii.backend_511.po.project.UserProject;
+import com.seiii.backend_511.service.project.ProjectService;
 import com.seiii.backend_511.service.recommend.RecommendStrategy;
 import com.seiii.backend_511.service.recommend.RecommendStrategyFactory;
 import com.seiii.backend_511.service.serviceimpl.recommend.recommendStrategyImpl.RecommendByItemCF;
@@ -28,10 +29,15 @@ public class RecommendStrategyFactoryImpl implements RecommendStrategyFactory {
     UserProjectMapper userProjectMapper;
     @Resource
     UserMapper userMapper;
+    @Resource
+    ProjectService projectService;
 
     @Override
     public RecommendStrategy getRecommendStrategy(Integer uid) {
         if(userMapper.selectUserWithProject().size()<20){
+            if(projectService.getAllJoinedProjects(uid)==null||projectService.getAllJoinedProjects(uid).size()==0){
+                return recommendByTimes;
+            }
             //对于有效用户不够多时候的冷启动
             return recommendByItemCF;
         }
