@@ -117,7 +117,7 @@ public class ReportServiceImpl implements ReportService {
         }
         if(StringUtils.hasText(reportVO.getName())&&StringUtils.hasText(reportVO.getDescription())&&StringUtils.hasText(reportVO.getDeviceId().toString())&&StringUtils.hasText(reportVO.getTestStep())){
             Report report = new Report(reportVO);
-            report.setCreateTime(new Date());
+            report.setCreateTime(reportMapper.selectByPrimaryKey(reportVO.getId()).getCreateTime());
             report.setState("finished");
 //            更新一个任务肯定是有id的
 //            if(report.getId()==null){
@@ -216,8 +216,8 @@ public class ReportServiceImpl implements ReportService {
             SimilarityHepler hepler=new SimilarityHepler();
             List<ReportSimilar> tempRes= hepler.findSimilarity(report,taskReportList);
             List<ReportSimilarVO> res= new LinkedList<>();
-            for(int i=0;i<tempRes.size();i++){
-                ReportSimilarVO r=new ReportSimilarVO(toReportVO(tempRes.get(i).getReport()),tempRes.get(i).getSimilarity());
+            for (ReportSimilar tempRe : tempRes) {
+                ReportSimilarVO r = new ReportSimilarVO(toReportVO(tempRe.getReport()), tempRe.getSimilarity());
                 res.add(r);
             }
             return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功查询",res);
