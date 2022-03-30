@@ -14,7 +14,7 @@ public class ProjectVO {
     private Integer id;
     private Integer clickTimes=0;
     private Integer userId;
-
+    private Double rank = 0.0;
     private Integer difficulty=0;
 
     private Integer deviceId=1;

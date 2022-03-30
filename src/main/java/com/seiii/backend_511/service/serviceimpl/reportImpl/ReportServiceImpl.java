@@ -46,6 +46,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public ResultVO<ReportVO> createReport(ReportVO reportVO) {
+        reportVO.setId(null);
         reportVO.setScore(2.5F);
         if(userService.getUserByUid(reportVO.getUserId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");

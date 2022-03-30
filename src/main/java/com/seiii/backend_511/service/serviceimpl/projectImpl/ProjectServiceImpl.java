@@ -142,7 +142,13 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return PageInfoUtil.ListToPageInfo(projectVOS,currPage);
     }
-
+    public List<ProjectVO> getAllJoinedProjects(Integer uid){
+        List<ProjectVO> projectVOS = new ArrayList<>();
+        for(UserProject userProject:userProjectMapper.selectByUser(uid)){
+            projectVOS.add(setMemberNum(projectMapper.selectByPrimaryKey(userProject.getProjectId())));
+        }
+        return projectVOS;
+    }
     @Override
     public PageInfo<ProjectVO> getActiveProjects(Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
