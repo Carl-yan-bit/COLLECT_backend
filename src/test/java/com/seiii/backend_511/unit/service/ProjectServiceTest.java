@@ -50,7 +50,7 @@ public class ProjectServiceTest {
     @Test
     public void testGetProjectsByUserId(){
         PageInfo<ProjectVO> ans = projectService.getProjectsByUserId(2,2);
-        Assert.assertEquals(2,ans.getSize());
+        Assert.assertEquals(5,ans.getSize());
     }
     @Test
     public void testJoinedProjects(){
@@ -63,7 +63,7 @@ public class ProjectServiceTest {
     }
     @Test
     public void testGetALLProjects(){
-        Assert.assertEquals(6,projectService.getAllProjects(2).getSize());
+        Assert.assertEquals(6,projectService.getAllProjects(1).getSize());
     }
     @Test
     public void testGetActiveProjects(){
@@ -88,7 +88,7 @@ public class ProjectServiceTest {
         Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
         //用户加入不存在的项目
         userProjectVO.setUserId(2);
-        userProjectVO.setProjectId(1);
+        userProjectVO.setProjectId(7);
         ans = projectService.joinProject(userProjectVO);
         Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
         //项目人数已满

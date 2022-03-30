@@ -21,6 +21,6 @@ public class ProjectMapperTest {
 
     @Test
     public void testSelectByUID(){
-        Assert.assertEquals(8,projectMapper.selectByUserId(2).size());
+        Assert.assertEquals(5,projectMapper.selectByUserId(2).size());
     }
 }

@@ -138,11 +138,11 @@ public class TaskServiceTest {
     }
     @Test
     public void testMemberNum(){
-        Assert.assertEquals(2,taskService.getMemberNum(1).getData().intValue());
+        Assert.assertEquals(6,taskService.getMemberNum(1).getData().intValue());
     }
     @Test
     public void testGetTaskByID(){
-        Assert.assertEquals("task1_project2",taskService.getTaskByID(3).getName());
+        Assert.assertEquals("测试支付HM",taskService.getTaskByID(3).getName());
     }
     @Test
     public void testGetTasksByUser(){
@@ -154,7 +154,7 @@ public class TaskServiceTest {
     }
     @Test
     public void testGetNowTasks(){
-        Assert.assertEquals(0,taskService.getNowTasks(3,1).getTotal());
+        Assert.assertEquals(1,taskService.getNowTasks(3,1).getTotal());
     }
     @Test
     public void testGetHistoryTasks(){
@@ -170,6 +170,6 @@ public class TaskServiceTest {
     }
     @Test
     public void testGetActiveTaskByProject(){
-        Assert.assertEquals(0,taskService.getActiveTaskByProject(2,1).getTotal());
+        Assert.assertEquals(3,taskService.getActiveTaskByProject(2,1).getTotal());
     }
 }

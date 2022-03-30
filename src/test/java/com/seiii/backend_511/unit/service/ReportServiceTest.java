@@ -65,11 +65,6 @@ public class ReportServiceTest {
         //这里因为填写不全
         reportVO.setName("可恶的测试");
         ans = reportService.updateReport(reportVO);
-        Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
-        //这里已经有过报告
-        reportVO.setUserId(3);
-        reportVO.setTaskId(1);
-        ans = reportService.updateReport(reportVO);
         Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());
     }
     @Test
