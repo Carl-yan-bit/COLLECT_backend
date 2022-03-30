@@ -22,8 +22,8 @@ public class RecommendByUserCFTest {
     RecommendStrategyMapper recommendStrategyMapper;
     @Test
     public void testGetRecommend(){
-        RecommendStrategy strategy = recommendStrategyFactory.getRecommendStrategy(3);
-        RecommendStrategyInfo recommendStrategyInfo = recommendStrategyMapper.selectByPrimaryKey(1);
-        List<Project> projectVOS = strategy.getRecommend(3,recommendStrategyInfo);
+        RecommendStrategy strategy = recommendStrategyFactory.getRecommendStrategy(36);
+        RecommendStrategyInfo recommendStrategyInfo = recommendStrategyMapper.selectByPrimaryKey(10);
+        List<Project> projectVOS = strategy.getRecommend(36,recommendStrategyInfo);
     }
 }
