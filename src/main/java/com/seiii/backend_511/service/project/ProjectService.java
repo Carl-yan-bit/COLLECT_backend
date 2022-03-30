@@ -19,6 +19,7 @@ public interface ProjectService {
     PageInfo<ProjectVO> getAllProjects(Integer pid);
     PageInfo<ProjectVO> getActiveProjects(Integer pid);
     PageInfo<ProjectVO> getJoinedProjects(Integer uid,Integer currpage);
+    List<ProjectVO> getAllActiveProjects();
     List<ProjectVO> getAllJoinedProjects(Integer uid);
     ResultVO<ProjectVO> joinProject(UserProjectVO userProjectVO);
     ResultVO<ProjectVO> quitProject(UserProjectVO userProjectVO);

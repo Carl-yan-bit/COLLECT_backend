@@ -142,12 +142,24 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return PageInfoUtil.ListToPageInfo(projectVOS,currPage);
     }
+    @Override
     public List<ProjectVO> getAllJoinedProjects(Integer uid){
         List<ProjectVO> projectVOS = new ArrayList<>();
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             projectVOS.add(setMemberNum(projectMapper.selectByPrimaryKey(userProject.getProjectId())));
         }
         return projectVOS;
+    }
+    @Override
+    public List<ProjectVO> getAllActiveProjects(){
+        List<Project> all= projectMapper.selectAll();
+        List<ProjectVO> ans = new ArrayList<>();
+        for(Project p:all){
+            if(userProjectMapper.selectByProjects(p.getId()).size()<p.getWorkerAmount()&&p.getState().equals(CONST.STATE_OPEN)){
+                ans.add(setMemberNum(p));
+            }
+        }
+        return ans;
     }
     @Override
     public PageInfo<ProjectVO> getActiveProjects(Integer currPage) {

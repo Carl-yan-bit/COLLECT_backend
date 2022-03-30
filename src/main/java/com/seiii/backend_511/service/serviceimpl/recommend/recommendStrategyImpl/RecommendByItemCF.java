@@ -18,33 +18,76 @@ import java.util.List;
 @Service
 public class RecommendByItemCF implements RecommendStrategy {
     @Resource
-    UserProjectMapper userProjectMapper;
-    @Resource
     UserMapper userMapper;
     @Resource
-    ProjectMapper projectMapper;
-    @Resource
     ProjectService projectService;
-    @Resource
-    ProjectPreferenceMapper projectPreferenceMapper;
 
-    private UserVO mainUser;
     private RecommendStrategyInfo recommendStrategyInfo;
-    private  List<Double> vMain;
-    private List<ProjectVO> mainProjects;
+    private List<List<Double>> mainProjectsVector;
 
     private List<Double> getVector(ProjectVO projectVO){
         List<Double> ans = new ArrayList<>();
-        ans.add((double)projectVO.getDifficulty());
-        return null;
+        for(int i=0;i<recommendStrategyInfo.getDifficulty();i++){
+            ans.add((double)projectVO.getDifficulty());
+        }
+        for(int i=0;i<recommendStrategyInfo.getDevice();i++){
+            ans.add((double)projectVO.getDeviceId()*10);
+        }
+        for(int i=0;i<recommendStrategyInfo.getType();i++){
+            ans.add((double)projectVO.getType()*10);
+        }
+        return ans;
     }
 
+    private double calculateRank(ProjectVO projectVO){
+        double ans = 0.0;
+        List<Double> v = getVector(projectVO);
+        for(List<Double> pMain:mainProjectsVector){
+            ans = Math.max(calculate(v,pMain),ans);
+        }
+        return ans;
+    }
+    private double calculate(List<Double> v,List<Double> pMain){
+        double numerator = 0.0;
+        double denominator_x = 0.0;
+        double denominator_y = 0.0;
+        for(int i=0;i<v.size();i++){
+            if(pMain.get(i) >0&& v.get(i) >0){
+                //只取存在的属性计算相似度
+                numerator += pMain.get(i)*v.get(i);
+                denominator_x += pMain.get(i)*pMain.get(i);
+                denominator_y += v.get(i)*v.get(i);
+            }
+        }
+        return Math.sqrt(numerator*numerator/(denominator_x*denominator_y));
+    }
+
+    private List<ProjectVO> getSimilarity(){
+        List<ProjectVO> all = projectService.getAllActiveProjects();
+        for(ProjectVO projectVO:all){
+            projectVO.setRank(calculateRank(projectVO));
+        }
+        all.sort((o1, o2) -> (int) (o2.getRank()*100- o1.getRank()*100));
+        return all;
+    }
     @Override
     public List<Project> getRecommend(Integer uid, RecommendStrategyInfo recommendStrategyInfo) {
-        this.mainUser = new UserVO(userMapper.selectByPrimaryKey(uid));
+        UserVO mainUser = new UserVO(userMapper.selectByPrimaryKey(uid));
         this.recommendStrategyInfo = recommendStrategyInfo;
-        this.mainProjects = projectService.getAllJoinedProjects(mainUser.getId());
-
-        return null;
+        List<ProjectVO> mainProjects = projectService.getAllJoinedProjects(mainUser.getId());
+        List<Integer> minID = new ArrayList<>();
+        this.mainProjectsVector = new ArrayList<>();
+        for(ProjectVO project: mainProjects){
+            mainProjectsVector.add(getVector(project));
+            minID.add(project.getId());
+        }
+        //计算用户加入任务的向量，避免重复计算
+        List<ProjectVO> list = getSimilarity();
+        List<Project> projectList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            if(!minID.contains(list.get(i).getId()))
+            projectList.add(new Project(list.get(i)));
+        }
+        return projectList.subList(0,Math.min(projectList.size()-1,recommendStrategyInfo.getNum()));
     }
 }

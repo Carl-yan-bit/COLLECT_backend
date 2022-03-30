@@ -11,7 +11,7 @@ public interface UserMapper {
     User selectByPrimaryKey(Integer id);
 
     List<User> selectAll();
-
+    List<User> selectUserWithProject();
     int updateByPrimaryKey(User record);
     User selectByName(String name);
     User selectByEmail(String email);

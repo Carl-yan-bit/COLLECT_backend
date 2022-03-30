@@ -53,6 +53,15 @@
     password, user_role, create_time
     from user
   </select>
+  <select id="selectUserWithProject" resultMap="BaseResultMap">
+    select id, exp, level, project_preference_id, activity, name, email, phoneNumber,
+           password, user_role, create_time
+    from user
+    where id in (
+        select distinct user_id
+        from seiii.user_project
+      )
+  </select>
   <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
     select id, exp, level, project_preference_id, activity, name, email, phoneNumber,
            password, user_role, create_time
