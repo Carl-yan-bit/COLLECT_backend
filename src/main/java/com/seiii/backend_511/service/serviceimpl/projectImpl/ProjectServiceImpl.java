@@ -88,7 +88,11 @@ public class ProjectServiceImpl implements ProjectService {
                 project.setState(CONST.STATE_OPEN);
             }
             if(projectMapper.selectByPrimaryKey(project.getId())!=null){
-                project.setClickTimes(projectMapper.selectByPrimaryKey(project.getId()).getClickTimes());
+                //如果没有设置点击次数，就将它设置为原来的
+                if(project.getClickTimes()==null){
+                    project.setClickTimes(projectMapper.selectByPrimaryKey(project.getId()).getClickTimes());
+                }
+
                 if(projectMapper.updateByPrimaryKey(project)==1)
                     return new ResultVO<>(CONST.REQUEST_SUCCESS,"更新成功",toProjectVO(project));
                 return new ResultVO<>(CONST.REQUEST_FAIL,"创建失败");
@@ -278,6 +282,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ResultVO<ProjectVO> onClick(Integer pid) {
         Project project = projectMapper.selectByPrimaryKey(pid);
+        if(project==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"失败");
+        }
         project.setClickTimes(project.getClickTimes()+1);
         updateProject(new ProjectVO(project));
         return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功");
