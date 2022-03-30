@@ -204,6 +204,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public ResultVO<List<ReportSimilarVO>> getSimilarReport(ReportVO report) {
+        if(report.getUserId()==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"用户名为空",new LinkedList<>());
+        }
         if(report.getDescription()==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"报告内容为空",new LinkedList<>());
         }

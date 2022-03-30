@@ -44,9 +44,11 @@ public class SimilarityHepler {
         HashMap<Report,Double> cosSimMap=cosineSimilarity(textTfIdfMap,allTfIdfMap);
 
         List<Map.Entry<Report,Double>> list=new ArrayList<Map.Entry<Report, Double>>(cosSimMap.entrySet());
-        for(Map.Entry<Report,Double> e:list){
-            if(e.getKey().getUserId()==report.getUserId()){
-                list.remove(e);
+        Iterator<Map.Entry<Report,Double>> iterator=list.iterator();
+        while (iterator.hasNext()){
+            Map.Entry<Report,Double> nowElement=iterator.next();
+            if(nowElement.getKey().getUserId()==report.getUserId()){
+                iterator.remove();
             }
         }
         list.sort(new Comparator<Map.Entry<Report, Double>>() {
