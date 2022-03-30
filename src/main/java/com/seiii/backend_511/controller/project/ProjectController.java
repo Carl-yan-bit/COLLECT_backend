@@ -55,6 +55,7 @@ public class ProjectController {
     }
     @GetMapping("/find/project")
     public ProjectVO getProjectById(@RequestParam Integer projectId){
+        projectservice.onClick(projectId);
         return projectservice.getProjectById(projectId);
     }
     @GetMapping("/find/project/uid")
