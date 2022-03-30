@@ -37,6 +37,7 @@ public class MockProjectControllerTest {
     public void testCreateProject() throws Exception{
         Project projectVO = new Project();
         projectVO.setUserId(1);
+
         projectVO.setTestTime(new Date());
         projectVO.setDescription("测试不会写，招募测试人员");
         projectVO.setName("金陵大学黑马程序员学院");

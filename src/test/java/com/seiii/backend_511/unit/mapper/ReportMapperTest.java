@@ -22,10 +22,10 @@ public class ReportMapperTest {
 
     @Test
     public void testSelectByTask(){
-        Assert.assertEquals(1,reportMapper.selectByTask(2).size());
+        Assert.assertEquals(0,reportMapper.selectByTask(2).size());
     }
     @Test
     public void testSelectByTaskAndUID(){
-        Assert.assertEquals(Integer.valueOf(2),reportMapper.selectByTaskAndUser(2,3).get(0).getId());
+        Assert.assertEquals(Integer.valueOf(2),reportMapper.selectByTaskAndUser(1,4).get(0).getId());
     }
 }

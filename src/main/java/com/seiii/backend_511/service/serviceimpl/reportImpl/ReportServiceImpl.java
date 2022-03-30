@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.huaban.analysis.jieba.JiebaSegmenter;
 import com.seiii.backend_511.mapperservice.ReportMapper;
+import com.seiii.backend_511.mapperservice.UserLogMapper;
+import com.seiii.backend_511.po.UserLog;
 import com.seiii.backend_511.po.report.Report;
 import com.seiii.backend_511.po.report.ReportSimilar;
 import com.seiii.backend_511.service.device.DeviceService;
@@ -39,8 +41,12 @@ public class ReportServiceImpl implements ReportService {
     DeviceService deviceService;
     @Resource
     ReportMapper reportMapper;
+    @Resource
+    UserLogMapper userLogMapper;
+
     @Override
     public ResultVO<ReportVO> createReport(ReportVO reportVO) {
+        reportVO.setId(null);
         reportVO.setScore(2.5F);
         if(userService.getUserByUid(reportVO.getUserId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
@@ -48,6 +54,8 @@ public class ReportServiceImpl implements ReportService {
         if(taskService.getTaskByID(reportVO.getTaskId())==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个任务");
         }
+        UserLog userLog = new UserLog(reportVO.getUserId(),"写报告",CONST.REPORT_POINT,new Date());
+        userLogMapper.insert(userLog);
         boolean flag = false;
         for(TaskVO task:taskService.getTasksByUser(reportVO.getUserId())){
             if (task.getId().equals(reportVO.getTaskId())) {
@@ -72,6 +80,7 @@ public class ReportServiceImpl implements ReportService {
                 }
                 if(reportVO.getParentReport().equals(report.getId())){
                     reportVO.setId(report.getId());
+                    reportVO.setParentReport(null);
                     return updateReport(reportVO);
                 }
             }
@@ -110,7 +119,7 @@ public class ReportServiceImpl implements ReportService {
         }
         if(StringUtils.hasText(reportVO.getName())&&StringUtils.hasText(reportVO.getDescription())&&StringUtils.hasText(reportVO.getDeviceId().toString())&&StringUtils.hasText(reportVO.getTestStep())){
             Report report = new Report(reportVO);
-            report.setCreateTime(new Date());
+            report.setCreateTime(reportMapper.selectByPrimaryKey(reportVO.getId()).getCreateTime());
             report.setState("finished");
 //            更新一个任务肯定是有id的
 //            if(report.getId()==null){
@@ -212,8 +221,8 @@ public class ReportServiceImpl implements ReportService {
             SimilarityHepler hepler=new SimilarityHepler();
             List<ReportSimilar> tempRes= hepler.findSimilarity(report,taskReportList);
             List<ReportSimilarVO> res= new LinkedList<>();
-            for(int i=0;i<tempRes.size();i++){
-                ReportSimilarVO r=new ReportSimilarVO(toReportVO(tempRes.get(i).getReport()),tempRes.get(i).getSimilarity());
+            for (ReportSimilar tempRe : tempRes) {
+                ReportSimilarVO r = new ReportSimilarVO(toReportVO(tempRe.getReport()), tempRe.getSimilarity());
                 res.add(r);
             }
             return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功查询",res);

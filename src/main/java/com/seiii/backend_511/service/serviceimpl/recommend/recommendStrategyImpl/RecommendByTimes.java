@@ -17,6 +17,6 @@ public class RecommendByTimes implements RecommendStrategy {
 
     @Override
     public List<Project> getRecommend(Integer uid, RecommendStrategyInfo recommendStrategyInfo) {
-        return projectService.selectAllByClickOrder(recommendStrategyInfo.getNum());
+        return projectService.selectAllByClickOrder(recommendStrategyInfo.getNum(),uid);
     }
 }

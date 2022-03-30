@@ -44,10 +44,10 @@ public class UserProjectMapperTest {
     }
     @Test
     public void testSelectByUID(){
-        Assert.assertEquals(1,userProjectMapper.selectByUser(2).size());
+        Assert.assertEquals(4,userProjectMapper.selectByUser(2).size());
     }
     @Test
     public void testSelectByProjectId(){
-        Assert.assertEquals(0,userProjectMapper.selectByProjects(1).size());
+        Assert.assertEquals(5,userProjectMapper.selectByProjects(1).size());
     }
 }

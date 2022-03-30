@@ -1,6 +1,8 @@
 package com.seiii.backend_511.service.serviceimpl.reportImpl;
 
 import com.seiii.backend_511.mapperservice.ReportCommentMapper;
+import com.seiii.backend_511.mapperservice.UserLogMapper;
+import com.seiii.backend_511.po.UserLog;
 import com.seiii.backend_511.po.report.ReportComment;
 import com.seiii.backend_511.service.report.ReportCommentService;
 import com.seiii.backend_511.service.report.ReportService;
@@ -25,6 +27,9 @@ public class ReportCommentServiceImpl implements ReportCommentService {
     ReportService reportService;
     @Resource
     UserService userService;
+    @Resource
+    UserLogMapper userLogMapper;
+
     @Override
     public ResultVO<List<ReportCommentVO>> getAllCommentsById(Integer report_id) {
         if(reportService.getReportByID(report_id).getCode().equals(CONST.REQUEST_FAIL)){
@@ -45,6 +50,8 @@ public class ReportCommentServiceImpl implements ReportCommentService {
         if(userService.getUserByUid(user_id)==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
         }
+        UserLog userLog = new UserLog(user_id,"评论",CONST.COMMENT_POINT,new Date());
+        userLogMapper.insert(userLog);
         reportCommentVO.setUserName(userService.getUserByUid(user_id).getName());
         if(reportService.getReportByID(report_id).getCode().equals(CONST.REQUEST_FAIL)){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个报告");

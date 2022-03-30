@@ -1,7 +1,11 @@
 package com.seiii.backend_511.service.serviceimpl.userImpl;
 
+import com.seiii.backend_511.mapperservice.ProjectPreferenceMapper;
 import com.seiii.backend_511.mapperservice.UserDeviceMapper;
+import com.seiii.backend_511.mapperservice.UserLogMapper;
 import com.seiii.backend_511.mapperservice.UserMapper;
+import com.seiii.backend_511.po.UserLog;
+import com.seiii.backend_511.po.project.ProjectPreference;
 import com.seiii.backend_511.po.user.Device;
 import com.seiii.backend_511.po.user.User;
 import com.seiii.backend_511.po.user.UserDevice;
@@ -30,6 +34,17 @@ public class UserServiceImpl implements UserService {
     private UserDeviceMapper userDeviceMapper;
     @Resource
     private DeviceService deviceService;
+    @Resource
+    private UserLogMapper userLogMapper;
+    @Resource
+    private ProjectPreferenceMapper projectPreferenceMapper;
+
+    private void newUserProjectPreference(User user){
+        User userReal = userMapper.selectByEmail(user.getEmail());
+        ProjectPreference projectPreference = new ProjectPreference();
+        projectPreference.setUserId(userReal.getId());
+        projectPreferenceMapper.insert(projectPreference);
+    }
     @Override
     public ResultVO<UserVO> userRegister(UserVO userVO) {
         userVO.setExp(0);
@@ -39,6 +54,9 @@ public class UserServiceImpl implements UserService {
         String password = userVO.getPassword();
         String email = userVO.getEmail();
         String phoneNumber = userVO.getPhonenumber();
+        if(!StringUtils.hasText(userVO.getUserRole())){
+            return new ResultVO<>(CONST.REQUEST_FAIL, "请选择用户角色");
+        }
         if(userMapper.selectByName(userVO.getName())!=null){
             return new ResultVO<>(CONST.REQUEST_FAIL, "用户名已被占用");
         }
@@ -50,8 +68,10 @@ public class UserServiceImpl implements UserService {
                 //创建一个持久对象
                 User user = new User(userVO);
                 System.out.println(toUserVO(user));
-                if(userMapper.insert(user)==1)
+                if(userMapper.insert(user)==1){
+                    newUserProjectPreference(user);
                     return new ResultVO<>(CONST.REQUEST_SUCCESS, "账号注册成功！", toUserVO(user));
+                }
                 return new ResultVO<>(CONST.REQUEST_FAIL, "注册失败");
             }
             else {
@@ -77,6 +97,8 @@ public class UserServiceImpl implements UserService {
         if(user==null){
             return new ResultVO<>(CONST.REQUEST_FAIL, "尚未注册，请检查输入或先注册!");
         }
+        UserLog userLog = new UserLog(user.getId(),"登陆",CONST.LOGIN_POINT,new Date());
+        userLogMapper.insert(userLog);
         if(!user.getPassword().equals(Encryption.encryptPassword(password,user.getName()))){
             return new ResultVO<>(CONST.REQUEST_FAIL, "账号或密码错误!");
         }

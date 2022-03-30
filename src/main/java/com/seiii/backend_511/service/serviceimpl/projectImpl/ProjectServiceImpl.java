@@ -49,16 +49,19 @@ public class ProjectServiceImpl implements ProjectService {
     private RecommendStrategyFactory recommendStrategyFactory;
     @Resource
     private RecommendStrategyMapper recommendStrategyMapper;
+
+
     @Override
     public ResultVO<ProjectVO> createProject(ProjectVO projectVO) {
         projectVO.setId(null);
+        projectVO.setClickTimes(0);
         if(userService.getUserByUid(projectVO.getUserId())==null){
-            return new ResultVO<>(CONST.REQUEST_FAIL,"项目定义不完全!");
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有用户");
         }
         if (userService.getUserByUid(projectVO.getUserId()).getUserRole().equals(CONST.USER_ROLE_WORKER)){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有权限");
         }
-        if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getState())&&StringUtils.hasText(projectVO.getTestTime().toString())){
+        if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getTestTime().toString())){
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
             if(projectMapper.insert(project)==1)
@@ -81,7 +84,15 @@ public class ProjectServiceImpl implements ProjectService {
         if(StringUtils.hasText(projectVO.getName())&&StringUtils.hasText(projectVO.getDescription())&&StringUtils.hasText(projectVO.getState())&&StringUtils.hasText(projectVO.getTestTime().toString())){
             Project project = new Project(projectVO);
             project.setCreateTime(new Date());
+            if(projectVO.getTestTime().after(new Date())){
+                project.setState(CONST.STATE_OPEN);
+            }
             if(projectMapper.selectByPrimaryKey(project.getId())!=null){
+                //如果没有设置点击次数，就将它设置为原来的
+                if(project.getClickTimes()==null){
+                    project.setClickTimes(projectMapper.selectByPrimaryKey(project.getId()).getClickTimes());
+                }
+
                 if(projectMapper.updateByPrimaryKey(project)==1)
                     return new ResultVO<>(CONST.REQUEST_SUCCESS,"更新成功",toProjectVO(project));
                 return new ResultVO<>(CONST.REQUEST_FAIL,"创建失败");
@@ -131,14 +142,20 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return PageInfoUtil.ListToPageInfo(projectVOS,currPage);
     }
-
+    public List<ProjectVO> getAllJoinedProjects(Integer uid){
+        List<ProjectVO> projectVOS = new ArrayList<>();
+        for(UserProject userProject:userProjectMapper.selectByUser(uid)){
+            projectVOS.add(setMemberNum(projectMapper.selectByPrimaryKey(userProject.getProjectId())));
+        }
+        return projectVOS;
+    }
     @Override
     public PageInfo<ProjectVO> getActiveProjects(Integer currPage) {
         if(currPage==null || currPage<1) currPage=1;
         List<Project> all= projectMapper.selectAll();
         List<ProjectVO> ans = new ArrayList<>();
         for(Project p:all){
-            if(userProjectMapper.selectByProjects(p.getId()).size()<p.getWorkerAmount()){
+            if(userProjectMapper.selectByProjects(p.getId()).size()<p.getWorkerAmount()&&p.getState().equals(CONST.STATE_OPEN)){
                 ans.add(setMemberNum(p));
             }
         }
@@ -157,6 +174,12 @@ public class ProjectServiceImpl implements ProjectService {
     public ResultVO<ProjectVO> quitProject(UserProjectVO userProjectVO) {
         Integer uid = userProjectVO.getUserId();
         Integer projectId = userProjectVO.getProjectId();
+        if(projectMapper.selectByPrimaryKey(projectId)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个项目");
+        }
+        if(getProjectById(projectId).getState().equals(CONST.STATE_CLOSED)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
+        }
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             if(userProject.getProjectId().equals(projectId)){
                 if(userProjectMapper.deleteByPrimaryKey(userProject.getId())==1)
@@ -165,6 +188,13 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"您就不在任务里吧(流汗黄豆)");
+    }
+    public List<ProjectVO> setMemberNum(List<Project> projectList){
+        List<ProjectVO> ans = new ArrayList<>();
+        for(Project project:projectList){
+            ans.add(setMemberNum(project));
+        }
+        return ans;
     }
     private ProjectVO setMemberNum(Project po){
         if(getProjectNumbers(po.getId()).getCode().equals(CONST.REQUEST_FAIL)){
@@ -178,19 +208,23 @@ public class ProjectServiceImpl implements ProjectService {
     public ResultVO<ProjectVO> joinProject(UserProjectVO userProjectVO) {
         Integer uid = userProjectVO.getUserId();
         Integer projectId = userProjectVO.getProjectId();
+        userProjectVO.setJoinTime(new Date());
         if(userService.getUserByUid(uid)==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户");
+        }
+        if(projectMapper.selectByPrimaryKey(projectId)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"项目不存在");
+        }
+        if(getProjectById(projectId).getState().equals(CONST.STATE_CLOSED)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
+        }
+        if(userProjectMapper.selectByProjects(projectId).size()>=projectMapper.selectByPrimaryKey(projectId).getWorkerAmount()){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"项目人数已满!");
         }
         for(UserProject userProject:userProjectMapper.selectByUser(uid)){
             if(userProject.getProjectId().equals(projectId)){
                 return new ResultVO<>(CONST.REQUEST_FAIL,"已经在项目中");
             }
-        }
-        if(projectMapper.selectByPrimaryKey(projectId)==null){
-            return new ResultVO<>(CONST.REQUEST_FAIL,"项目不存在");
-        }
-        if(userProjectMapper.selectByProjects(projectId).size()>=projectMapper.selectByPrimaryKey(projectId).getWorkerAmount()){
-            return new ResultVO<>(CONST.REQUEST_FAIL,"项目人数已满!");
         }
         UserProject up = new UserProject(userProjectVO);
         if(userProjectMapper.insert(up)==1)
@@ -248,12 +282,15 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return projectVOList;
     }
-    public List<Project> selectAllByClickOrder(int nums){
-        return projectMapper.selectAllByClickOrder(nums);
+    public List<Project> selectAllByClickOrder(int nums,Integer uid){
+        return projectMapper.selectAllByClickOrder(nums,uid);
     }
     @Override
     public ResultVO<ProjectVO> onClick(Integer pid) {
         Project project = projectMapper.selectByPrimaryKey(pid);
+        if(project==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"失败");
+        }
         project.setClickTimes(project.getClickTimes()+1);
         updateProject(new ProjectVO(project));
         return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功");
@@ -261,6 +298,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ResultVO<List<ProjectVO>> getRecommendation(Integer uid) {
-        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",toProjectVO(recommendStrategyFactory.getRecommendStrategy().getRecommend(uid,recommendStrategyMapper.selectOnUse())));
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",setMemberNum(recommendStrategyFactory.getRecommendStrategy(uid).getRecommend(uid,recommendStrategyMapper.selectOnUse())));
+    }
+
+    @Override
+    public boolean isActive(Project p) {
+        return userProjectMapper.selectByProjects(p.getId()).size()<p.getWorkerAmount()&&p.getState().equals(CONST.STATE_OPEN);
     }
 }

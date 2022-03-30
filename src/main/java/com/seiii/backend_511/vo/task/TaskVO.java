@@ -12,15 +12,15 @@ public class TaskVO {
 
     private Integer projectId;
 
-    private Integer difficulty;
+    private Integer difficulty=0;
 
-    private Integer deviceId;
+    private Integer deviceId=1;
     private String deviceInfo;
     private Integer type;
     private String typeInfo;
     private String name;
 
-    private String state;
+    private String state="open";
 
     private String description;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

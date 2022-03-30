@@ -15,7 +15,7 @@ public class RecommendStrategyInfoVO {
 
     private Integer exp;
 
-    private Integer level;
+    private String name;
 
     private Integer difficulty;
 
@@ -24,7 +24,7 @@ public class RecommendStrategyInfoVO {
     private Integer device;
 
     private Integer num;
-
+    private Integer type;
     public Integer getId() {
         return id;
     }
@@ -49,12 +49,12 @@ public class RecommendStrategyInfoVO {
         this.exp = exp;
     }
 
-    public Integer getLevel() {
-        return level;
+    public String getname() {
+        return name;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setname(String name) {
+        this.name = name;
     }
 
     public Integer getDifficulty() {
@@ -93,10 +93,11 @@ public class RecommendStrategyInfoVO {
         this.id = recommendStrategyInfo.getId();
         this.onUse = recommendStrategyInfo.getOnUse();
         this.exp = recommendStrategyInfo.getExp();
-        this.level = recommendStrategyInfo.getLevel();
+        this.name = recommendStrategyInfo.getname();
         this.difficulty = recommendStrategyInfo.getDifficulty();
         this.activity = recommendStrategyInfo.getActivity();
         this.device = recommendStrategyInfo.getDevice();
         this.num = recommendStrategyInfo.getNum();
+        this.type = recommendStrategyInfo.getType();
     }
 }

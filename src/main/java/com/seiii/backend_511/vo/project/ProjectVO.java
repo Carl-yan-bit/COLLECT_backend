@@ -12,18 +12,18 @@ import java.util.Date;
 @NoArgsConstructor
 public class ProjectVO {
     private Integer id;
-    private Integer clickTimes;
+    private Integer clickTimes=0;
     private Integer userId;
+    private Double rank = 0.0;
+    private Integer difficulty=0;
 
-    private Integer difficulty;
-
-    private Integer deviceId;
+    private Integer deviceId=1;
     private String deviceInfo;
     private Integer type;
     private String typeInfo;
     private String name;
 
-    private String state;
+    private String state="open";
 
     private String description;
     private int memberNum;

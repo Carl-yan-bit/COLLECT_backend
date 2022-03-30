@@ -1,5 +1,7 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+set @@GLOBAL.sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -38,13 +40,25 @@ INSERT INTO `user` VALUES (12,1000,6,NULL,0,"employer1","employer1@test.com","41
 DROP TABLE IF EXISTS `project_preference`;
 CREATE TABLE `project_preference`(
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
-    `user_id` int(11) NOT NULL,
+    `user_id` int(11) UNIQUE NOT NULL,
     `difficulty` float DEFAULT 0.0,
     `device_id` float DEFAULT 0.0,
     `type` float DEFAULT 0.0,
     INDEX `fk_user_project_preference`(`user_id`) USING BTREE,
     CONSTRAINT `fk_user_project_preference` FOREIGN KEY(`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+INSERT INTO `project_preference` VALUES (1,1,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (2,2,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (3,3,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (4,4,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (5,5,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (6,6,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (7,7,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (8,8,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (9,9,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (10,10,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (11,11,0.0,0.0,0.0)
+INSERT INTO `project_preference` VALUES (12,12,0.0,0.0,0.0)
 
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project` (
@@ -67,32 +81,32 @@ CREATE TABLE `project` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 INSERT INTO `project` VALUES (1,11,2,1,1,1,"财新（企业版）-7.0.0-BUG探索-IOS","open","1、可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试
-                                                                          2、所有功能都测试，重点测试支付、FM、音频播放器、文章正文页、我的播单等功能",'2022-03-28 10:00:00',15,'2022-02-28 10:00:00');
+                                                                          2、所有功能都测试，重点测试支付、FM、音频播放器、文章正文页、我的播单等功能",'2022-04-28 10:00:00',15,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (2,100,2,3,3,1,"财新测试-7.8.0-BUG探索-鸿蒙系统","open","1、可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。
-                                                                           2、所有功能都测试，重点测试支付、FM、音频播放器、文章正文页、我的播单等功能",'2022-03-28 10:00:00',35,'2022-02-28 10:00:00');
+                                                                           2、所有功能都测试，重点测试支付、FM、音频播放器、文章正文页、我的播单等功能",'2022-04-28 10:00:00',35,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (3,11,2,7,1,1,"Welink-5.59.5-Bug探索-IOS","open","【重要】测试前必看，WeLink探索测试指南
                                                                           https://kdocs.cn/l/cnHhUKkDXLJa
                                                                           1.Android安装包用任务的，IOS包用群里Testflght账号的
                                                                           2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html
                                                                           3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA
-                                                                          4.所有人都需要自主注册选择员工，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
+                                                                          4.所有人都需要自主注册选择员工，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-04-28 10:00:00',20,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (4,1,2,7,3,1,"Welink-5.59.3-Bug探索-HarmonyOS","open","【重要】测试前必看，WeLink探索测试指南
                                                                                 https://kdocs.cn/l/cnHhUKkDXLJa
                                                                                 1.Android安装包用任务的，IOS包用群里Testflght账号的
                                                                                 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html
                                                                                 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA
-                                                                                4.所有人都需要自主注册，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
+                                                                                4.所有人都需要自主注册，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-04-28 10:00:00',20,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (5,0,2,1,4,1,"WeLink-7.14.0.280-Bug探索-PC","open","安装包：PC版本7.14.0.280
                                                                              测试平台：Windows
                                                                              版本地址： https://softclient.obs.cn-north-4.myhuaweicloud.com:443/temp/WeLink_Win_cloud_202201301518_4790_master_7.14.0_280.exe?AccessKeyId=UH1ZMWZA2MLTCGRVEBJM&Expires=1644461315&Signature=UmBfx24upyAazfHxfUxsv2lXPJM%3D
                                                                              所有的bug必须带上日志【登录页点击登陆设置-收集日志，收集后自动打开日志所在目录了】
                                                                              WeLinkPC_0216各模块需求列表
-                                                                             https://kdocs.cn/l/cp7SZzdCBxRf",'2022-03-28 10:00:00',200,'2022-02-28 10:00:00');
+                                                                             https://kdocs.cn/l/cp7SZzdCBxRf",'2022-04-28 10:00:00',200,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (6,0,12,1,5,1,"58同城-11.0.0-Bug探索-LINUX","open","此次版本更新内容
                                                                          1、使用到微聊的业务线需要回归测试：微聊登录登出、两台手机账号互踢、未读消息数、聊天页跳转（业务线帖子详情页点“微聊”，进入会话页）、语音消息播放
                                                                          2、在屏幕顶部弹出定位权限使用说明，在屏幕底部弹出定位权限使用弹窗，可参考https://note.youdao.com/s/cAlsf6sN，新增脚本1；
                                                                          3、首次打开app,不同意隐私协议，进入app首页前不再展示引导页面，目前灰度80%用户同意隐私协议可以看到引导页面。
-                                                                         4、安卓单端：前提条件：允许58app使用定位信息；手动切换城市到不是当前定位的城市，例如：当前定位在北京，切换至上海市首页，然后杀掉app，重新冷启动app;",'2022-03-28 10:00:00',25,'2022-02-28 10:00:00');
+                                                                         4、安卓单端：前提条件：允许58app使用定位信息；手动切换城市到不是当前定位的城市，例如：当前定位在北京，切换至上海市首页，然后杀掉app，重新冷启动app;",'2022-04-28 10:00:00',25,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (7,0,12,1,6,1,"58同城-11.0.0-Bug探索-MAC","open","
 期望结果：冷启动后弹出城市切换弹窗；
 5、首页底部菜单使用新版UI，UI展示正常；
@@ -107,7 +121,7 @@ INSERT INTO `project` VALUES (7,0,12,1,6,1,"58同城-11.0.0-Bug探索-MAC","open
 1）App桌面底部tabUI；
 2）登录模块；
 3）个人中心--我的收藏页面；
-4）消息中心：",'2022-03-28 10:00:00',2,'2022-02-28 10:00:00');
+4）消息中心：",'2022-04-28 10:00:00',0,'2022-02-28 10:00:00');
 INSERT INTO `project` VALUES (8,0,12,9,2,1,"1905电影网-6.4.0-Bug探索-Android","open","视频平台改版涉及：
                                                                           1、首页-电影页
                                                                           2、首页-电影-为你推荐-（更多）为你推荐列表页
@@ -298,23 +312,24 @@ CREATE TABLE `task`(
     CONSTRAINT `fk_project_task` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `task` VALUES (1,1,1,1,1,"测试支付IOS","open","1、可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试",'2022-03-28 10:00:00',12,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (2,1,1,1,2,"测试文章正文页IOS","closed","可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试",'2022-03-28 10:00:00',12,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (3,2,1,3,1,"测试支付HM","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-03-28 10:00:00',35,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (4,2,1,3,2,"测试文章正文页HM","closed","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-03-28 10:00:00',35,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (5,2,0,3,3,"测试我的播单","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (6,2,1,3,4,"测试音频播放","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-03-28 10:00:00',10,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (7,3,1,1,1,"全功能测试IOS","open","【重要】测试前必看，WeLink探索测试指南 https://kdocs.cn/l/cnHhUKkDXLJa 1.Android安装包用任务的，IOS包用群里Testflght账号的 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA 4.所有人都需要自主注册选择员工，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (8,4,1,3,2,"全功能测试HM","open","测试前必看，WeLink探索测试指南 https://kdocs.cn/l/cnHhUKkDXLJa 1.Android安装包用任务的，IOS包用群里Testflght账号的 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA 4.所有人都需要自主注册，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-03-28 10:00:00',20,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (9,5,1,4,3,"Bug探索-PC","closed","所有的bug必须带上日志【登录页点击登陆设置-收集日志，收集后自动打开日志所在目录了】 WeLinkPC_0216各模块需求列表 https://kdocs.cn/l/cp7SZzdCBxRf",'2022-03-28 10:00:00',200,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (10,6,2,5,1,"Bug探索-LINUX","open","首次打开app,不同意隐私协议，进入app首页前不再展示引导页面，目前灰度80%用户同意隐私协议可以看到引导页面。",'2022-03-28 10:00:00',15,'2022-02-28 10:00:00');
-INSERT INTO `task` VALUES (11,7,3,6,1,"Bug探索-MAC","open","首页底部菜单使用新版UI，UI展示正常",'2022-03-28 10:00:00',1,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (1,1,1,1,1,"测试支付IOS","open","1、可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试",'2022-04-28 10:00:00',12,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (2,1,1,1,2,"测试文章正文页IOS","closed","可以用iPad和苹果手机进行测试，生产环境测试，从App store下载781版本测试，千万别用平台包测试",'2022-04-28 10:00:00',12,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (3,2,1,3,1,"测试支付HM","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-04-28 10:00:00',35,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (4,2,1,3,2,"测试文章正文页HM","closed","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-04-28 10:00:00',35,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (5,2,0,3,3,"测试我的播单","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-04-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (6,2,1,3,4,"测试音频播放","open","可以用平板和安卓手机进行测试，生产环境测试，从各个应用市场下载781版本测试，千万别用平台包测试。",'2022-04-28 10:00:00',10,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (7,3,1,1,1,"全功能测试IOS","open","【重要】测试前必看，WeLink探索测试指南 https://kdocs.cn/l/cnHhUKkDXLJa 1.Android安装包用任务的，IOS包用群里Testflght账号的 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA 4.所有人都需要自主注册选择员工，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-04-28 10:00:00',20,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (8,4,1,3,2,"全功能测试HM","open","测试前必看，WeLink探索测试指南 https://kdocs.cn/l/cnHhUKkDXLJa 1.Android安装包用任务的，IOS包用群里Testflght账号的 2.基础操作手册：https://support.huaweicloud.com/usermanual-welink/welink_appuse.html 3.详细需求：https://kdocs.cn/l/ccpzZosO3vlA 4.所有人都需要自主注册，必须加入该测试公司，邀请码：ZRS8JMA9",'2022-04-28 10:00:00',20,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (9,5,1,4,3,"Bug探索-PC","closed","所有的bug必须带上日志【登录页点击登陆设置-收集日志，收集后自动打开日志所在目录了】 WeLinkPC_0216各模块需求列表 https://kdocs.cn/l/cp7SZzdCBxRf",'2022-04-28 10:00:00',200,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (10,6,2,5,1,"Bug探索-LINUX","open","首次打开app,不同意隐私协议，进入app首页前不再展示引导页面，目前灰度80%用户同意隐私协议可以看到引导页面。",'2022-04-28 10:00:00',15,'2022-02-28 10:00:00');
+INSERT INTO `task` VALUES (11,7,3,6,1,"Bug探索-MAC","open","首页底部菜单使用新版UI，UI展示正常",'2022-04-28 20:21:00',1,'2022-02-28 10:00:00');
 
 DROP TABLE IF EXISTS `user_project`;
 CREATE TABLE `user_project`(
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `project_id` int(11) NOT NULL,
     `user_id` int(11) NOT NULL,
+    `join_time` datetime,
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `fk_project_user`(`project_id`) USING BTREE,
     INDEX `fk_project_user1`(`user_id`) USING BTREE,
@@ -327,15 +342,16 @@ CREATE TABLE `recommend_strategy`(
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `on_use` int(1) NOT NULL DEFAULT 0,
     `exp` int(11) NOT NULL,
-    `level` int(11) NOT NULL,
+    `name` varchar(255) NOT NULL,
     `difficulty` int(11) NOT NULL,
     `activity` int(11) NOT NULL,
     `device` int(11) NOT NULL,
     `num` int(11) NOT NULL,
+    `type` int(11) NOT NULL,
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `fk_recommend`(`on_use`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-INSERT INTO `recommend_strategy` VALUES (1,1,1,1,1,1,1,6);
+INSERT INTO `recommend_strategy` VALUES (1,1,1,"默认策略",1,1,1,6,1);
 
 DROP TABLE IF EXISTS `user_task`;
 CREATE TABLE `user_task`(
@@ -358,7 +374,151 @@ CREATE TABLE `user_device`(
     INDEX `fk_device_user1`(`device_id`) USING BTREE,
     CONSTRAINT `fk_device_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `fk_device_user1` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `user_log`;
+CREATE TABLE `user_log`(
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `msg` varchar(255),
+    `activity_point` int(5),
+    `time` datetime,
+    INDEX `fk_user_log`(`user_id`) USING BTREE,
+    CONSTRAINT `fk_user_log` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+INSERT INTO `user_log` VALUES(1,1,"登陆",10,'2022-02-28 18:00:00')
+INSERT INTO `user_log` VALUES(2,1,"登陆",1,'2022-03-28 18:00:00')
+INSERT INTO `user_log` VALUES(3,1,"登陆",1,'2022-03-28 18:00:00')
+INSERT INTO `user_log` VALUES(4,1,"登陆",1,'2022-03-28 18:00:00')
+INSERT INTO `user_log` VALUES(5,1,"登陆",1,'2022-03-28 18:00:00')
+INSERT INTO `user_log` VALUES(6,1,"登陆",1,'2022-03-28 18:00:00')
+-- 定时事务，用于项目的到期自动关闭
+DROP EVENT IF EXISTS `auto_close_task`;
+CREATE EVENT `auto_close_task`
+ON SCHEDULE EVERY 1 MINUTE
+DO
+update task
+set state = 'closed'
+where test_time < now();
+
+DROP EVENT IF EXISTS `auto_close_project`;
+CREATE EVENT `auto_close_project`
+ON SCHEDULE EVERY 1 MINUTE
+DO
+update project as p
+set p.state = 'closed'
+where test_time < now() and not exists(
+	select *
+    from task as t
+    where t.project_id = p.id and t.state = 'open'
+);
+
+DROP EVENT IF EXISTS `auto_get_activity`;
+CREATE EVENT `auto_get_activity`
+ON SCHEDULE EVERY 1 DAY
+DO
+update user as u
+set activity = (
+	select ifnull(sum(log.activity_point),0)
+    from user_log as log
+    where log.time > date_sub(now(),interval 1 month) and log.user_id = u.id
 )
+
+DROP EVENT IF EXISTS `auto_project_preference_difficulty`;
+CREATE EVENT `auto_project_preference_difficulty`
+ON SCHEDULE EVERY 1 MINUTE
+DO
+update project_preference as proj
+set difficulty = (
+	select difficulty
+    from(
+	select u.user_id as user_id,avg(p.difficulty) as difficulty
+	from project as p join user_project as u
+	where p.id = u.project_id and u.join_time > date_sub(now(),interval 1 month)
+	group by u.user_id) as temp
+    where temp.user_id = proj.user_id
+)
+
+DROP EVENT IF EXISTS `auto_project_preference_device`;
+CREATE EVENT `auto_project_preference_device`
+ON SCHEDULE EVERY 1 MINUTE
+DO
+update project_preference as proj
+set device_id = (
+	select device_id
+    from(
+	select user_id,device_id
+from(
+    select user_id,device_id,count(device_id) as n
+    from(
+	    select u.user_id as user_id,p.device_id as device_id
+	    from project as p join user_project as u
+	    where p.id = u.project_id and u.join_time > date_sub(now(),interval 1 month)
+    )temp
+    group by user_id,device_id
+    order by n desc,user_id
+    ) ans
+where ans.n >= all(
+	select ans1.n
+    from(
+
+        select user_id,device_id,count(device_id) as n
+        from(
+	        select u.user_id as user_id,p.device_id as device_id
+	        from project as p join user_project as u
+	        where p.id = u.project_id and u.join_time > date_sub(now(),interval 1 month)
+        )temp
+        group by user_id,device_id
+        order by n desc,user_id
+    ) ans1
+	where ans1.user_id=ans.user_id
+)
+group by user_id
+) as temp2
+    where temp2.user_id = proj.user_id
+)
+
+
+DROP EVENT IF EXISTS `auto_project_preference_type`;
+CREATE EVENT `auto_project_preference_type`
+ON SCHEDULE EVERY 1 MINUTE
+DO
+update project_preference as proj
+set type = (
+	select type
+    from(
+	select user_id,type
+from(
+    select user_id,type,count(type) as n
+    from(
+	    select u.user_id as user_id,p.type as type
+	    from project as p join user_project as u
+	    where p.id = u.project_id and u.join_time > date_sub(now(),interval 1 month)
+    )temp
+    group by user_id,type
+    order by n desc,user_id
+    ) ans
+where ans.n >= all(
+	select ans1.n
+    from(
+
+        select user_id,type,count(type) as n
+        from(
+	        select u.user_id as user_id,p.type as type
+	        from project as p join user_project as u
+	        where p.id = u.project_id and u.join_time > date_sub(now(),interval 1 month)
+        )temp
+        group by user_id,type
+        order by n desc,user_id
+    ) ans1
+	where ans1.user_id=ans.user_id
+)
+group by user_id) as temp2
+    where temp2.user_id = proj.user_id
+)
+
+
+-- 一些样例
 INSERT INTO `user_device` VALUES (1,3,1)
 INSERT INTO `user_device` VALUES (2,3,2)
 INSERT INTO `user_device` VALUES (3,3,3)
@@ -375,18 +535,18 @@ INSERT INTO `user_device` VALUES (13,8,1)
 INSERT INTO `user_device` VALUES (14,9,2)
 INSERT INTO `user_device` VALUES (15,10,6)
 INSERT INTO `user_device` VALUES (16,11,5)
-INSERT INTO `user_project` VALUES (1,2,3);
-INSERT INTO `user_project` VALUES (2,2,2);
-INSERT INTO `user_project` VALUES (3,2,4);
-INSERT INTO `user_project` VALUES (4,3,2);
-INSERT INTO `user_project` VALUES (5,1,3);
-INSERT INTO `user_project` VALUES (6,4,2);
-INSERT INTO `user_project` VALUES (7,5,3);
-INSERT INTO `user_project` VALUES (8,6,2);
-INSERT INTO `user_project` VALUES (9,1,4);
-INSERT INTO `user_project` VALUES (10,1,5);
-INSERT INTO `user_project` VALUES (11,1,6);
-INSERT INTO `user_project` VALUES (12,1,7);
+INSERT INTO `user_project` VALUES (1,2,3,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (2,2,2,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (3,2,4,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (4,3,2,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (5,1,3,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (6,4,2,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (7,5,3,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (8,6,2,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (9,1,4,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (10,1,5,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (11,1,6,'2022-03-28 18:00:00');
+INSERT INTO `user_project` VALUES (12,1,7,'2022-03-28 18:00:00');
 INSERT INTO `user_task` VALUES (1,1,3);
 INSERT INTO `user_task` VALUES (2,2,3);
 INSERT INTO `user_task` VALUES (3,1,2);

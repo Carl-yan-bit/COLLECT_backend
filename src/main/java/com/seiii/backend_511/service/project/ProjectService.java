@@ -19,6 +19,7 @@ public interface ProjectService {
     PageInfo<ProjectVO> getAllProjects(Integer pid);
     PageInfo<ProjectVO> getActiveProjects(Integer pid);
     PageInfo<ProjectVO> getJoinedProjects(Integer uid,Integer currpage);
+    List<ProjectVO> getAllJoinedProjects(Integer uid);
     ResultVO<ProjectVO> joinProject(UserProjectVO userProjectVO);
     ResultVO<ProjectVO> quitProject(UserProjectVO userProjectVO);
     ResultVO<ProjectVO> updateProject(ProjectVO project);
@@ -26,5 +27,7 @@ public interface ProjectService {
     ResultVO<Integer> getProjectNumbers(Integer pid);
     ResultVO<ProjectVO> onClick(Integer pid);
     ResultVO<List<ProjectVO>> getRecommendation(Integer uid);
-    List<Project> selectAllByClickOrder(int nums);
+    List<Project> selectAllByClickOrder(int nums, Integer uid);
+    boolean isActive(Project project);
+    List<ProjectVO> setMemberNum(List<Project> projectList);
 }

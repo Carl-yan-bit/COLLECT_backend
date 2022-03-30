@@ -79,6 +79,9 @@ public class TaskServiceImpl implements TaskService {
                 return new ResultVO<>(CONST.REQUEST_FAIL,"任务不存在");
             }
             task.setCreateTime(oldTask.getCreateTime());
+            if(task.getTestTime().after(new Date())){
+                task.setState(CONST.STATE_OPEN);
+            }
             if(taskMapper.updateByPrimaryKey(task)==1)
                 return new ResultVO<>(CONST.REQUEST_SUCCESS,"任务更新成功",toTaskVO(task));
             return new ResultVO<>(CONST.REQUEST_FAIL,"任务更新失败");
@@ -246,6 +249,9 @@ public class TaskServiceImpl implements TaskService {
         }
         if(taskMapper.selectByPrimaryKey(taskId)==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个任务");
+        }
+        if(taskMapper.selectByPrimaryKey(taskId).getState().equals(CONST.STATE_CLOSED)){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"任务已关闭");
         }
         for (UserTask userTask:userTaskMapper.selectByUid(uid)){
             if(userTask.getTaskId().equals(taskId)){

@@ -30,14 +30,12 @@ public class PageInfoUtil {
         return new PageInfo<>(page);
     }
     public static <T> PageInfo<T> ListToPageInfo(List<T> list,int currPage){
-        Page<T> page = new Page<>(currPage,CONST.PAGE_SIZE);
-        page.setTotal(list.size());
-        int start = (currPage-1)*CONST.PAGE_SIZE;
-        int end = Math.min(start+CONST.PAGE_SIZE, list.size());
-        page.addAll(list.subList(start,end));
-        return new PageInfo<>(page);
+        return ListToPageInfo(list,currPage,CONST.PAGE_SIZE);
     }
     public static <T> PageInfo<T> ListToPageInfo(List<T> list,int currPage,int pageSize){
+        while ((currPage-1)*pageSize>list.size()){
+            currPage--;
+        }
         Page<T> page = new Page<>(currPage,pageSize);
         page.setTotal(list.size());
         int start = (currPage-1)*pageSize;
