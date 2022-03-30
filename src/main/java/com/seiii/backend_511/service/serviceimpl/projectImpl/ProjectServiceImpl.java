@@ -179,6 +179,13 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"您就不在任务里吧(流汗黄豆)");
     }
+    public List<ProjectVO> setMemberNum(List<Project> projectList){
+        List<ProjectVO> ans = new ArrayList<>();
+        for(Project project:projectList){
+            ans.add(setMemberNum(project));
+        }
+        return ans;
+    }
     private ProjectVO setMemberNum(Project po){
         if(getProjectNumbers(po.getId()).getCode().equals(CONST.REQUEST_FAIL)){
             return toProjectVO(po);
@@ -278,7 +285,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ResultVO<List<ProjectVO>> getRecommendation(Integer uid) {
-        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",toProjectVO(recommendStrategyFactory.getRecommendStrategy(uid).getRecommend(uid,recommendStrategyMapper.selectOnUse())));
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功",setMemberNum(recommendStrategyFactory.getRecommendStrategy(uid).getRecommend(uid,recommendStrategyMapper.selectOnUse())));
     }
 
     @Override
