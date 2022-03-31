@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -79,7 +80,7 @@ public class ReportServiceTest {
     @Test
     public void testGetReportTreeByID(){
         ResultVO<ReportTreeVO> temp = reportService.getReportTreeById(1);
-        System.out.println(temp);
+        Assert.assertEquals(1,temp.getCode().intValue());
     }
     @Test
     public void testGetSimilarReport(){
