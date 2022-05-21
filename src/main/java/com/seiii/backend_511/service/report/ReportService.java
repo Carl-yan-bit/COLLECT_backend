@@ -20,4 +20,5 @@ public interface ReportService {
     ResultVO<ReportVO> getReportByID(Integer id);
     ResultVO<ReportTreeVO> getReportTreeById(Integer integer);
     ResultVO<List<ReportSimilarVO>> getSimilarReport(ReportVO report);
+    public ResultVO<List<ReportVO>> getReportsByUID(Integer uid);
 }

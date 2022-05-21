@@ -3,10 +3,7 @@ package com.seiii.backend_511.service.user;
 import com.seiii.backend_511.po.user.Device;
 import com.seiii.backend_511.po.user.User;
 import com.seiii.backend_511.vo.ResultVO;
-import com.seiii.backend_511.vo.user.DeviceVO;
-import com.seiii.backend_511.vo.user.UserDeviceListVO;
-import com.seiii.backend_511.vo.user.UserDeviceVO;
-import com.seiii.backend_511.vo.user.UserVO;
+import com.seiii.backend_511.vo.user.*;
 
 import java.util.List;
 
@@ -25,4 +22,5 @@ public interface UserService {
     ResultVO<List<DeviceVO>> addUserDevice(UserDeviceListVO userDeviceVOList);
     ResultVO<DeviceVO> deleteUserDevice(UserDeviceVO userDeviceVO);
     void getExp(UserVO userVO, int Exp);
+    ResultVO<UserAttributeVO> getUserAttribute(Integer uid);
 }

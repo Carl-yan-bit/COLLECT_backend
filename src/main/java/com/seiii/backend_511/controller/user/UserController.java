@@ -44,4 +44,8 @@ public class UserController {
     public ResultVO<List<Device>> getUserDevices(@RequestParam Integer uid){
         return userService.getUserDevices(uid);
     }
+    @GetMapping("/attribute")
+    public ResultVO<UserAttributeVO> getUserAttribute(@RequestParam Integer uid){
+        return userService.getUserAttribute(uid);
+    }
 }

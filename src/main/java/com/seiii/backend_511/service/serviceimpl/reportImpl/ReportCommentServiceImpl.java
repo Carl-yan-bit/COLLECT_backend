@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -80,10 +81,33 @@ public class ReportCommentServiceImpl implements ReportCommentService {
         }
         return new ResultVO<>(CONST.REQUEST_FAIL,"失败，未知错误");
     }
+
+
     private ReportCommentVO toReportCommentVO(ReportComment reportComment){
         ReportCommentVO reportCommentVO = new ReportCommentVO(reportComment);
         reportCommentVO.setUserName(userService.getUserByUid(reportComment.getUserId()).getName());
         reportCommentVO.setUserLevel(userService.getUserByUid(reportComment.getUserId()).getLevel());
         return reportCommentVO;
+    }
+
+    private List<ReportCommentVO> toReportCommentVO(List<ReportComment> reportComments){
+        List<ReportCommentVO> result=new ArrayList<>();
+        for(int i=0;i<reportComments.size();i++){
+            result.add(toReportCommentVO(reportComments.get(i)));
+        }
+        return result;
+    }
+
+    @Override
+    public ResultVO<List<ReportCommentVO>> getCommentsByUID(Integer uid) {
+        if(uid==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"uid为空",new LinkedList<>());
+        }
+        List<ReportComment> reportComments=reportCommentMapper.selectByUID(uid);
+        if(reportComments==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"uid不合规",new LinkedList<>());
+        }
+        List<ReportCommentVO> reportCommentVOS=toReportCommentVO(reportComments);
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功查询",reportCommentVOS);
     }
 }

@@ -232,4 +232,16 @@ public class ReportServiceImpl implements ReportService {
         return new ResultVO<>(CONST.REQUEST_FAIL,"未知错误",new LinkedList<>());
     }
 
+    public ResultVO<List<ReportVO>> getReportsByUID(Integer uid){
+        if(uid==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"uid为空",new LinkedList<>());
+        }
+        List<Report> reports=reportMapper.selectByUID(uid);
+        if(reports==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"uid不合规",new LinkedList<>());
+        }
+        List<ReportVO> reportVOS=toReportVO(reports);
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"成功查询",reportVOS);
+    }
+
 }

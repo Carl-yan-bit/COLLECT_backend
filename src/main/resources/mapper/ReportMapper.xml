@@ -77,4 +77,10 @@
     from report
     where task_id = #{taskID,jdbcType=INTEGER} and user_id = #{UID,jdbcType=INTEGER}
   </select>
+  <select id="selectByUID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, task_id, user_id, parent_report, score, name, state, description, test_step,
+           device_id, create_time
+    from report
+    where user_id = #{UID,jdbcType=INTEGER}
+  </select>
 </mapper>

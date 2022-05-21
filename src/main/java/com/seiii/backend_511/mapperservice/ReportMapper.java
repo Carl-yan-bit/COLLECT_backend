@@ -16,4 +16,5 @@ public interface ReportMapper {
     List<Report> selectByParentReport(Integer parentReport);
     List<Report> selectByTaskAndUser(Integer taskID,Integer UID);
     int updateByPrimaryKey(Report record);
+    List<Report> selectByUID(Integer UID);
 }

@@ -8,4 +8,5 @@ import java.util.List;
 public interface ReportCommentService {
     ResultVO<List<ReportCommentVO>> getAllCommentsById(Integer report_id);
     ResultVO<ReportCommentVO> postComment(ReportCommentVO reportCommentVO);
+    ResultVO<List<ReportCommentVO>> getCommentsByUID(Integer uid);
 }

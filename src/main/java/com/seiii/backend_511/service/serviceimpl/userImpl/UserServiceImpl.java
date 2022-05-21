@@ -1,31 +1,37 @@
 package com.seiii.backend_511.service.serviceimpl.userImpl;
 
-import com.seiii.backend_511.mapperservice.ProjectPreferenceMapper;
-import com.seiii.backend_511.mapperservice.UserDeviceMapper;
-import com.seiii.backend_511.mapperservice.UserLogMapper;
-import com.seiii.backend_511.mapperservice.UserMapper;
+import com.seiii.backend_511.mapperservice.*;
 import com.seiii.backend_511.po.UserLog;
 import com.seiii.backend_511.po.project.ProjectPreference;
+import com.seiii.backend_511.po.report.Report;
+import com.seiii.backend_511.po.report.ReportComment;
+import com.seiii.backend_511.po.report.ReportSimilar;
+import com.seiii.backend_511.po.task.UserTask;
 import com.seiii.backend_511.po.user.Device;
 import com.seiii.backend_511.po.user.User;
 import com.seiii.backend_511.po.user.UserDevice;
 import com.seiii.backend_511.service.device.DeviceService;
+import com.seiii.backend_511.service.project.ProjectService;
+import com.seiii.backend_511.service.report.ReportCommentService;
+import com.seiii.backend_511.service.report.ReportService;
+import com.seiii.backend_511.service.task.TaskService;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.Encryption;
 import com.seiii.backend_511.vo.ResultVO;
-import com.seiii.backend_511.vo.user.DeviceVO;
-import com.seiii.backend_511.vo.user.UserDeviceListVO;
-import com.seiii.backend_511.vo.user.UserDeviceVO;
-import com.seiii.backend_511.vo.user.UserVO;
+import com.seiii.backend_511.vo.project.ProjectVO;
+import com.seiii.backend_511.vo.report.ReportCommentVO;
+import com.seiii.backend_511.vo.report.ReportSimilarVO;
+import com.seiii.backend_511.vo.report.ReportVO;
+import com.seiii.backend_511.vo.task.TaskVO;
+import com.seiii.backend_511.vo.user.*;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
@@ -38,6 +44,18 @@ public class UserServiceImpl implements UserService {
     private UserLogMapper userLogMapper;
     @Resource
     private ProjectPreferenceMapper projectPreferenceMapper;
+    @Resource
+    private ReportService reportService;
+    @Resource
+    private ReportCommentService reportCommentService;
+    @Resource
+    private TaskService taskService;
+    @Resource
+    private ProjectService projectService;
+    @Resource
+    private TypeMapper typeMapper;
+    @Resource
+    private UserTaskMapper userTaskMapper;
 
     private void newUserProjectPreference(User user){
         User userReal = userMapper.selectByEmail(user.getEmail());
@@ -214,6 +232,8 @@ public class UserServiceImpl implements UserService {
         userVO.setLevel(level);
         userMapper.updateByPrimaryKey(new User(userVO));
     }
+
+
     private UserVO toUserVO(User user){
         UserVO userVO = new UserVO(user);
         int expRequire = (int) (Math.exp(user.getLevel()+1)-user.getExp());
@@ -223,5 +243,256 @@ public class UserServiceImpl implements UserService {
         }
         userVO.setExpRequire(expRequire);
         return userVO;
+    }
+
+
+    @Override
+    public ResultVO<UserAttributeVO> getUserAttribute(Integer uid) {
+        int activity=getActivity(uid);
+        String preference=getPerference(uid);
+        int capability=getCapability(uid);
+        int assistance=getAssistance(uid);
+        int examination=getExamination(uid);
+        int reportPoint=getReportPoint(uid);
+        int discovery=getDiscovery(uid);
+        int taskDifficulty=getTaskDifficulty(uid);
+        int totalScore=0;//todo 计算总评分
+        UserAttributeVO userAttributeVO=new UserAttributeVO(capability,
+                preference,
+                activity,
+                assistance,
+                examination,
+                reportPoint,
+                discovery,
+                taskDifficulty,
+                totalScore);
+        if(!userAttributeVO.isVaild()){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"请求uid错误",null);
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS,"请求成功",userAttributeVO);
+    }
+
+    private String getPerference(Integer uid){
+        HashMap<Integer,Integer> typeMap=new HashMap<>();
+        List<UserTask> userTasks=userTaskMapper.selectByUid(uid);
+        for(UserTask userTask:userTasks){
+            TaskVO taskVO=taskService.getTaskByID(userTask.getTaskId());
+            if(typeMap.containsKey(taskVO.getType())){
+                typeMap.put(taskVO.getType(),typeMap.get(taskVO.getType()));
+            }else {
+                typeMap.put(taskVO.getType(),1);
+            }
+        }
+        List<Map.Entry<Integer,Integer>> typeList=new ArrayList<>(typeMap.entrySet());
+        if(typeList.size()==0){
+            return "用户未参加任务，无任务偏好";
+        }
+        int max=0,maxpos=0;
+        for(int i=0;i<typeList.size();i++){
+            int temp=typeList.get(i).getValue();
+            if(typeList.get(i).getValue()>max){
+                maxpos=typeList.get(i).getKey();
+            }
+        }
+        return typeMapper.selectByPrimaryKey(maxpos).getTypeInfo();
+    }
+
+    private int getCapability(Integer uid){
+        ResultVO<List<ReportVO>> reports=reportService.getReportsByUID(uid);
+        if(reports.getCode()!=CONST.REQUEST_SUCCESS){
+            return -1;
+        }
+        List<ReportVO> reportVOS=reports.getData();
+        Double sum=0.0;
+        for(int i=0;i<reportVOS.size();i++){
+            boolean isNew=true;
+            ReportVO reportVO=reportVOS.get(i);
+            List<ReportSimilarVO> reportSimilarVOS=reportService.getSimilarReport(reportVO).getData();
+            if(reportSimilarVOS!=null){
+                for (int j=0;j<reportSimilarVOS.size();j++){
+                    ReportSimilarVO reportSimilarVO=reportSimilarVOS.get(j);
+                    if(reportSimilarVO.getSimilarity()>0.6){
+                        isNew=false;
+                    }
+                    if(!isNew){
+                        sum+=reportSimilarVO.getSimilarity()*3*reportSimilarVO.getScore();
+                    }
+                }
+            }
+            if(isNew){
+                sum+=5*reportVO.getScore();
+            }
+        }
+        if(sum>100){
+            return 100;
+        }
+        return sum.intValue();
+    }
+
+    private int getActivity(Integer uid){
+        ResultVO<List<ReportVO>> reports=reportService.getReportsByUID(uid);
+        ResultVO<List<ReportCommentVO>> reportComments=reportCommentService.getCommentsByUID(uid);
+        if(reports.getCode()!=CONST.REQUEST_SUCCESS || reportComments.getCode()!=CONST.REQUEST_SUCCESS){
+            return -1;
+        }
+        List<ReportVO> reportVOS=reports.getData();
+        List<ReportCommentVO> reportCommentVOS=reportComments.getData();
+        Date today=new Date();
+        int activity=0;
+        int weekIntervalActivity=0;
+        int week2IntervalActivity=0;
+        for(int i=0;i<reportVOS.size();i++){
+            if(activity>=100){
+                break;
+            }
+            ReportVO curVO=reportVOS.get(i);
+            long intervalDay=(today.getTime()-curVO.getCreateTime().getTime())/(1000*60*60*24);
+            if(intervalDay>14){
+                if(week2IntervalActivity<20){
+                    week2IntervalActivity++;
+                }
+            }else if (intervalDay>7){
+                if(weekIntervalActivity<30){
+                    weekIntervalActivity+=3;
+                }
+            }else {
+                activity+=5;
+            }
+        }
+        for(int i=0;i<reportCommentVOS.size();i++){
+            if(activity>=100){
+                break;
+            }
+            ReportCommentVO curVO=reportCommentVOS.get(i);
+            long intervalDay=(today.getTime()-curVO.getCreateTime().getTime())/(1000*60*60*24);
+            if(intervalDay>14){
+                if(week2IntervalActivity<20){
+                    week2IntervalActivity++;
+                }
+            }else if (intervalDay>7){
+                if(weekIntervalActivity<30){
+                    weekIntervalActivity+=3;
+                }
+            }else {
+                activity+=5;
+            }
+        }
+        activity=weekIntervalActivity+week2IntervalActivity+activity;
+        if(activity>100){
+            return 100;
+        }return activity;
+    }
+
+    private int getAssistance(Integer uid){
+        ResultVO<List<ReportVO>> reports=reportService.getReportsByUID(uid);
+        if(reports.getCode()!=CONST.REQUEST_SUCCESS){
+            return -1;
+        }
+        List<ReportVO> reportVOS=reports.getData();
+        Double sum=0.0;
+        for(ReportVO reportVO:reportVOS){
+            if(reportVO.getParentReport()!=null){
+                sum+=reportVO.getScore();
+            }
+        }
+        sum=sum*20/reportVOS.size();
+        if(sum>100){
+            return 100;
+        }
+        return sum.intValue();
+    }
+
+    private int getExamination(Integer uid){
+        ResultVO<List<ReportCommentVO>> reportComments=reportCommentService.getCommentsByUID(uid);
+        if(reportComments.getCode()!=CONST.REQUEST_SUCCESS){
+            return -1;
+        }
+        List<ReportCommentVO> reportCommentVOS=reportComments.getData();
+        if(reportCommentVOS.size()==0){
+            return 0;
+        }
+        Double sum=0.0;
+        for(ReportCommentVO reportCommentVO:reportCommentVOS){
+            ReportVO reportVO=reportService.getReportByID(reportCommentVO.getReportId()).getData();
+            Double plus= Double.valueOf(2/(Math.abs(reportVO.getScore()-reportCommentVO.getScore()+0.1)));
+            if(plus>10){
+                sum+=10;
+            }else {
+                sum+=plus;
+            }
+        }
+        if(sum>100){
+            return 100;
+        }
+        return sum.intValue();
+    }
+
+    private int getReportPoint(Integer uid){
+        ResultVO<List<ReportVO>> reports=reportService.getReportsByUID(uid);
+        if(reports.getCode()!=CONST.REQUEST_SUCCESS){
+            return -1;
+        }
+        List<ReportVO> reportVOS=reports.getData();
+        if(reportVOS.size()==0){
+            return 0;
+        }
+        Double sum=0.0;
+        for(ReportVO reportVO:reportVOS){
+            sum+=reportVO.getScore();
+        }
+        sum=sum*20/reportVOS.size();
+        if(sum>100){
+            return 100;
+        }
+        return sum.intValue();
+    }
+
+    private int getDiscovery(Integer uid){
+        ResultVO<List<ReportVO>> reports=reportService.getReportsByUID(uid);
+        if(reports.getCode()!=CONST.REQUEST_SUCCESS){
+            return -1;
+        }
+        HashSet<Integer> projectSet=new HashSet<>();
+        List<ReportVO> reportVOS=reports.getData();
+        if(reportVOS.size()==0){
+            return 0;
+        }
+        int projectCount=0;
+        for(ReportVO reportVO:reportVOS){
+            int taskId=reportVO.getTaskId();
+            TaskVO taskVO=taskService.getTaskByID(taskId);
+            if(!projectSet.contains(taskVO.getProjectId())){
+                projectCount++;
+                projectSet.add(taskVO.getProjectId());
+            }
+        }
+        int sum=reportVOS.size()/projectCount*10;
+        if(sum>100){
+            return 100;
+        }
+        return sum;
+    }
+
+    private int getTaskDifficulty(Integer uid){
+        ResultVO<List<ReportVO>> reports=reportService.getReportsByUID(uid);
+        if(reports.getCode()!=CONST.REQUEST_SUCCESS){
+            return -1;
+        }
+        List<ReportVO> reportVOS=reports.getData();
+        if(reportVOS.size()==0){
+            return 0;
+        }
+        Double sum=0.0;
+        for(ReportVO reportVO:reportVOS){
+            int taskId=reportVO.getTaskId();
+            TaskVO taskVO=taskService.getTaskByID(taskId);
+            ProjectVO projectVO=projectService.getProjectById(taskVO.getProjectId());
+            sum+=projectVO.getDifficulty();
+        }
+        sum=sum*10/reportVOS.size();
+        if(sum>100){
+            return 100;
+        }
+        return sum.intValue();
     }
 }

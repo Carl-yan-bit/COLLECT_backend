@@ -13,4 +13,5 @@ public interface ReportCommentMapper {
     List<ReportComment> selectAll();
     List<ReportComment> selectByReport(Integer rid);
     int updateByPrimaryKey(ReportComment record);
+    List<ReportComment> selectByUID(Integer UID);
 }
