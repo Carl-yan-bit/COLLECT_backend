@@ -69,4 +69,8 @@ public class UserServiceTest {
         ans = userService.getUserByUidWithCode(1);
         Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());
     }
+    @Test
+    public void testGetAttribute(){
+        userService.getUserAttribute(2);
+    }
 }

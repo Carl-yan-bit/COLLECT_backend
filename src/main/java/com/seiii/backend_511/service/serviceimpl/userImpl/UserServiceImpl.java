@@ -18,6 +18,7 @@ import com.seiii.backend_511.service.task.TaskService;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.Encryption;
+import com.seiii.backend_511.util.PmmlHelper;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.project.ProjectVO;
 import com.seiii.backend_511.vo.report.ReportCommentVO;
@@ -26,6 +27,8 @@ import com.seiii.backend_511.vo.report.ReportVO;
 import com.seiii.backend_511.vo.task.TaskVO;
 import com.seiii.backend_511.vo.user.*;
 
+import org.dmg.pmml.FieldName;
+import org.jpmml.evaluator.TargetField;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -56,7 +59,7 @@ public class UserServiceImpl implements UserService {
     private TypeMapper typeMapper;
     @Resource
     private UserTaskMapper userTaskMapper;
-
+    private PmmlHelper helper = new PmmlHelper("src/main/resources/regression.pmml");
     private void newUserProjectPreference(User user){
         User userReal = userMapper.selectByEmail(user.getEmail());
         ProjectPreference projectPreference = new ProjectPreference();
@@ -256,7 +259,7 @@ public class UserServiceImpl implements UserService {
         int reportPoint=getReportPoint(uid);
         int discovery=getDiscovery(uid);
         int taskDifficulty=getTaskDifficulty(uid);
-        int totalScore=0;//todo 计算总评分
+        double totalScore=getTotalScore(activity,capability,assistance,examination,reportPoint,discovery,taskDifficulty);
         UserAttributeVO userAttributeVO=new UserAttributeVO(capability,
                 preference,
                 activity,
@@ -270,6 +273,20 @@ public class UserServiceImpl implements UserService {
             return new ResultVO<>(CONST.REQUEST_FAIL,"请求uid错误",null);
         }
         return new ResultVO<>(CONST.REQUEST_SUCCESS,"请求成功",userAttributeVO);
+    }
+    private double getTotalScore(int activity,int capability,int assistance,int examination,int reportPoint,int discovery,int taskDifficulty){
+
+        Map<String,Integer> input = new HashMap<>();
+        input.put("x1",capability);
+        input.put("x2",activity);
+        input.put("x3",assistance);
+        input.put("x4",examination);
+        input.put("x5",reportPoint);
+        input.put("x6",discovery);
+        input.put("x7",taskDifficulty);
+        Map<FieldName,?> res = helper.predict(input);
+        FieldName fieldName = FieldName.create("y");
+        return (double) res.get(fieldName);
     }
 
     private String getPerference(Integer uid){
