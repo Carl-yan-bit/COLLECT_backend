@@ -103,6 +103,9 @@ public class ReportCommentServiceImpl implements ReportCommentService {
         if(uid==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"uid为空",new LinkedList<>());
         }
+        if(userService.getUserByUid(uid)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户",new LinkedList<>());
+        }
         List<ReportComment> reportComments=reportCommentMapper.selectByUID(uid);
         if(reportComments==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"uid不合规",new LinkedList<>());

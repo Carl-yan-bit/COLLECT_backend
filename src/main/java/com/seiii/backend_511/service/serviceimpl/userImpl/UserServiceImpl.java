@@ -267,7 +267,7 @@ public class UserServiceImpl implements UserService {
                 taskDifficulty,
                 totalScore);
         if(!userAttributeVO.isVaild()){
-            return new ResultVO<>(CONST.REQUEST_FAIL,"请求uid错误",null);
+            return new ResultVO<>(CONST.REQUEST_FAIL,"请求uid错误");
         }
         return new ResultVO<>(CONST.REQUEST_SUCCESS,"请求成功",userAttributeVO);
     }

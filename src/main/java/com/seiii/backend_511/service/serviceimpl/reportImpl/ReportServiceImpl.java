@@ -236,6 +236,9 @@ public class ReportServiceImpl implements ReportService {
         if(uid==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"uid为空",new LinkedList<>());
         }
+        if(userService.getUserByUid(uid)==null){
+            return new ResultVO<>(CONST.REQUEST_FAIL,"没有这个用户",new LinkedList<>());
+        }
         List<Report> reports=reportMapper.selectByUID(uid);
         if(reports==null){
             return new ResultVO<>(CONST.REQUEST_FAIL,"uid不合规",new LinkedList<>());
