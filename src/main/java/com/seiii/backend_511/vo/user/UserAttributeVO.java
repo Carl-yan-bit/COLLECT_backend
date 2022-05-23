@@ -13,7 +13,7 @@ public class UserAttributeVO {
     private int reportPoint;
     private int discovery;
     private int taskDifficulty;
-    private int totalScore;
+    private double totalScore;
 
     public UserAttributeVO(){
 
@@ -27,7 +27,7 @@ public class UserAttributeVO {
                            int reportPoint,
                            int discovery,
                            int taskDifficulty,
-                           int totalScore){
+                           double totalScore){
         this.capability=capability;
         this.preference=preference;
         this.activity=activity;

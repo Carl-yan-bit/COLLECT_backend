@@ -119,8 +119,37 @@
             <artifactId>lucene-analyzers-smartcn</artifactId>
             <version>5.3.1</version>
         </dependency>
+        <!--加入pmml支持-->
+        <dependency>
+            <groupId>org.jpmml</groupId>
+            <artifactId>pmml-evaluator</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jpmml</groupId>
+            <artifactId>pmml-evaluator-extension</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+        <!--jaxb        -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0-b170201.1204</version>
+        </dependency>
 
-        <!--检索关键字高亮显示-->
+        <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.0-b170127.1453</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-highlighter</artifactId>
@@ -147,6 +176,10 @@
             <artifactId>javafx</artifactId>
             <version>11</version>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
     </dependencies>
 
