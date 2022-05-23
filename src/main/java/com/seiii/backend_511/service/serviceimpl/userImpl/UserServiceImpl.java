@@ -3,6 +3,7 @@ package com.seiii.backend_511.service.serviceimpl.userImpl;
 import com.seiii.backend_511.mapperservice.*;
 import com.seiii.backend_511.po.UserLog;
 import com.seiii.backend_511.po.project.ProjectPreference;
+import com.seiii.backend_511.po.project.UserProject;
 import com.seiii.backend_511.po.report.Report;
 import com.seiii.backend_511.po.report.ReportComment;
 import com.seiii.backend_511.po.report.ReportSimilar;
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Resource
     private TypeMapper typeMapper;
     @Resource
-    private UserTaskMapper userTaskMapper;
+    private UserProjectMapper userProjectMapper;
     private PmmlHelper helper = new PmmlHelper("src/main/resources/regression.pmml");
     private void newUserProjectPreference(User user){
         User userReal = userMapper.selectByEmail(user.getEmail());
@@ -274,6 +275,8 @@ public class UserServiceImpl implements UserService {
         }
         return new ResultVO<>(CONST.REQUEST_SUCCESS,"请求成功",userAttributeVO);
     }
+
+
     private double getTotalScore(int activity,int capability,int assistance,int examination,int reportPoint,int discovery,int taskDifficulty){
 
         Map<String,Integer> input = new HashMap<>();
@@ -286,18 +289,18 @@ public class UserServiceImpl implements UserService {
         input.put("x7",taskDifficulty);
         Map<FieldName,?> res = helper.predict(input);
         FieldName fieldName = FieldName.create("y");
-        return (double) res.get(fieldName);
+        return (Double) res.get(fieldName);
     }
 
     private String getPerference(Integer uid){
         HashMap<Integer,Integer> typeMap=new HashMap<>();
-        List<UserTask> userTasks=userTaskMapper.selectByUid(uid);
-        for(UserTask userTask:userTasks){
-            TaskVO taskVO=taskService.getTaskByID(userTask.getTaskId());
-            if(typeMap.containsKey(taskVO.getType())){
-                typeMap.put(taskVO.getType(),typeMap.get(taskVO.getType()));
+        List<UserProject> userProjects=userProjectMapper.selectByUser(uid);
+        for(UserProject userProject:userProjects){
+            ProjectVO projectVO=projectService.getProjectById(userProject.getProjectId());
+            if(typeMap.containsKey(projectVO.getType())){
+                typeMap.put(projectVO.getType(),typeMap.get(projectVO.getType()));
             }else {
-                typeMap.put(taskVO.getType(),1);
+                typeMap.put(projectVO.getType(),1);
             }
         }
         List<Map.Entry<Integer,Integer>> typeList=new ArrayList<>(typeMap.entrySet());
