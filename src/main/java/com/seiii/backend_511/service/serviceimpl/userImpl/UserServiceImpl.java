@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     private TypeMapper typeMapper;
     @Resource
     private UserProjectMapper userProjectMapper;
-    private PmmlHelper helper = new PmmlHelper("src/main/resources/regression.pmml");
+    private PmmlHelper helper = new PmmlHelper("file/regression.pmml");
     private void newUserProjectPreference(User user){
         User userReal = userMapper.selectByEmail(user.getEmail());
         ProjectPreference projectPreference = new ProjectPreference();
