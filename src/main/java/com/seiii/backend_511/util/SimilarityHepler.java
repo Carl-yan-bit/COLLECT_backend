@@ -72,9 +72,8 @@ public class SimilarityHepler {
         List<ReportSimilar> res=new LinkedList<>();
         int size=Math.min(5,list.size());
         for(int i=0;i<size;i++){
-            if(list.get(i).getValue().isNaN()){
-                ReportSimilar reportSimilar=new ReportSimilar(list.get(i).getKey(),0.0);
-                res.add(reportSimilar);
+            if(list.get(i).getValue().isNaN()||list.get(i).getValue()<0.01){
+                continue;
             }else {
                 ReportSimilar reportSimilar=new ReportSimilar(list.get(i).getKey(),list.get(i).getValue());
                 res.add(reportSimilar);
