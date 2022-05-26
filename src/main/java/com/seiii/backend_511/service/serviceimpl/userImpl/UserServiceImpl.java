@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     private TypeMapper typeMapper;
     @Resource
     private UserProjectMapper userProjectMapper;
-    private PmmlHelper helper = new PmmlHelper("file/regression.pmml");
+    private PmmlHelper helper = null;
     private void newUserProjectPreference(User user){
         User userReal = userMapper.selectByEmail(user.getEmail());
         ProjectPreference projectPreference = new ProjectPreference();
@@ -248,10 +248,35 @@ public class UserServiceImpl implements UserService {
         userVO.setExpRequire(expRequire);
         return userVO;
     }
-
-
+    @Override
+    public UserAttributeVO getUserAttributeWithoutScore(Integer uid){
+        int activity=getActivity(uid);
+        String preference=getPerference(uid);
+        int capability=getCapability(uid);
+        int assistance=getAssistance(uid);
+        int examination=getExamination(uid);
+        int reportPoint=getReportPoint(uid);
+        int discovery=getDiscovery(uid);
+        int taskDifficulty=getTaskDifficulty(uid);
+        double totalScore=0.0;
+        UserAttributeVO userAttributeVO=new UserAttributeVO(capability,
+                preference,
+                activity,
+                assistance,
+                examination,
+                reportPoint,
+                discovery,
+                taskDifficulty,
+                totalScore);
+        if(!userAttributeVO.isVaild()){
+            return null;
+        }
+        return userAttributeVO;
+    }
     @Override
     public ResultVO<UserAttributeVO> getUserAttribute(Integer uid) {
+        if(helper==null)
+            helper = new PmmlHelper("file/regression.pmml");
         int activity=getActivity(uid);
         String preference=getPerference(uid);
         int capability=getCapability(uid);

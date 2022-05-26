@@ -1,19 +1,19 @@
 package com.seiii.backend_511.service.serviceimpl.recommend.recommendStrategyImpl;
 
-import com.seiii.backend_511.mapperservice.ProjectMapper;
-import com.seiii.backend_511.mapperservice.ProjectPreferenceMapper;
-import com.seiii.backend_511.mapperservice.UserMapper;
-import com.seiii.backend_511.mapperservice.UserProjectMapper;
+import com.seiii.backend_511.mapperservice.*;
 import com.seiii.backend_511.po.project.Project;
 import com.seiii.backend_511.po.project.ProjectPreference;
 import com.seiii.backend_511.po.project.UserProject;
 import com.seiii.backend_511.po.recommend.RecommendStrategyInfo;
+import com.seiii.backend_511.po.user.Device;
 import com.seiii.backend_511.po.user.User;
 import com.seiii.backend_511.service.project.ProjectService;
 import com.seiii.backend_511.service.recommend.RecommendStrategy;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.vo.project.UserProjectVO;
+import com.seiii.backend_511.vo.user.DeviceVO;
+import com.seiii.backend_511.vo.user.UserAttributeVO;
 import com.seiii.backend_511.vo.user.UserVO;
 import org.springframework.stereotype.Service;
 
@@ -32,15 +32,62 @@ public class RecommendByUserCF implements RecommendStrategy {
     ProjectService projectService;
     @Resource
     ProjectPreferenceMapper projectPreferenceMapper;
+    @Resource
+    UserService userService;
+    @Resource
+    UserDeviceMapper userDeviceMapper;
+    @Resource
+    DeviceMapper deviceMapper;
 
     private UserVO mainUser;
     private RecommendStrategyInfo recommendStrategyInfo;
     private  List<Double> vMain;
-
+    private int times=0;
     private List<Integer> getNeighbors(Integer uid){
         return userProjectMapper.getNeighbors(uid);
     }
     private List<Double> getVector(UserVO user){
+        System.out.println(times);
+        times++;
+        UserAttributeVO userAttributeVO = userService.getUserAttributeWithoutScore(user.getId());
+        List<Double> v = new ArrayList<>();
+        for(int i=0;i<recommendStrategyInfo.getExp();i++){
+            v.add((double) (userAttributeVO.getCapability()));
+        }
+        for(int i=0;i<recommendStrategyInfo.getActivity();i++){
+            v.add((double) (userAttributeVO.getActivity()));
+        }
+        for(int i=0;i<recommendStrategyInfo.getDifficulty();i++){
+            v.add((double)userAttributeVO.getTaskDifficulty());
+        }
+        ProjectPreference projectPreference = projectPreferenceMapper.selectByUserId(user.getId());
+        List<?> ownDevices = userDeviceMapper.selectByUserId(user.getId());
+        List<Device> allDevices = deviceMapper.selectAll();
+        for(int i=0;i<recommendStrategyInfo.getDevice();i++){
+            for(Device device:allDevices){
+                double temp = 0.0;
+                for(int j=0;j<ownDevices.size();j++){
+                    if(((DeviceVO)(ownDevices).get(j)).getDeviceId().equals(device.getId())){
+                        temp=100.0;
+                        break;
+                    }
+                }
+                v.add(temp);
+            }
+
+        }
+        for(int i=0;i<recommendStrategyInfo.getType();i++){
+            if(projectPreference.getType()==null){
+                v.add((double)0);
+            }
+            else {
+                v.add((double) (projectPreference.getType()*10));
+            }
+        }
+        return v;
+    }
+    private List<Double> getVectorOld(UserVO user){
+
         List<Double> v = new ArrayList<>();
         for(int i=0;i<recommendStrategyInfo.getExp();i++){
             v.add((double) (user.getExp()/10));

@@ -34,18 +34,18 @@ public class RecommendStrategyFactoryImpl implements RecommendStrategyFactory {
 
     @Override
     public RecommendStrategy getRecommendStrategy(Integer uid) {
-        if(userMapper.selectUserWithProject().size()<20){
-            if(projectService.getAllJoinedProjects(uid)==null||projectService.getAllJoinedProjects(uid).size()==0){
-                return recommendByTimes;
-            }
-            //对于有效用户不够多时候的冷启动
-            return recommendByItemCF;
-        }
-        List<Integer> neighbor = userProjectMapper.getNeighbors(uid);
-        if(neighbor==null||neighbor.size()==0){
-            return recommendByTimes;
-            //对于没有近邻用户的冷启动
-        }
+//        if(userMapper.selectUserWithProject().size()<20){
+//            if(projectService.getAllJoinedProjects(uid)==null||projectService.getAllJoinedProjects(uid).size()==0){
+//                return recommendByTimes;
+//            }
+//            //对于有效用户不够多时候的冷启动
+//            return recommendByItemCF;
+//        }
+//        List<Integer> neighbor = userProjectMapper.getNeighbors(uid);
+//        if(neighbor==null||neighbor.size()==0){
+//            return recommendByTimes;
+//            //对于没有近邻用户的冷启动
+//        }
         return recommendByUserCF;
     }
 }

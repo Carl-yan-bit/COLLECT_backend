@@ -13,5 +13,6 @@ public interface UserDeviceMapper {
     UserDevice selectByUserAndDevice(Integer uid,Integer did);
     List<UserDevice> selectAll();
     List<Device> selectByUserId(Integer uid);
+
     int updateByPrimaryKey(UserDevice record);
 }

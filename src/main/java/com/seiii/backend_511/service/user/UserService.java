@@ -23,4 +23,5 @@ public interface UserService {
     ResultVO<DeviceVO> deleteUserDevice(UserDeviceVO userDeviceVO);
     void getExp(UserVO userVO, int Exp);
     ResultVO<UserAttributeVO> getUserAttribute(Integer uid);
+    UserAttributeVO getUserAttributeWithoutScore(Integer uid);
 }
