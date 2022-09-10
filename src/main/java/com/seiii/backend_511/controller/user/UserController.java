@@ -8,6 +8,7 @@ import com.seiii.backend_511.vo.user.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -40,13 +41,13 @@ public class UserController {
 
     /**
      * 更改密码
-     * PUT: /password
+     * PUT: /{idx}/password
      * @param userFormVo
      * @return
      */
     @PutMapping("/password")
-    public ResultVO<UserVO> changePassword(@RequestBody UserFormVo userFormVo){
-        return userService.userChangePassword(userFormVo.getUser_idx(), userFormVo.getPassword(), userFormVo.getPassword_new());
+    public ResultVO<UserVO> changePassword(@PathVariable String idx, @RequestBody UserFormVo userFormVo){
+        return userService.userChangePassword(idx, userFormVo.getPassword(), userFormVo.getPassword_new());
     }
 
     /**
@@ -79,23 +80,23 @@ public class UserController {
 
     /**
      * 获取用户所有设备
-     * GET: /user/device
+     * GET: /user/{uid}/device
      * @param uid
      * @return
      */
-    @GetMapping("/device")
-    public ResultVO<List<Device>> getUserDevices(@RequestParam Integer uid){
+    @GetMapping("/{uid}/device")
+    public ResultVO<List<Device>> getUserDevices(@PathVariable Integer uid){
         return userService.getUserDevices(uid);
     }
 
     /**
      * 获取用户属性
-     * GET: /user/attribute
+     * GET: /user/{uid}/attribute
      * @param uid
      * @return
      */
-    @GetMapping("/attribute")
-    public ResultVO<UserAttributeVO> getUserAttribute(@RequestParam Integer uid){
+    @GetMapping("/{uid}/attribute")
+    public ResultVO<UserAttributeVO> getUserAttribute(@PathVariable Integer uid){
         return userService.getUserAttribute(uid);
     }
 }
