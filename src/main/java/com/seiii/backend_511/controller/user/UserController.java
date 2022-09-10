@@ -39,16 +39,16 @@ public class UserController {
         return userService.userLogin(userFormVo.getUser_idx(),userFormVo.getPassword());
     }
 
-    /**
-     * 更改密码
-     * PUT: /{idx}/password
-     * @param userFormVo
-     * @return
-     */
-    @PutMapping("/password")
-    public ResultVO<UserVO> changePassword(@PathVariable String idx, @RequestBody UserFormVo userFormVo){
-        return userService.userChangePassword(idx, userFormVo.getPassword(), userFormVo.getPassword_new());
-    }
+//    /**
+//     * 更改密码
+//     * PUT: /{id}/password
+//     * @param userFormVo
+//     * @return
+//     */
+//    @PutMapping("/password")
+//    public ResultVO<UserVO> changePassword(@PathVariable String idx, @RequestBody UserFormVo userFormVo){
+//        return userService.userChangePassword(idx, userFormVo.getPassword(), userFormVo.getPassword_new());
+//    }
 
     /**
      * 根据用户ID获取用户信息
@@ -63,11 +63,11 @@ public class UserController {
 
     /**
      * 设置用户设备
-     * PUT: /user/device
+     * PUT: /user/{uid}/device
      * @param userDeviceVOList
      * @return
      */
-    @PutMapping("/device")
+    @PutMapping("/{uid}/device")
     public ResultVO<List<DeviceVO>> addUserDevice(@RequestBody UserDeviceListVO userDeviceVOList){
         return userService.addUserDevice(userDeviceVOList);
     }
