@@ -15,10 +15,17 @@ public class DeviceController {
     @Resource
     DeviceService deviceService;
 
-    @GetMapping("/all")
+    /**
+     * 获取所有设备
+     * GET: /device
+     * @return
+     */
+    @GetMapping("")
     public List<Device> getAllDevices(){
         return deviceService.getAllDevices();
     }
+
+
     @PostMapping("/add")
     public ResultVO<DeviceVO> addNewDevice(@RequestBody DeviceVO deviceVO){
         return deviceService.addNewDevice(deviceVO);
