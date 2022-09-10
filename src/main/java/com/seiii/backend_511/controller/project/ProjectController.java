@@ -18,59 +18,151 @@ public class ProjectController {
     @Resource
     private ProjectService projectservice;
 
-    @PostMapping("/create")
+    /**
+     * 创建project
+     * POST: /project
+     * @param project
+     * @return
+     */
+    @PostMapping("")
     public ResultVO<ProjectVO> createProject(@RequestBody ProjectVO project){
         return projectservice.createProject(project);
     }
-    @PostMapping("/update")
-    public ResultVO<ProjectVO> updateProject(@RequestBody ProjectVO project){
+
+    /**
+     * 更新project
+     * PUT: /project/{pid}
+     * @param project
+     * @return
+     */
+    @PutMapping("/{pid}")
+    public ResultVO<ProjectVO> updateProject(@PathVariable Integer pid ,@RequestBody ProjectVO project){
+        //project.setId(pid);
         return projectservice.updateProject(project);
     }
-    @GetMapping("/delete")
-    public ResultVO<ProjectVO> deleteProject(@RequestParam Integer pid){
+
+    /**
+     * 删除project
+     * DELETE: /project/{pid}
+     * @param pid
+     * @return
+     */
+    @DeleteMapping("/{pid}")
+    public ResultVO<ProjectVO> deleteProject(@PathVariable Integer pid){
         return projectservice.deleteProject(pid);
     }
 
-    @GetMapping("/active/{pid}")
-    public PageInfo<ProjectVO> getActiveProjects(@PathVariable Integer pid){
-        return projectservice.getActiveProjects(pid);
+    /**
+     * 获取所有活跃的project
+     * GET: /project/active?page={page}
+     * @param page
+     * @return
+     */
+    @GetMapping("/active")
+    public PageInfo<ProjectVO> getActiveProjects(@RequestParam Integer page){
+        return projectservice.getActiveProjects(page);
     }
 
-    @GetMapping("/all/{pid}")
-    public PageInfo<ProjectVO> getAllProjects(@PathVariable Integer pid){
-        return projectservice.getAllProjects(pid);
+    /**
+     * 获取所有project
+     * GET: /project?page={page}
+     * @param page
+     * @return
+     */
+    @GetMapping("")
+    public PageInfo<ProjectVO> getAllProjects(@RequestParam Integer page){
+        return projectservice.getAllProjects(page);
     }
 
-    @GetMapping("/find/user/{pid}")
-    public PageInfo<ProjectVO> getProjectsByUserId(@RequestParam Integer uid,@PathVariable Integer pid){
-        return projectservice.getProjectsByUserId(uid,pid);
+    /**
+     * 获取用户创建的project
+     * GET: /project?uid={uid}&page={page}
+     * @param uid
+     * @param page
+     * @return
+     */
+    @GetMapping("")
+    public PageInfo<ProjectVO> getProjectsByUserId(@RequestParam Integer uid,@RequestParam Integer page){
+        return projectservice.getProjectsByUserId(uid,page);
     }
-    @GetMapping("/find/joined/{pid}")
-    public PageInfo<ProjectVO> getJoinedProjects(@RequestParam Integer uid,@PathVariable Integer pid){
-        return projectservice.getJoinedProjects(uid,pid);
+
+    /**
+     * 查看用户参加过的project
+     * GET: /project/joined?uid={uid}&page={page}
+     * @param uid
+     * @param page
+     * @return
+     */
+    @GetMapping("/joined")
+    public PageInfo<ProjectVO> getJoinedProjects(@RequestParam Integer uid,@RequestParam Integer page){
+        return projectservice.getJoinedProjects(uid,page);
     }
-    @GetMapping("/get/member/num")
-    public ResultVO<Integer> getMemberNum(@RequestParam Integer pid){
-        return projectservice.getProjectNumbers(pid);
-    }
-    @GetMapping("/find/project")
-    public ProjectVO getProjectById(@RequestParam Integer projectId){
+
+    /**
+     * 查询project
+     * GET: /project/{pid}
+     * @param pid
+     * @return
+     */
+    @GetMapping("/{pid}")
+    public ProjectVO getProjectById(@PathVariable Integer pid){
         //System.out.println(projectservice.getProjectById(projectId));
-        projectservice.onClick(projectId);
-        return projectservice.getProjectById(projectId);
+        projectservice.onClick(pid);
+        return projectservice.getProjectById(pid);
     }
-    @GetMapping("/find/project/uid")
-    public ResultVO<ProjectVO> getProjectByIdWithUid(@RequestParam Integer projectId,@RequestParam Integer uid){
-        return projectservice.getProjectByIdWithUid(projectId,uid);
+
+    /**
+     * 查询project
+     * GET: /project/{pid}?uid={uid}
+     * @param pid
+     * @param uid
+     * @return
+     */
+    @GetMapping("/{pid}")
+    public ResultVO<ProjectVO> getProjectByIdWithUid(@PathVariable Integer pid,@RequestParam Integer uid){
+        return projectservice.getProjectByIdWithUid(pid,uid);
     }
+
+    /**
+     * 加入任务
+     * POST: /project/join
+     * @param userProjectVO
+     * @return
+     */
     @PostMapping("/join")
     public ResultVO<ProjectVO> joinProject(@RequestBody UserProjectVO userProjectVO){
         return projectservice.joinProject(userProjectVO);
     }
+
+    /**
+     * 退出任务
+     * POST: /project/quit
+     * @param userProjectVO
+     * @return
+     */
     @PostMapping("/quit")
     public ResultVO<ProjectVO> quitProject(@RequestBody UserProjectVO userProjectVO){
         return projectservice.quitProject(userProjectVO);
     }
+
+    /**
+     * 得到当前项目参与用户数量
+     * GET: /project/{pid}/memberNum
+     * @param pid
+     * @return
+     */
+    @GetMapping("/{pid}/memberNum")
+    public ResultVO<Integer> getMemberNum(@PathVariable Integer pid){
+        return projectservice.getProjectNumbers(pid);
+    }
+
+
+    /**
+     * 获取任务推荐
+     * GET: /project/recommendation?uid={uid}
+     * @param uid
+     * @return
+     */
     @GetMapping("/recommendation")
     public ResultVO<List<ProjectVO>> getRecommendation(@RequestParam Integer uid){
         return projectservice.getRecommendation(uid);
