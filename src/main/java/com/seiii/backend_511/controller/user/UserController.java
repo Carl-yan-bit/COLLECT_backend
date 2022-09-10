@@ -17,7 +17,8 @@ public class UserController {
     private UserService userService;
 
     /**
-     * POST: 用户注册
+     * 用户注册
+     * POST: /user
      * @param userVO
      * @return
      */
@@ -27,7 +28,8 @@ public class UserController {
     }
 
     /**
-     * POST: 用户登录
+     * 用户登录
+     * POST: /user/register
      * @param userFormVo
      * @return
      */
@@ -38,37 +40,60 @@ public class UserController {
 
     /**
      * 更改密码
+     * PUT: /password
      * @param userFormVo
      * @return
      */
-    @PostMapping("/password")
+    @PutMapping("/password")
     public ResultVO<UserVO> changePassword(@RequestBody UserFormVo userFormVo){
         return userService.userChangePassword(userFormVo.getUser_idx(), userFormVo.getPassword(), userFormVo.getPassword_new());
     }
 
     /**
-     * GET: 根据用户ID获取用户信息
+     * 根据用户ID获取用户信息
+     * GET: /user/{uid}
      * @param uid
      * @return 用户信息
      */
-    @GetMapping("/find/{uid}")
+    @GetMapping("/{uid}")
     public ResultVO<UserVO> getUserByUid(@PathVariable Integer uid){
         return userService.getUserByUidWithCode(uid);
     }
 
-    @PostMapping("/device/add")
+    /**
+     * 设置用户设备
+     * PUT: /user/device
+     * @param userDeviceVOList
+     * @return
+     */
+    @PutMapping("/device")
     public ResultVO<List<DeviceVO>> addUserDevice(@RequestBody UserDeviceListVO userDeviceVOList){
         return userService.addUserDevice(userDeviceVOList);
     }
-    @PostMapping("/device/delete")
-    public ResultVO<DeviceVO> deleteUserDevice(@RequestBody UserDeviceVO userDeviceVO){
-        return userService.deleteUserDevice(userDeviceVO);
-    }
+
+
+//    @PostMapping("/device/delete")
+//    public ResultVO<DeviceVO> deleteUserDevice(@RequestBody UserDeviceVO userDeviceVO){
+//        return userService.deleteUserDevice(userDeviceVO);
+//    }
+
+    /**
+     * 获取用户所有设备
+     * GET: /user/device
+     * @param uid
+     * @return
+     */
     @GetMapping("/device")
     public ResultVO<List<Device>> getUserDevices(@RequestParam Integer uid){
         return userService.getUserDevices(uid);
     }
 
+    /**
+     * 获取用户属性
+     * GET: /user/attribute
+     * @param uid
+     * @return
+     */
     @GetMapping("/attribute")
     public ResultVO<UserAttributeVO> getUserAttribute(@RequestParam Integer uid){
         return userService.getUserAttribute(uid);
