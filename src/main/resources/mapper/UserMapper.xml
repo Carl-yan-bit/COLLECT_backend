@@ -3,6 +3,10 @@
 <mapper namespace="com.seiii.backend_511.mapperservice.UserMapper">
   <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.user.User">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exp" jdbcType="INTEGER" property="exp" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="project_preference_id" jdbcType="INTEGER" property="projectPreferenceId" />
+    <result column="activity" jdbcType="INTEGER" property="activity" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="phoneNumber" jdbcType="VARCHAR" property="phonenumber" />
@@ -15,16 +19,22 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.seiii.backend_511.po.user.User">
-    insert into user (id, name, email, 
-      phoneNumber, password, user_role, 
-      create_time)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{phonenumber,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userRole,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    insert into user (id, exp, level, 
+      project_preference_id, activity, name, 
+      email, phoneNumber, password, 
+      user_role, create_time)
+    values (#{id,jdbcType=INTEGER}, #{exp,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
+      #{projectPreferenceId,jdbcType=INTEGER}, #{activity,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{userRole,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.user.User">
     update user
-    set name = #{name,jdbcType=VARCHAR},
+    set exp = #{exp,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      project_preference_id = #{projectPreferenceId,jdbcType=INTEGER},
+      activity = #{activity,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       phoneNumber = #{phonenumber,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -33,22 +43,41 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, email, phoneNumber, password, user_role, create_time
+    select id, exp, level, project_preference_id, activity, name, email, phoneNumber, 
+    password, user_role, create_time
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, exp, level, project_preference_id, activity, name, email, phoneNumber, 
+    password, user_role, create_time
+    from user
+  </select>
+  <select id="selectUserWithProject" resultMap="BaseResultMap">
+    select id, exp, level, project_preference_id, activity, name, email, phoneNumber,
+           password, user_role, create_time
+    from user
+    where id in (
+        select distinct user_id
+        from seiii.user_project
+      )
+  </select>
   <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, name, email, phoneNumber, password, user_role, create_time
+    select id, exp, level, project_preference_id, activity, name, email, phoneNumber,
+           password, user_role, create_time
     from user
     where email = #{email,jdbcType=VARCHAR}
   </select>
   <select id="selectByPhoneNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, name, email, phoneNumber, password, user_role, create_time
+    select id, exp, level, project_preference_id, activity, name, email, phoneNumber,
+           password, user_role, create_time
     from user
     where phoneNumber = #{phonenumber,jdbcType=VARCHAR}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, email, phoneNumber, password, user_role, create_time
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, exp, level, project_preference_id, activity, name, email, phoneNumber,
+           password, user_role, create_time
     from user
+    where name = #{name,jdbcType=VARCHAR}
   </select>
 </mapper>

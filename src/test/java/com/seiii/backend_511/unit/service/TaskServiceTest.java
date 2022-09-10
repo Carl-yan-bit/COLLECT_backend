@@ -109,8 +109,8 @@ public class TaskServiceTest {
         ans = taskService.joinTask(userTaskVO);
         Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
         //需求人数已满
-        userTaskVO.setUserId(1);
-        userTaskVO.setTaskId(3);
+        userTaskVO.setUserId(2);
+        userTaskVO.setTaskId(5);
         ans = taskService.joinTask(userTaskVO);
         Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());
     }
@@ -138,11 +138,11 @@ public class TaskServiceTest {
     }
     @Test
     public void testMemberNum(){
-        Assert.assertEquals(2,taskService.getMemberNum(1).getData().intValue());
+        Assert.assertEquals(6,taskService.getMemberNum(1).getData().intValue());
     }
     @Test
     public void testGetTaskByID(){
-        Assert.assertEquals("task1_project2",taskService.getTaskByID(3).getName());
+        Assert.assertEquals("测试支付HM",taskService.getTaskByID(3).getName());
     }
     @Test
     public void testGetTasksByUser(){
@@ -170,6 +170,6 @@ public class TaskServiceTest {
     }
     @Test
     public void testGetActiveTaskByProject(){
-        Assert.assertEquals(2,taskService.getActiveTaskByProject(2,1).getTotal());
+        Assert.assertEquals(3,taskService.getActiveTaskByProject(2,1).getTotal());
     }
 }

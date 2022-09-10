@@ -4,6 +4,7 @@ import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.Encryption;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.user.UserAttributeVO;
 import com.seiii.backend_511.vo.user.UserFormVo;
 import com.seiii.backend_511.vo.user.UserVO;
 import org.junit.Assert;
@@ -67,6 +68,14 @@ public class UserServiceTest {
         ans = userService.getUserByUidWithCode(19);
         Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
         ans = userService.getUserByUidWithCode(1);
+        Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());
+    }
+    @Test
+    public void testGetUserAttribute(){
+        ResultVO<UserAttributeVO> ans;
+        ans = userService.getUserAttribute(1000);
+        Assert.assertEquals(CONST.REQUEST_FAIL,ans.getCode().intValue());
+        ans = userService.getUserAttribute(4);
         Assert.assertEquals(CONST.REQUEST_SUCCESS,ans.getCode().intValue());
     }
 }

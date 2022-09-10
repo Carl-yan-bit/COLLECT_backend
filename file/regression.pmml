@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+	<Header>
+		<Application name="JPMML-SkLearn library" version="1.7.6"/>
+		<Timestamp>2022-05-18T10:53:14Z</Timestamp>
+	</Header>
+	<MiningBuildTask>
+		<Extension name="repr">PMMLPipeline(steps=[('regression', SVR(kernel='linear'))])</Extension>
+	</MiningBuildTask>
+	<DataDictionary>
+		<DataField name="y" optype="continuous" dataType="double"/>
+		<DataField name="x1" optype="continuous" dataType="double"/>
+		<DataField name="x2" optype="continuous" dataType="double"/>
+		<DataField name="x3" optype="continuous" dataType="double"/>
+		<DataField name="x4" optype="continuous" dataType="double"/>
+		<DataField name="x5" optype="continuous" dataType="double"/>
+		<DataField name="x6" optype="continuous" dataType="double"/>
+		<DataField name="x7" optype="continuous" dataType="double"/>
+	</DataDictionary>
+	<SupportVectorMachineModel functionName="regression" algorithmName="sklearn.svm._classes.SVR">
+		<MiningSchema>
+			<MiningField name="y" usageType="target"/>
+			<MiningField name="x1"/>
+			<MiningField name="x2"/>
+			<MiningField name="x3"/>
+			<MiningField name="x4"/>
+			<MiningField name="x5"/>
+			<MiningField name="x6"/>
+			<MiningField name="x7"/>
+		</MiningSchema>
+		<LinearKernelType/>
+		<VectorDictionary>
+			<VectorFields>
+				<FieldRef field="x1"/>
+				<FieldRef field="x2"/>
+				<FieldRef field="x3"/>
+				<FieldRef field="x4"/>
+				<FieldRef field="x5"/>
+				<FieldRef field="x6"/>
+				<FieldRef field="x7"/>
+			</VectorFields>
+			<VectorInstance id="68">
+				<Array type="real">60.0 92.0 74.0 3.0 1.0 15.0 65.0</Array>
+			</VectorInstance>
+			<VectorInstance id="112">
+				<Array type="real">74.0 86.0 18.0 6.0 1.0 97.0 12.0</Array>
+			</VectorInstance>
+			<VectorInstance id="119">
+				<Array type="real">49.0 94.0 3.0 95.0 98.0 95.0 67.0</Array>
+			</VectorInstance>
+			<VectorInstance id="136">
+				<Array type="real">50.0 23.0 14.0 31.0 0.0 16.0 58.0</Array>
+			</VectorInstance>
+			<VectorInstance id="245">
+				<Array type="real">64.0 23.0 57.0 31.0 0.0 11.0 74.0</Array>
+			</VectorInstance>
+			<VectorInstance id="298">
+				<Array type="real">50.0 92.0 65.0 19.0 1.0 71.0 70.0</Array>
+			</VectorInstance>
+			<VectorInstance id="372">
+				<Array type="real">98.0 72.0 41.0 26.0 0.0 44.0 41.0</Array>
+			</VectorInstance>
+			<VectorInstance id="388">
+				<Array type="real">99.0 89.0 88.0 85.0 0.0 9.0 43.0</Array>
+			</VectorInstance>
+			<VectorInstance id="478">
+				<Array type="real">98.0 80.0 97.0 98.0 99.0 69.0 77.0</Array>
+			</VectorInstance>
+			<VectorInstance id="519">
+				<Array type="real">52.0 68.0 98.0 59.0 2.0 38.0 36.0</Array>
+			</VectorInstance>
+			<VectorInstance id="683">
+				<Array type="real">18.0 56.0 34.0 74.0 1.0 43.0 36.0</Array>
+			</VectorInstance>
+		</VectorDictionary>
+		<SupportVectorMachine>
+			<SupportVectors>
+				<SupportVector vectorId="68"/>
+				<SupportVector vectorId="112"/>
+				<SupportVector vectorId="119"/>
+				<SupportVector vectorId="136"/>
+				<SupportVector vectorId="245"/>
+				<SupportVector vectorId="298"/>
+				<SupportVector vectorId="372"/>
+				<SupportVector vectorId="388"/>
+				<SupportVector vectorId="478"/>
+				<SupportVector vectorId="519"/>
+				<SupportVector vectorId="683"/>
+			</SupportVectors>
+			<Coefficients absoluteValue="0.1038976704612681">
+				<Coefficient value="-9.865747616321151E-5"/>
+				<Coefficient value="-4.478985755290176E-4"/>
+				<Coefficient value="9.132963586722234E-5"/>
+				<Coefficient value="-0.0013986471666292877"/>
+				<Coefficient value="-5.8192066515527726E-5"/>
+				<Coefficient value="-1.3624525209405476E-5"/>
+				<Coefficient value="-1.252355976818688E-4"/>
+				<Coefficient value="-3.897278625652047E-4"/>
+				<Coefficient value="0.0027400218756924444"/>
+				<Coefficient value="-1.1523967464773825E-4"/>
+				<Coefficient value="-1.8412856661841054E-4"/>
+			</Coefficients>
+		</SupportVectorMachine>
+	</SupportVectorMachineModel>
+</PMML>

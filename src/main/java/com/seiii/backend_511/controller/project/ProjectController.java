@@ -10,6 +10,7 @@ import com.seiii.backend_511.vo.project.UserProjectVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/project")
@@ -55,6 +56,7 @@ public class ProjectController {
     @GetMapping("/find/project")
     public ProjectVO getProjectById(@RequestParam Integer projectId){
         //System.out.println(projectservice.getProjectById(projectId));
+        projectservice.onClick(projectId);
         return projectservice.getProjectById(projectId);
     }
     @GetMapping("/find/project/uid")
@@ -68,5 +70,9 @@ public class ProjectController {
     @PostMapping("/quit")
     public ResultVO<ProjectVO> quitProject(@RequestBody UserProjectVO userProjectVO){
         return projectservice.quitProject(userProjectVO);
+    }
+    @GetMapping("/recommendation")
+    public ResultVO<List<ProjectVO>> getRecommendation(@RequestParam Integer uid){
+        return projectservice.getRecommendation(uid);
     }
 }

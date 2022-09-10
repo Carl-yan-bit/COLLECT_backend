@@ -3,6 +3,7 @@ package com.seiii.backend_511;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.seiii.backend_511.controller.user.UserController;
+import com.seiii.backend_511.po.project.Project;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.vo.project.ProjectVO;
 import com.seiii.backend_511.vo.project.UserProjectVO;
@@ -34,13 +35,14 @@ public class MockProjectControllerTest {
     private MockMvc mockMvc;
     @Test
     public void testCreateProject() throws Exception{
-        ProjectVO projectVO = new ProjectVO();
+        Project projectVO = new Project();
         projectVO.setUserId(1);
+
         projectVO.setTestTime(new Date());
         projectVO.setDescription("测试不会写，招募测试人员");
         projectVO.setName("金陵大学黑马程序员学院");
         projectVO.setWorkerAmount(1);
-        projectVO.setType(CONST.STATE_OPEN);
+        projectVO.setState(CONST.STATE_OPEN);
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
         String requestJson = ow.writeValueAsString(projectVO);
@@ -49,13 +51,14 @@ public class MockProjectControllerTest {
     }
     @Test
     public void testUpdateProject() throws Exception{
-        ProjectVO projectVO = new ProjectVO();
+        Project projectVO = new Project();
+        projectVO.setId(1);
         projectVO.setUserId(1);
         projectVO.setTestTime(new Date());
         projectVO.setDescription("测试不会写，招募测试人员,我们需要更多");
         projectVO.setName("金陵大学黑马程序员学院");
         projectVO.setWorkerAmount(100);
-        projectVO.setType(CONST.STATE_OPEN);
+        projectVO.setState(CONST.STATE_OPEN);
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
         String requestJson = ow.writeValueAsString(projectVO);

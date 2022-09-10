@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seiii.backend_511.mapperservice.ProjectPreferenceMapper">
+  <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.project.ProjectPreference">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="difficulty" jdbcType="REAL" property="difficulty" />
+    <result column="device_id" jdbcType="REAL" property="deviceId" />
+    <result column="type" jdbcType="REAL" property="type" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from project_preference
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.seiii.backend_511.po.project.ProjectPreference">
+    insert into project_preference (id, user_id, difficulty, 
+      device_id, type)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{difficulty,jdbcType=REAL}, 
+      #{deviceId,jdbcType=REAL}, #{type,jdbcType=REAL})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.project.ProjectPreference">
+    update project_preference
+    set user_id = #{userId,jdbcType=INTEGER},
+      difficulty = #{difficulty,jdbcType=REAL},
+      device_id = #{deviceId,jdbcType=REAL},
+      type = #{type,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, difficulty, device_id, type
+    from project_preference
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, difficulty, device_id, type
+    from project_preference
+    where user_id = #{uid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_id, difficulty, device_id, type
+    from project_preference
+  </select>
+</mapper>

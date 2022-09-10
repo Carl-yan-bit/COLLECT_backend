@@ -13,4 +13,7 @@ public class CONST {
     public static final String STATE_OPEN = "open";
     public static final int FILE_PAGE_SIZE=50;
     public static final int PAGE_SIZE = 6;
+    public static final int LOGIN_POINT = 1;
+    public static final int REPORT_POINT = 15;
+    public static final int COMMENT_POINT = 5;
 }

@@ -3,9 +3,13 @@
 <mapper namespace="com.seiii.backend_511.mapperservice.ProjectMapper">
   <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.project.Project">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="click_times" jdbcType="INTEGER" property="clickTimes" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="difficulty" jdbcType="INTEGER" property="difficulty" />
+    <result column="device_id" jdbcType="INTEGER" property="deviceId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="test_time" jdbcType="TIMESTAMP" property="testTime" />
     <result column="worker_amount" jdbcType="INTEGER" property="workerAmount" />
@@ -16,18 +20,24 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.seiii.backend_511.po.project.Project">
-    insert into project (id, user_id, name, 
-      type, description, test_time, 
+    insert into project (id, click_times,user_id, difficulty,
+      device_id, type, name, 
+      state, description, test_time, 
       worker_amount, create_time)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{testTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER},#{clickTimes,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{difficulty,jdbcType=INTEGER},
+      #{deviceId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{testTime,jdbcType=TIMESTAMP}, 
       #{workerAmount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.project.Project">
     update project
     set user_id = #{userId,jdbcType=INTEGER},
+        click_times = #{clickTimes,jdbcType=INTEGER},
+      difficulty = #{difficulty,jdbcType=INTEGER},
+      device_id = #{deviceId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       test_time = #{testTime,jdbcType=TIMESTAMP},
       worker_amount = #{workerAmount,jdbcType=INTEGER},
@@ -35,16 +45,35 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, user_id, name, type, description, test_time, worker_amount, create_time
+    select id, click_times, user_id, difficulty, device_id, type, name, state, description, test_time,
+    worker_amount, create_time
     from project
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAllByClickOrder" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, click_times, user_id, difficulty, device_id, type, name, state, description, test_time,
+           worker_amount, create_time
+    from project as p
+    where state = 'open' and #{uid,jdbcType=INTEGER} not in(
+        select up.user_id
+        from seiii.user_project as up
+        where up.project_id = p.id
+      ) and worker_amount > (
+        select count(up1.user_id)
+        from seiii.user_project as up1
+        where up1.project_id = p.id
+      )
+    order by click_times desc
+    limit #{nums,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, user_id, name, type, description, test_time, worker_amount, create_time
+    select id, click_times, user_id, difficulty, device_id, type, name, state, description, test_time,
+    worker_amount, create_time
     from project
   </select>
   <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, user_id, name, type, description, test_time, worker_amount, create_time
+    select id, click_times, user_id, difficulty, device_id, type, name, state, description, test_time,
+    worker_amount, create_time
     from project
     where user_id = #{uid,jdbcType=INTEGER}
   </select>

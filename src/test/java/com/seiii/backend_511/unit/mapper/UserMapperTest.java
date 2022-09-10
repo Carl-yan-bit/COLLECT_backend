@@ -45,7 +45,7 @@ public class UserMapperTest {
     }
     @Test
     public void testSelectAll() throws Exception{
-        Assert.assertEquals(3,userMapper.selectAll().size());
+        Assert.assertEquals(12,userMapper.selectAll().size());
     }
     @Test
     public void testUpdateByPrimaryKey() throws Exception{

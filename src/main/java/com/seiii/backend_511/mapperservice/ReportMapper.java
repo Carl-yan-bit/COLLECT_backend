@@ -12,6 +12,9 @@ public interface ReportMapper {
 
     List<Report> selectAll();
     List<Report> selectByTask(Integer taskID);
-    Report selectByTaskAndUser(Integer taskID,Integer UID);
+    List<Report> selectAllByTask(Integer taskID);
+    List<Report> selectByParentReport(Integer parentReport);
+    List<Report> selectByTaskAndUser(Integer taskID,Integer UID);
     int updateByPrimaryKey(Report record);
+    List<Report> selectByUID(Integer UID);
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seiii.backend_511.mapperservice.DeviceMapper">
+  <resultMap id="BaseResultMap" type="com.seiii.backend_511.po.user.Device">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="device_info" jdbcType="VARCHAR" property="deviceInfo" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from device
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.seiii.backend_511.po.user.Device">
+    insert into device (id, device_info)
+    values (#{id,jdbcType=INTEGER}, #{deviceInfo,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.seiii.backend_511.po.user.Device">
+    update device
+    set device_info = #{deviceInfo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, device_info
+    from device
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, device_info
+    from device
+  </select>
+</mapper>

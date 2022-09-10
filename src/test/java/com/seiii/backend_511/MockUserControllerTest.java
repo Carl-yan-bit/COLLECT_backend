@@ -77,4 +77,10 @@ public class MockUserControllerTest {
         String responseString = mockMvc.perform( MockMvcRequestBuilders.get("/api/user/find/1")).andDo(print())
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     }
+    @Test
+    public void testGetUserAttribute() throws Exception{
+        String responseString = mockMvc.perform( MockMvcRequestBuilders.get("/api/user/attribute").param("uid","1")).andDo(print())
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    }
+
 }

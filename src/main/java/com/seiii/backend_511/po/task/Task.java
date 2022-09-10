@@ -11,6 +11,12 @@ public class Task {
 
     private Integer projectId;
 
+    private Integer difficulty;
+
+    private Integer deviceId;
+
+    private Integer type;
+
     private String name;
 
     private String state;
@@ -22,67 +28,6 @@ public class Task {
     private Integer workerAmount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state == null ? null : state.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
-
-    public Date getTestTime() {
-        return testTime;
-    }
-
-    public void setTestTime(Date testTime) {
-        this.testTime = testTime;
-    }
-
-    public Integer getWorkerAmount() {
-        return workerAmount;
-    }
-
-    public void setWorkerAmount(Integer workerAmount) {
-        this.workerAmount = workerAmount;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
@@ -96,5 +41,8 @@ public class Task {
         this.testTime = taskVO.getTestTime();
         this.workerAmount = taskVO.getWorkerAmount();
         this.createTime = taskVO.getCreateTime();
+        this.difficulty = taskVO.getDifficulty();
+        this.deviceId = taskVO.getDeviceId();
+        this.type = taskVO.getType();
     }
 }
