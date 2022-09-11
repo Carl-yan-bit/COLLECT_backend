@@ -19,11 +19,18 @@ import javax.servlet.http.HttpServletResponse;
 public class FileController {
     @Resource
     private FileService fileService;
-    @PostMapping("/upload")
+
+    /**
+     * 上传文件
+     * POST: /file
+     * @param fileVO
+     * @param file
+     * @return
+     */
+    @PostMapping("")
     public ResultVO<FileVO> uploadFile(FileVO fileVO,@RequestParam("file") MultipartFile file) {
         return fileService.uploadFile(fileVO,file);
     }
-
 
     @GetMapping("/download/{carrierType}/{fileId}")
     public void download(@PathVariable String carrierType,@PathVariable Integer fileId, HttpServletResponse response) {

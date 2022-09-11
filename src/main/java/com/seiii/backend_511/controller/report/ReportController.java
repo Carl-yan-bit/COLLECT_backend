@@ -113,7 +113,7 @@ public class ReportController {
 
     /**
      * 获取相似报告
-     * GET: /report/similar
+     * POST: /report/similar
      * @param report
      * @return
      */
