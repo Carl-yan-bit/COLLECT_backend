@@ -46,7 +46,7 @@ public class ProjectController {
      * 删除project
      * DELETE: /project/{pid}
      * @param pid
-     * 
+     *
      */
     @DeleteMapping("/{pid}")
     public ResultVO<ProjectVO> deleteProject(@PathVariable Integer pid){
@@ -85,42 +85,6 @@ public class ProjectController {
         else return projectservice.getAllProjects(page);//返回所有project
     }
 
-//    /**
-//     * 获取所有活跃的project
-//     * GET: /project/active/page/{page}
-//     * @param page
-//     * @return
-//     */
-//    @GetMapping("/active/page/{page}")
-//    public PageInfo<ProjectVO> getActiveProjects(@PathVariable Integer page){
-//        return projectservice.getActiveProjects(page);
-//    }
-
-
-
-//    /**
-//     * 获取用户创建的project
-//     * GET: /project?uid={uid}&page={page}
-//     * @param uid
-//     * @param page
-//     * @return
-//     */
-//    @GetMapping("/user/{uid}/page/{page}")
-//    public PageInfo<ProjectVO> getProjectsByUserId(@PathVariable Integer uid,@PathVariable Integer page){
-//        return projectservice.getProjectsByUserId(uid,page);
-//    }
-
-//    /**
-//     * 查看用户参加过的project
-//     * GET: /project/joined?uid={uid}&page={page}
-//     * @param uid
-//     * @param page
-//     * @return
-//     */
-//    @GetMapping("/joined")
-//    public PageInfo<ProjectVO> getJoinedProjects(@RequestParam Integer uid,@RequestParam Integer page){
-//        return projectservice.getJoinedProjects(uid,page);
-//    }
 
     /**
      * 查询project

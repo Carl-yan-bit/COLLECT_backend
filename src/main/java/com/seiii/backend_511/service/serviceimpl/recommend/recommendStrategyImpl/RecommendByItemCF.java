@@ -88,6 +88,6 @@ public class RecommendByItemCF implements RecommendStrategy {
             if(!minID.contains(list.get(i).getId()))
             projectList.add(new Project(list.get(i)));
         }
-        return projectList.subList(0,Math.min(projectList.size()-1,recommendStrategyInfo.getNum()));
+        return projectList.size()==0?projectList:projectList.subList(0,Math.min(projectList.size()-1,recommendStrategyInfo.getNum()));
     }
 }
