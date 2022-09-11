@@ -175,7 +175,7 @@ public class ProjectController {
     /**
      * 获取任务推荐
      * GET: /project/recommendation?uid={uid}
-     * @param uid
+     * @param 
      * @return
      */
     @GetMapping("/recommendation")
