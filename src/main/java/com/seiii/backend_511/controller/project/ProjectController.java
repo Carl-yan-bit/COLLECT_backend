@@ -72,14 +72,14 @@ public class ProjectController {
      *
      */
     @GetMapping("")
-    public PageInfo<ProjectVO> getAllProjects(@RequestParam(required = false) Boolean isActive, @RequestParam(required = false) Boolean isJoined, @RequestParam(required = false) Integer uid, @RequestParam Integer page){
+    public PageInfo<ProjectVO> getAllProjects(@RequestParam(required = false, defaultValue = "false") Boolean isActive, @RequestParam(required = false, defaultValue = "false") Boolean isJoined, @RequestParam(required = false, defaultValue = "-1") Integer uid, @RequestParam Integer page){
         if(isActive!=null&&isActive){
             return projectservice.getActiveProjects(page);//获取所有活跃的project
         }
         else if(isJoined!=null&&isJoined){
             return projectservice.getJoinedProjects(uid,page);//获取用户加入过的project
         }
-        else if(uid!=null){
+        else if(uid>0){
             return projectservice.getProjectsByUserId(uid,page);//获取用户创建的project
         }
         else return projectservice.getAllProjects(page);//返回所有project
