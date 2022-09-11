@@ -57,7 +57,7 @@ public class ProjectController {
     /**
      * 查询project
      * GET: /project/{pid}?uid={uid}
-     * @param pid
+     * @param pid, uid
      * @param uid
      * @return
      */
