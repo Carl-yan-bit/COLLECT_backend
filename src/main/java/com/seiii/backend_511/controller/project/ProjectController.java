@@ -18,6 +18,7 @@ public class ProjectController {
     @Resource
     private ProjectService projectservice;
 
+
     /**
      * 创建project
      * POST: /project
@@ -52,64 +53,75 @@ public class ProjectController {
         return projectservice.deleteProject(pid);
     }
 
-    /**
-     * 获取所有活跃的project
-     * GET: /project/active?page={page}
-     * @param page
-     * @return
-     */
-    @GetMapping("/active")
-    public PageInfo<ProjectVO> getActiveProjects(@RequestParam Integer page){
-        return projectservice.getActiveProjects(page);
-    }
 
     /**
      * 获取所有project
-     * GET: /project?page={page}
-     * @param page
-     * @return
+     * GET: /project?active={isActive}&uid={uid}&page={page}
+     *
      */
     @GetMapping("")
-    public PageInfo<ProjectVO> getAllProjects(@RequestParam Integer page){
-        return projectservice.getAllProjects(page);
+    public PageInfo<ProjectVO> getAllProjects(@RequestParam Boolean isActive, @RequestParam Boolean isJoined, @RequestParam Integer uid, @RequestParam Integer page){
+        if(isActive!=null&&isActive){
+            return projectservice.getActiveProjects(page);//获取所有活跃的project
+        }
+        else if(isJoined!=null&&isJoined){
+            return projectservice.getJoinedProjects(uid,page);//获取用户加入过的project
+        }
+        else if(uid!=null){
+            return projectservice.getProjectsByUserId(uid,page);//获取用户创建的project
+        }
+        else return projectservice.getAllProjects(page);//返回所有project
     }
 
-    /**
-     * 获取用户创建的project
-     * GET: /project?uid={uid}&page={page}
-     * @param uid
-     * @param page
-     * @return
-     */
-    @GetMapping("")
-    public PageInfo<ProjectVO> getProjectsByUserId(@RequestParam Integer uid,@RequestParam Integer page){
-        return projectservice.getProjectsByUserId(uid,page);
-    }
+//    /**
+//     * 获取所有活跃的project
+//     * GET: /project/active/page/{page}
+//     * @param page
+//     * @return
+//     */
+//    @GetMapping("/active/page/{page}")
+//    public PageInfo<ProjectVO> getActiveProjects(@PathVariable Integer page){
+//        return projectservice.getActiveProjects(page);
+//    }
 
-    /**
-     * 查看用户参加过的project
-     * GET: /project/joined?uid={uid}&page={page}
-     * @param uid
-     * @param page
-     * @return
-     */
-    @GetMapping("/joined")
-    public PageInfo<ProjectVO> getJoinedProjects(@RequestParam Integer uid,@RequestParam Integer page){
-        return projectservice.getJoinedProjects(uid,page);
-    }
 
-    /**
-     * 查询project
-     * GET: /project/{pid}
-     * @param pid
-     * @return
-     */
-    @GetMapping("/{pid}")
-    public ProjectVO getProjectById(@PathVariable Integer pid){
-        //System.out.println(projectservice.getProjectById(projectId));
-        projectservice.onClick(pid);
-        return projectservice.getProjectById(pid);
-    }
+
+//    /**
+//     * 获取用户创建的project
+//     * GET: /project?uid={uid}&page={page}
+//     * @param uid
+//     * @param page
+//     * @return
+//     */
+//    @GetMapping("/user/{uid}/page/{page}")
+//    public PageInfo<ProjectVO> getProjectsByUserId(@PathVariable Integer uid,@PathVariable Integer page){
+//        return projectservice.getProjectsByUserId(uid,page);
+//    }
+
+//    /**
+//     * 查看用户参加过的project
+//     * GET: /project/joined?uid={uid}&page={page}
+//     * @param uid
+//     * @param page
+//     * @return
+//     */
+//    @GetMapping("/joined")
+//    public PageInfo<ProjectVO> getJoinedProjects(@RequestParam Integer uid,@RequestParam Integer page){
+//        return projectservice.getJoinedProjects(uid,page);
+//    }
+
+//    /**
+//     * 查询project
+//     * GET: /project/{pid}?uid={uid}
+//     * @param pid
+//     * @return
+//     */
+//    @GetMapping("/{pid}")
+//    public ProjectVO getProjectById(@PathVariable Integer pid){
+//        //System.out.println(projectservice.getProjectById(projectId));
+//        projectservice.onClick(pid);
+//        return projectservice.getProjectById(pid);
+//    }
 
     /**
      * 查询project
