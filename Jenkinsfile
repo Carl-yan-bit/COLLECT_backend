@@ -16,8 +16,8 @@ pipeline {
                 echo 'build start'
                 updateGitlabCommitStatus name: 'build', state: 'running'
                 sh 'mvn clean package -Dmaven.test.skip=true'
-                sh 'mvn clean test org.jacoco:jacoco-maven-plugin:0.7.3.201502191951:prepare-agent install -Dmaven.test.failure.ignore=true'
-                jacoco()
+                //sh 'mvn clean test org.jacoco:jacoco-maven-plugin:0.7.3.201502191951:prepare-agent install -Dmaven.test.failure.ignore=true'
+                //jacoco()
             }
         }
         stage('run') {
