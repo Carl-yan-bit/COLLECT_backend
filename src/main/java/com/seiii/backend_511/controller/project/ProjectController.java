@@ -55,16 +55,28 @@ public class ProjectController {
 
 
     /**
+     * 查询project
+     * GET: /project/{pid}?uid={uid}
+     * @param pid
+     * @param uid
+     * @return
+     */
+    @GetMapping("/{pid}")
+    public ResultVO<ProjectVO> getProjectByIdWithUid(@PathVariable Integer pid,@RequestParam Integer uid){
+        return projectservice.getProjectByIdWithUid(pid,uid);
+    }
+
+    /**
      * 获取所有project
-     * GET: /project?active={isActive}&uid={uid}&page={page}
+     * GET: /project?isActive={isActive}&isJoined={isJoined}&uid={uid}&page={page}
      *
      */
     @GetMapping("")
-    public PageInfo<ProjectVO> getAllProjects(@RequestParam Boolean isActive, @RequestParam Boolean isJoined, @RequestParam Integer uid, @RequestParam Integer page){
-        if(isActive!=null&&isActive){
+    public PageInfo<ProjectVO> getAllProjects(@RequestParam Boolean isActive, @RequestParam Boolean isJoined, @RequestParam(required = false) Integer uid, @RequestParam Integer page){
+        if(isActive){
             return projectservice.getActiveProjects(page);//获取所有活跃的project
         }
-        else if(isJoined!=null&&isJoined){
+        else if(isJoined){
             return projectservice.getJoinedProjects(uid,page);//获取用户加入过的project
         }
         else if(uid!=null){
@@ -110,30 +122,21 @@ public class ProjectController {
 //        return projectservice.getJoinedProjects(uid,page);
 //    }
 
-//    /**
-//     * 查询project
-//     * GET: /project/{pid}?uid={uid}
-//     * @param pid
-//     * @return
-//     */
-//    @GetMapping("/{pid}")
-//    public ProjectVO getProjectById(@PathVariable Integer pid){
-//        //System.out.println(projectservice.getProjectById(projectId));
-//        projectservice.onClick(pid);
-//        return projectservice.getProjectById(pid);
-//    }
-
     /**
      * 查询project
      * GET: /project/{pid}?uid={uid}
      * @param pid
-     * @param uid
      * @return
      */
-    @GetMapping("/{pid}")
-    public ResultVO<ProjectVO> getProjectByIdWithUid(@PathVariable Integer pid,@RequestParam Integer uid){
-        return projectservice.getProjectByIdWithUid(pid,uid);
+    @Deprecated
+    @GetMapping("/withoutUid/{pid}")
+    public ProjectVO getProjectById(@PathVariable Integer pid){
+        //System.out.println(projectservice.getProjectById(projectId));
+        projectservice.onClick(pid);
+        return projectservice.getProjectById(pid);
     }
+
+
 
     /**
      * 加入任务
