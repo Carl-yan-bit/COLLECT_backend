@@ -21,38 +21,102 @@ public class ReportController {
     @Resource
     private ReportCommentService reportCommentService;
 
-    @PostMapping("/create")
+    /**
+     * 创建report
+     * POST: /report
+     * @param reportVO
+     * @return
+     */
+    @PostMapping("")
     public ResultVO<ReportVO> createReport(@RequestBody ReportVO reportVO){
         return reportService.createReport(reportVO);
     }
-    @PostMapping("/update")
+
+    /**
+     * 更新report
+     * PUT: /report
+     * @param reportVO
+     * @return
+     */
+    @PutMapping("")
     public ResultVO<ReportVO> updateReport(@RequestBody ReportVO reportVO){
         return reportService.updateReport(reportVO);
     }
-    @GetMapping("/find/task/{pid}")
-    public PageInfo<ReportVO> getReportsByTask(@RequestParam Integer task_id,@PathVariable Integer pid){
-        return reportService.getReportsByTask(task_id,pid);
+
+    /**
+     * 查询report
+     * GET: /report/{reportId}
+     * @param reportId
+     * @return
+     */
+    @GetMapping("/{reportId}")
+    public ResultVO<ReportVO> getReportByID(@PathVariable Integer reportId){
+        return reportService.getReportByID(reportId);
     }
+
+    /**
+     * 查看需求下所有报告
+     * GET: /report?taskId={taskId}&page={page}
+     * @param taskId
+     * @param page
+     * @return
+     */
+    @GetMapping("")
+    public PageInfo<ReportVO> getReportsByTask(@RequestParam Integer taskId,
+                                               @RequestParam(required = false, defaultValue = "1") Integer page){
+        return reportService.getReportsByTask(taskId,page);
+    }
+
+    /**
+     * 查看特定用户特定需求的报告
+     * @param task_id
+     * @param uid
+     * @return
+     */
     @GetMapping("/find")
     public ResultVO<List<ReportVO>> getReportByTaskAndUID(@RequestParam Integer task_id,@RequestParam Integer uid){
         return reportService.getReportByTaskAndUID(task_id,uid);
     }
-    @GetMapping("/find/id")
-    public ResultVO<ReportVO> getReportByID(@RequestParam Integer id){
-        return reportService.getReportByID(id);
+
+    /**
+     * 获取报告树
+     * GET: /report/{reportId}/reportTree
+     * @param reportId
+     * @return
+     */
+    @GetMapping("/{reportId}/reportTree")
+    public ResultVO<ReportTreeVO> getReportTreeByID(@PathVariable Integer reportId){
+        return reportService.getReportTreeById(reportId);
     }
-    @GetMapping("/find/tree")
-    public ResultVO<ReportTreeVO> getReportTreeByID(@RequestParam Integer id){
-        return reportService.getReportTreeById(id);
+
+    /**
+     * 获取报告所有评论
+     * GET: /report/{reportId}/comment
+     * @param reportId
+     * @return
+     */
+    @GetMapping("/{reportId}/comment")
+    public ResultVO<List<ReportCommentVO>> getReportCommentsByReport(@PathVariable Integer reportId){
+        return reportCommentService.getAllCommentsById(reportId);
     }
-    @GetMapping("/comments")
-    public ResultVO<List<ReportCommentVO>> getReportCommentsByReport(@RequestParam Integer id){
-        return reportCommentService.getAllCommentsById(id);
-    }
+
+    /**
+     * 添加报告
+     * POST: /report/comment
+     * @param reportCommentVO
+     * @return
+     */
     @PostMapping("/comment")
     public ResultVO<ReportCommentVO> postComment(@RequestBody ReportCommentVO reportCommentVO){
         return reportCommentService.postComment(reportCommentVO);
     }
+
+    /**
+     * 获取相似报告
+     * GET: /report/similar
+     * @param report
+     * @return
+     */
     @PostMapping("/similar")
     public ResultVO<List<ReportSimilarVO>> getSimilarReport(@RequestBody ReportVO report){
         return reportService.getSimilarReport(report);

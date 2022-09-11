@@ -100,7 +100,7 @@ public class TaskController {
         else if(uid>0){
             return taskService.getTaskByProjectWithUID(projectId,uid,page);//获取project下所有task(带uid)
         }
-        else return taskService.getTaskByProject(projectId, page);
+        else return taskService.getTaskByProject(projectId, page);//获取project下所有task(不带uid)
     }
 
 //    @GetMapping("/find/user/now/{pid}")
