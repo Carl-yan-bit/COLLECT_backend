@@ -46,7 +46,7 @@ public class ProjectController {
      * 删除project
      * DELETE: /project/{pid}
      * @param pid
-     * @return
+     * 
      */
     @DeleteMapping("/{pid}")
     public ResultVO<ProjectVO> deleteProject(@PathVariable Integer pid){
