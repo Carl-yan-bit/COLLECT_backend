@@ -43,7 +43,7 @@ public class TaskController {
      * @param taskId
      * @return
      */
-    @GetMapping("/{taskId}")
+    @DeleteMapping("/{taskId}")
     public ResultVO<TaskVO> delete(@PathVariable Integer taskId){
         return taskService.deleteTask(taskId);
     }
