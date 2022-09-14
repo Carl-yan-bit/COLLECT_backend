@@ -32,7 +32,6 @@ public class FileController {
         return fileService.uploadFile(fileVO,file);
     }
 
-
     @GetMapping("/download/{carrierType}/{fileId}")
     public void download(@PathVariable String carrierType,@PathVariable Integer fileId, HttpServletResponse response) {
         fileService.downloadFile(carrierType,fileId, response);
