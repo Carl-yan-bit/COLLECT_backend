@@ -222,6 +222,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <outputDirectory>
+                                target\
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
                 <version>3.0.0</version>
             </plugin>
             <plugin>
