@@ -26,7 +26,7 @@ public class DeviceController {
     }
 
 
-    @PostMapping("")
+    @PostMapping("/add")
     public ResultVO<DeviceVO> addNewDevice(@RequestBody DeviceVO deviceVO){
         return deviceService.addNewDevice(deviceVO);
     }
