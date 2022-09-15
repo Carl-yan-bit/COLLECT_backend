@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
+<!--    <packaging>pom</packaging>-->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -222,17 +222,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>build</id>-->
-<!--                        <phase>package</phase>-->
-<!--                        <configuration>-->
-<!--                            <outputDirectory>-->
-<!--                                target\-->
-<!--                            </outputDirectory>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <outputDirectory>
+                                target
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
                 <version>3.0.0</version>
             </plugin>
             <plugin>
