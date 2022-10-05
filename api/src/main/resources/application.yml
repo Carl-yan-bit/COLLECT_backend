@@ -4,12 +4,14 @@ server:
 
 spring:
   # springcloud
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: 124.222.87.61:8848
-#  application:
-#    name: collect
+  application:
+    name: api
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 124.222.87.61:8848
+      config:
+        server-addr: 124.222.87.61:8848
 
   datasource:
     url: jdbc:mysql://124.222.87.61:3306/seiii?setUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
