@@ -17,6 +17,7 @@ public class BackendApplication {
         String LOCATION = URLDecoder.decode(BackendApplication.class.getProtectionDomain().getCodeSource().getLocation().getFile(),
                 "UTF-8");
         System.out.println("获取路径成功：LOCATION=" + LOCATION);
+        
     }
 
 }
