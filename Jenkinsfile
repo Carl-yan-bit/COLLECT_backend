@@ -7,7 +7,8 @@ pipeline {
             steps {
                 echo 'pull code start'
                 gitLabConnection('SEIIIGitlab')
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '4bc3f99c-5a7b-4406-970d-202fc70d7cba', url: 'https://git.nju.edu.cn/191250131/backend-511.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'ac662a5e-7e4b-4a84-b462-c6a7349e88bb', url: 'https://github.com/Carl-yan-bit/COLLECT_backend']]])
+                //checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '4bc3f99c-5a7b-4406-970d-202fc70d7cba', url: 'https://git.nju.edu.cn/191250131/backend-511.git']]])
                 //checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '4bc3f99c-5a7b-4406-970d-202fc70d7cba', url: 'http://172.29.4.49/191250128_511/backend-511.git']]])
             }
         }
