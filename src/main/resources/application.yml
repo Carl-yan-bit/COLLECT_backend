@@ -15,6 +15,7 @@ spring:
 #        # server-addr: 124.222.87.61:8848
 #        server-addr: 127.0.0.1:8848
 
+
   datasource:
     url: jdbc:mysql://124.222.87.61:3306/seiii?setUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver

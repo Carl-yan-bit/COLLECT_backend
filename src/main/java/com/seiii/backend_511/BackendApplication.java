@@ -2,10 +2,12 @@ package com.seiii.backend_511;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 @SpringBootApplication
+
 public class BackendApplication {
 
     public static void main(String[] args) throws UnsupportedEncodingException {
