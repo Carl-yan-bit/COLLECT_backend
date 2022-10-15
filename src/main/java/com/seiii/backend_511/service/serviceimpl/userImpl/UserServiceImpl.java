@@ -1,7 +1,9 @@
 package com.seiii.backend_511.service.serviceimpl.userImpl;
 
+import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.mapperservice.*;
 import com.seiii.backend_511.po.UserLog;
+import com.seiii.backend_511.po.project.Project;
 import com.seiii.backend_511.po.project.ProjectPreference;
 import com.seiii.backend_511.po.project.UserProject;
 import com.seiii.backend_511.po.report.Report;
@@ -19,6 +21,7 @@ import com.seiii.backend_511.service.task.TaskService;
 import com.seiii.backend_511.service.user.UserService;
 import com.seiii.backend_511.util.CONST;
 import com.seiii.backend_511.util.Encryption;
+import com.seiii.backend_511.util.PageInfoUtil;
 import com.seiii.backend_511.util.PmmlHelper;
 import com.seiii.backend_511.vo.ResultVO;
 import com.seiii.backend_511.vo.project.ProjectVO;
@@ -539,5 +542,14 @@ public class UserServiceImpl implements UserService {
             return 100;
         }
         return sum.intValue();
+    }
+
+    public ResultVO<List<UserVO>> getAllUsers() {
+        List<UserVO> userVOList = new ArrayList<>();
+        for(User user:userMapper.selectAll()){
+            UserVO u = toUserVO(user);
+            userVOList.add(u);
+        }
+        return new ResultVO<>(CONST.REQUEST_SUCCESS, "成功", userVOList);
     }
 }

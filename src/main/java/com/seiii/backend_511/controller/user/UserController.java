@@ -1,14 +1,21 @@
 package com.seiii.backend_511.controller.user;
 
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.po.user.Device;
+import com.seiii.backend_511.po.user.User;
 import com.seiii.backend_511.service.user.UserService;
+import com.seiii.backend_511.util.CONST;
+import com.seiii.backend_511.util.PageInfoUtil;
 import com.seiii.backend_511.vo.ResultVO;
+import com.seiii.backend_511.vo.project.ProjectVO;
 import com.seiii.backend_511.vo.user.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.websocket.server.PathParam;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -98,5 +105,10 @@ public class UserController {
     @GetMapping("/{uid}/attribute")
     public ResultVO<UserAttributeVO> getUserAttribute(@PathVariable Integer uid){
         return userService.getUserAttribute(uid);
+    }
+
+    @GetMapping("")
+    public ResultVO<List<UserVO>> getAllUsers(){
+        return userService.getAllUsers();
     }
 }

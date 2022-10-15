@@ -1,5 +1,6 @@
 package com.seiii.backend_511.service.user;
 
+import com.github.pagehelper.PageInfo;
 import com.seiii.backend_511.po.user.Device;
 import com.seiii.backend_511.po.user.User;
 import com.seiii.backend_511.vo.ResultVO;
@@ -24,4 +25,6 @@ public interface UserService {
     void getExp(UserVO userVO, int Exp);
     ResultVO<UserAttributeVO> getUserAttribute(Integer uid);
     UserAttributeVO getUserAttributeWithoutScore(Integer uid);
+    //获取所有用户信息
+    ResultVO<List<UserVO>> getAllUsers();
 }
